@@ -1,4 +1,4 @@
-# Caramel Point Template - FrontEnd Apps
+# Hackathon Logistics
 
 ## Content
 
