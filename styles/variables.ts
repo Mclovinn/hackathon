@@ -1,0 +1,15 @@
+// Get the name of colors from the designs, or from htmlcsscolor.com
+// Do not use the colors from here for styling, always use them from the theme
+export const HELIOTROPE = '#BC75FF'
+export const BLUE_VIOLET = '#7A27E8'
+export const PURPLE_HEART = '#6615B1'
+export const BLACKCURRANT = '#120022'
+export const ZAMBEZI = '#5A5A5A'
+export const NOBEL = '#979797'
+export const BRIGHT_TURQUOISE = '#26EEDF'
+export const TURQUOISE = '#55E3D9'
+export const PSYCHEDELIC_PURPLE = '#EB00FF'
+export const WHITE = '#FFFFFF'
+export const BLACK = '#000000'
+export const CORAL_RED = '#ED4545'
+export const EMERALD = '#33DD77'

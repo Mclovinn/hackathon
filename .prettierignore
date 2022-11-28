@@ -1,0 +1,14 @@
+# Folders
+node_modules/**
+.next
+.husky
+public
+
+# Files
+package-lock.json
+
+# compiled output
+/dist
+.npmrc
+coverage
+.czrc

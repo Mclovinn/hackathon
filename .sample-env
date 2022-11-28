@@ -1,0 +1,4 @@
+(* => Mandatory)
+PROJECT_KEY_API_PROTOCOL=                // http
+PROJECT_KEY_API_HOSTNAME=                // localhost
+PROJECT_KEY_API_PORT=                    // 3001
