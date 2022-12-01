@@ -1,10 +1,15 @@
 import React, { useState, ReactElement } from 'react'
+import styled from 'styled-components'
 import { SectionsType } from '../types/section.types'
 import { Sidenav } from './common/sidenav'
 import { SectionLayout } from './section-layout'
 import { Orders } from './sections/orders'
 import { TrackingPage } from './sections/tracking/tracking-page'
 
+const $SectionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 export const MainLayout = () => {
   const [section, setSection] = useState<SectionsType>(SectionsType.ORDERS)
 
@@ -15,9 +20,9 @@ export const MainLayout = () => {
   }
 
   return (
-    <>
+    <$SectionsContainer>
       <Sidenav setSection={setSection} section={section} />
       <SectionLayout title={section}>{renderSection()}</SectionLayout>
-    </>
+    </$SectionsContainer>
   )
 }

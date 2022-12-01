@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 const $Container = styled.div`
-  margin-left: 200px;
+  margin-left: 40px;
 `
 const $Title = styled.div`
   margin-top: 60px;
