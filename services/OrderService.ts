@@ -2,7 +2,6 @@ import { OrderModel, OrderItem } from '../models/order'
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as dynamoose from 'dynamoose'
 interface RequestParameters {
-  tableName: string
   req: NextApiRequest
   res: NextApiResponse
 }
@@ -26,8 +25,13 @@ class OrderService {
     return orderCreated
   }
 
-  async getItem({ res }: RequestParameters): Promise<void> {
-    return res.status(200).json('')
+  async getItem({ res, req }: RequestParameters): Promise<void> {
+    let Item: OrderItem[]
+    req.query.status
+      ? (Item = await OrderModel.scan('status').contains(req.query.status.toString().toLocaleUpperCase()).exec())
+      : (Item = await OrderModel.scan('id').contains(req.query.id).exec())
+
+    return res.status(200).json(Item)
   }
 
   async updateOrder(body: OrderItem) {

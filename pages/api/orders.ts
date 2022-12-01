@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import DynamoService from '../../services/OrderService'
 
-const TABLE_NAME = 'Orders'
-
 const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
@@ -14,7 +12,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   }
 
   if (req.method === 'GET') {
-    return DynamoService.getItem({ tableName: TABLE_NAME, req, res })
+    return DynamoService.getItem({ req, res })
   }
 
   if (req.method === 'PUT') {
