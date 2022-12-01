@@ -1,8 +1,8 @@
 const getCustomVariables = () => {
   const processEnvVariables = { ...process.env }
-  // Return a new object with the properties that has PROJECT_KEY_ prefix
+  // Return a new object with the properties that has LOGISTICS_BACKEND_ prefix
   const projectEnvVariables = Object.keys(processEnvVariables)
-    .filter(key => key.includes('PROJECT_KEY_'))
+    .filter(key => key.includes('LOGISTICS_BACKEND_'))
     .reduce((obj, key) => ({ ...obj, [key]: processEnvVariables[key] }), {})
   return projectEnvVariables
 }
