@@ -1,4 +1,4 @@
-import { OrderModel } from '../models/order'
+import { OrderModel, OrderItem } from '../models/order'
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as dynamoose from 'dynamoose'
 interface RequestParameters {
@@ -21,8 +21,9 @@ class OrderService {
     dynamoose.aws.ddb.set(ddb)
   }
 
-  async postItem({ res }: RequestParameters): Promise<void> {
-    return res.status(201).json('')
+  async postItem(body: OrderItem) {
+    const orderCreated = OrderModel.create(body)
+    return orderCreated
   }
 
   async getItem({ res }: RequestParameters): Promise<void> {
