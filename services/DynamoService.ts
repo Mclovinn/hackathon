@@ -27,8 +27,6 @@ class DynamoService {
   }
 
   async postItem({ tableName, res, req }: RequestParameters): Promise<void> {
-    console.log('Here')
-    console.log(tableName, res, req)
     const Item = await this.client.send(
       new PutItemCommand({
         TableName: tableName,

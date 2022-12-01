@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import DynamoService from '../../services/DynamoService'
+import OrderSchema from '../../types/order-schema'
+import validate from '../../lib/middlewares/validation'
 
 const TABLE_NAME = 'Orders'
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     return DynamoService.postItem({ tableName: TABLE_NAME, req, res })
   }
@@ -20,3 +22,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return DynamoService.deleteItem({ tableName: TABLE_NAME, req, res })
   }
 }
+
+export default validate({ body: OrderSchema }, handler)
