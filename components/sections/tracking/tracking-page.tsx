@@ -1,17 +1,7 @@
 import React from 'react'
 import { Map } from './map/map'
-import styled from 'styled-components'
 import { AddressType } from '../../../types/address.type'
 import { SearchInput } from './search-input'
-
-const $TemporaryContainer = styled.div`
-  width: calc(100% - 300px);
-  height: 100%;
-`
-
-const $Container = styled.div`
-  margin-top: 40px;
-`
 
 // Map TODO - Fetch and send ordered markers array as prop to map
 const hardcodedMarkers: AddressType[] = [
@@ -39,9 +29,9 @@ export const TrackingPage = () => {
   }
 
   return (
-    <$Container>
+    <>
       <SearchInput onSubmit={handleSubmit} />
       <Map markers={hardcodedMarkers} />
-    </$Container>
+    </>
   )
 }

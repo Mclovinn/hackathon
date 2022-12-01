@@ -9,6 +9,8 @@ import { TrackingPage } from './sections/tracking/tracking-page'
 const $SectionsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  height: 100%;
 `
 export const MainLayout = () => {
   const [section, setSection] = useState<SectionsType>(SectionsType.ORDERS)

@@ -4,9 +4,10 @@ import styled from 'styled-components'
 import { Marker } from './marker/marker'
 import { AddressType } from '../../../../types/address.type'
 
-const $MapContainer = styled.div`
-  height: 500px;
-  width: 100%;
+const $Container = styled.div`
+  margin-top: 40px;
+  height: 450px;
+  width: calc(100% - 400px);
 `
 
 interface MapProps {
@@ -41,7 +42,7 @@ export const Map = ({ markers }: MapProps) => {
 
   return (
     // Important! Always set the container height explicitly
-    <$MapContainer>
+    <$Container>
       {isMapLoaded && (
         <GoogleMapReact
           // TODO - Add apikey to .env
@@ -55,6 +56,6 @@ export const Map = ({ markers }: MapProps) => {
             ))}
         </GoogleMapReact>
       )}
-    </$MapContainer>
+    </$Container>
   )
 }
