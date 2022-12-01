@@ -21,8 +21,8 @@ class OrderService {
     dynamoose.aws.ddb.set(ddb)
   }
 
-  async postItem(body: OrderItem) {
-    const orderCreated = OrderModel.create(body)
+  async postOrder(body: OrderItem) {
+    const orderCreated = await OrderModel.create(body)
     return orderCreated
   }
 
@@ -30,15 +30,14 @@ class OrderService {
     return res.status(200).json('')
   }
 
-  async updateOrder(order: any) {
-    const orderUpdate = await OrderModel.update(order)
+  async updateOrder(body: OrderItem) {
+    const orderUpdate = await OrderModel.update(body)
     return orderUpdate
   }
 
-  async deleteOrder(order: any) {
-    order.deleted = true
-    const orderUpdate = await OrderModel.update(order)
-    return orderUpdate
+  async deleteOrder() {
+    const orderDeleted = await OrderModel.delete()
+    return orderDeleted
   }
 }
 
