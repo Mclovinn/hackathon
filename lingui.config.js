@@ -4,9 +4,9 @@ module.exports = {
     {
       path: '<rootDir>/locales/{locale}/messages',
       include: ['pages', 'components'],
-      exclude: ['node_modules', '.next']
-    }
+      exclude: ['node_modules', '.next'],
+    },
   ],
   format: 'minimal',
-  sourceLocale: 'en-US'
+  sourceLocale: 'en-US',
 }
