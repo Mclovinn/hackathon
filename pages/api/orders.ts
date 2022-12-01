@@ -5,7 +5,12 @@ const TABLE_NAME = 'Orders'
 
 const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    return DynamoService.postItem({ tableName: TABLE_NAME, req, res })
+    try {
+      const order = await DynamoService.postOrder(req.body)
+      return res.status(200).json(order)
+    } catch (e) {
+      return res.status(500)
+    }
   }
 
   if (req.method === 'GET') {
@@ -23,8 +28,8 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === 'DELETE') {
     try {
-      await DynamoService.deleteOrder()
-      return res.status(200).json('')
+      const order = await DynamoService.deleteOrder()
+      return res.status(200).json(order)
     } catch (e) {
       return res.status(500)
     }
