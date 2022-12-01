@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import DynamoService from '../../services/DynamoService'
+import DynamoService from '../../services/OrderService'
 import OrderSchema from '../../types/order-schema'
 import validate from '../../lib/middlewares/validation'
 import * as uuid from 'uuid'

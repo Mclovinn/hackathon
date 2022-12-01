@@ -13,7 +13,7 @@ export class OrderItem extends Item {
   shipped: string | undefined
 }
 
-export const PersonaModel = model<OrderItem>(
+export const OrderModel = model<OrderItem>(
   'Order',
   {
     id: {

@@ -1,3 +1,4 @@
+import { OrderModel } from '../models/order'
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as dynamoose from 'dynamoose'
 interface RequestParameters {
@@ -6,7 +7,7 @@ interface RequestParameters {
   res: NextApiResponse
 }
 
-class DynamoService {
+class OrderService {
   constructor() {
     // Create new DynamoDB instance
     const ddb = new dynamoose.aws.ddb.DynamoDB({
@@ -28,16 +29,19 @@ class DynamoService {
     return res.status(200).json('')
   }
 
-  async updateItem({ res }: RequestParameters): Promise<void> {
-    return res.status(200).json('')
+  async updateOrder(order: any) {
+    const orderUpdate = await OrderModel.update(order)
+    return orderUpdate
   }
 
-  async deleteItem({ res }: RequestParameters): Promise<void> {
-    return res.status(204).json({})
+  async deleteOrder(order: any) {
+    order.deleted = true
+    const orderUpdate = await OrderModel.update(order)
+    return orderUpdate
   }
 }
 
-const instance = new DynamoService()
+const instance = new OrderService()
 Object.freeze(instance)
 
 export default instance
