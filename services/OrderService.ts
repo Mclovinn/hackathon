@@ -34,10 +34,9 @@ class OrderService {
     return orderUpdate
   }
 
-  async deleteOrder(order: any) {
-    order.deleted = true
-    const orderUpdate = await OrderModel.update(order)
-    return orderUpdate
+  async deleteOrder() {
+    const orderDeleted = await OrderModel.delete()
+    return orderDeleted
   }
 }
 
