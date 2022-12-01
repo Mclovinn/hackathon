@@ -3,14 +3,14 @@ import { SectionsType } from '../types/section.types'
 import { Sidenav } from './common/sidenav'
 import { SectionLayout } from './section-layout'
 import { Orders } from './sections/orders'
-import { Tracking } from './sections/tracking'
+import { TrackingPage } from './sections/tracking/tracking-page'
 
 export const MainLayout = () => {
   const [section, setSection] = useState<SectionsType>(SectionsType.ORDERS)
 
   const renderSection = (): ReactElement => {
     if (section === SectionsType.ORDERS) return <Orders />
-    else if (section === SectionsType.TRACKING) return <Tracking />
+    else if (section === SectionsType.TRACKING) return <TrackingPage />
     else return <></>
   }
 

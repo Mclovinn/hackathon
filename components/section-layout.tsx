@@ -3,11 +3,15 @@ import styled from 'styled-components'
 
 const $Container = styled.div`
   margin-left: 200px;
-  position: absolute;
 `
 const $Title = styled.div`
   margin-top: 60px;
   font-size: 32px;
+`
+
+const $SectionContent = styled.div`
+  width: 100%;
+  height: 100%;
 `
 interface SectionLayoutProps {
   title: string
@@ -17,7 +21,7 @@ export const SectionLayout = ({ title, children }: SectionLayoutProps): ReactEle
   return (
     <$Container>
       <$Title>{title}</$Title>
-      {children}
+      <$SectionContent>{children}</$SectionContent>
     </$Container>
   )
 }
