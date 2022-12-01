@@ -1,4 +1,4 @@
 (* => Mandatory)
-PROJECT_KEY_API_PROTOCOL=                // http
-PROJECT_KEY_API_HOSTNAME=                // localhost
-PROJECT_KEY_API_PORT=                    // 3001
+LOGISTICS_BACKEND_API_PROTOCOL=                // http
+LOGISTICS_BACKEND_API_HOSTNAME=                // localhost
+LOGISTICS_BACKEND_API_PORT=                    // 3001
