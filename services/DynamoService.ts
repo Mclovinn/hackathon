@@ -1,10 +1,10 @@
-import * as uuid from 'uuid'
 import {
   DynamoDBClient,
   PutItemCommand,
   GetItemCommand,
   UpdateItemCommand,
   DeleteItemCommand,
+  AttributeValue,
 } from '@aws-sdk/client-dynamodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -12,6 +12,7 @@ interface RequestParameters {
   tableName: string
   req: NextApiRequest
   res: NextApiResponse
+  body?: Record<string, AttributeValue>
 }
 
 class DynamoService {
@@ -26,14 +27,11 @@ class DynamoService {
     })
   }
 
-  async postItem({ tableName, res, req }: RequestParameters): Promise<void> {
+  async postItem({ tableName, res, body }: RequestParameters): Promise<void> {
     const Item = await this.client.send(
       new PutItemCommand({
         TableName: tableName,
-        Item: {
-          id: { S: uuid.v4() },
-          content: { S: req.body.content },
-        },
+        Item: body,
       })
     )
 
