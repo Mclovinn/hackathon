@@ -20,6 +20,8 @@ declare module 'styled-components' {
         psychedelicPurple: string
         white: string
         black: string
+        smalt: string
+        navyBlue: string
       }
 
       // Theme colors (always prioritize using these over the common colors)
