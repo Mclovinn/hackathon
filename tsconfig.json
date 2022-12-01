@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lint-staged.config.js", "decs.d.ts", "hooks/usei18n.js", "services/api.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lint-staged.config.js", "decs.d.ts", "hooks/usei18n.js", "services/DynamoService.ts"],
   "exclude": ["node_modules"]
 }

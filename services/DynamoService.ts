@@ -8,17 +8,28 @@ import {
 } from '@aws-sdk/client-dynamodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-const client = new DynamoDBClient({
-  credentials: {
-    accessKeyId: process.env.ACCESS_KEY || '',
-    secretAccessKey: process.env.SECRET_KEY || '',
-  },
-  region: process.env.REGION,
-})
+interface RequestParameters {
+  tableName: string
+  req: NextApiRequest
+  res: NextApiResponse
+}
 
-export default async function newHandler(req: NextApiRequest, res: NextApiResponse, tableName: string) {
-  if (req.method === 'PUT') {
-    const Item = await client.send(
+class DynamoService {
+  client: DynamoDBClient
+  constructor() {
+    this.client = new DynamoDBClient({
+      credentials: {
+        accessKeyId: process.env.LOGISTICS_BACKEND_ACCESS_KEY || '',
+        secretAccessKey: process.env.LOGISTICS_BACKEND_SECRET_KEY || '',
+      },
+      region: process.env.LOGISTICS_BACKEND_REGION,
+    })
+  }
+
+  async postItem({ tableName, res, req }: RequestParameters): Promise<void> {
+    console.log('Here')
+    console.log(tableName, res, req)
+    const Item = await this.client.send(
       new PutItemCommand({
         TableName: tableName,
         Item: {
@@ -31,8 +42,8 @@ export default async function newHandler(req: NextApiRequest, res: NextApiRespon
     return res.status(201).json(Item)
   }
 
-  if (req.method === 'GET') {
-    const { Item } = await client.send(
+  async getItem({ tableName, res, req }: RequestParameters): Promise<void> {
+    const { Item } = await this.client.send(
       new GetItemCommand({
         TableName: tableName,
         Key: {
@@ -44,8 +55,8 @@ export default async function newHandler(req: NextApiRequest, res: NextApiRespon
     return res.status(200).json(Item)
   }
 
-  if (req.method === 'POST') {
-    const { Attributes } = await client.send(
+  async updateItem({ tableName, res, req }: RequestParameters): Promise<void> {
+    const { Attributes } = await this.client.send(
       new UpdateItemCommand({
         TableName: tableName,
         Key: {
@@ -62,8 +73,8 @@ export default async function newHandler(req: NextApiRequest, res: NextApiRespon
     return res.status(200).json(Attributes)
   }
 
-  if (req.method === 'DELETE') {
-    await client.send(
+  async deleteItem({ tableName, res, req }: RequestParameters): Promise<void> {
+    await this.client.send(
       new DeleteItemCommand({
         TableName: tableName,
         Key: {
@@ -71,7 +82,11 @@ export default async function newHandler(req: NextApiRequest, res: NextApiRespon
         },
       })
     )
-
     return res.status(204).json({})
   }
 }
+
+const instance = new DynamoService()
+Object.freeze(instance)
+
+export default instance
