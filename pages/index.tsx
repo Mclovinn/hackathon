@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { ReactElement } from 'react'
-import DummyMain from '../components/DummyMain'
+import { MainLayout } from '../components/main-layout'
 
 const Landing = (): ReactElement => {
   return (
@@ -11,7 +11,7 @@ const Landing = (): ReactElement => {
       </Head>
 
       <main>
-        <DummyMain />
+        <MainLayout />
       </main>
     </div>
   )
