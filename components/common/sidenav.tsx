@@ -2,14 +2,11 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import { SectionsType } from '../../types/section.types'
 import { TransparentButton } from './buttons/transparent-button'
-// import { SidenavLinks } from '../../types/sidenav.types'
 
 const $SidenavContainer = styled.div`
   height: 100%;
   background: transparent;
-  max-width: 200px;
-  position: absolute;
-  left: 0;
+  max-width: 220px;
 `
 const $ButtonWrapper = styled.div`
   margin-top: 100px;
