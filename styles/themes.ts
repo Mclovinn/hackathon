@@ -15,7 +15,7 @@ import {
   CORAL_RED,
   SMALT,
   NAVY_BLUE,
-} from './variables'
+} from './color-variables'
 
 // Recieves alpha as %, and transforms it to hex
 export const getOpacityInHex = (opacity: number): string => {
