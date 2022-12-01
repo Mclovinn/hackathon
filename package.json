@@ -20,6 +20,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.218.0",
     "@babel/core": "^7.18.5",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -27,12 +28,14 @@
     "@mui/material": "^5.10.16",
     "@mui/x-data-grid": "^5.17.13",
     "@mui/x-data-grid-generator": "^5.17.14",
+    "@mui/styled-engine-sc": "^5.10.16",
     "easy-peasy": "^5.0.4",
     "next": "^12.1.6",
+    "next-joi": "^2.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.1",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@commitlint/cli": "16.2.1",
@@ -47,6 +50,7 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.37",
     "@types/styled-components": "^5.1.15",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
     "babel-plugin-macros": "^3.1.0",

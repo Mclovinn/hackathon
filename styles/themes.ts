@@ -13,6 +13,8 @@ import {
   ZAMBEZI,
   EMERALD,
   CORAL_RED,
+  SMALT,
+  NAVY_BLUE,
 } from './variables'
 
 // Recieves alpha as %, and transforms it to hex
@@ -42,15 +44,17 @@ export const defaultTheme: DefaultTheme = {
       psychedelicPurple: PSYCHEDELIC_PURPLE,
       white: WHITE,
       black: BLACK,
+      smalt: SMALT,
+      navyBlue: NAVY_BLUE,
     },
 
     // Theme colors (always prioritize using these over the common colors)
     // General theme
-    primary: BLUE_VIOLET,
+    primary: BLACKCURRANT,
     secondary: BRIGHT_TURQUOISE,
 
     // Backgrounds
-    background: BLACKCURRANT,
+    background: WHITE,
     secondaryBackground: BLUE_VIOLET + getOpacityInHex(40),
 
     // Buttons
@@ -58,7 +62,7 @@ export const defaultTheme: DefaultTheme = {
     secondaryOnHover: BRIGHT_TURQUOISE,
 
     // Texts
-    text: WHITE,
+    text: BLACK,
     secondaryText: PURPLE_HEART,
 
     // Status
