@@ -15,7 +15,7 @@ export default function Dropdown() {
   return (
     <Box sx={{ width: 'fit-content', minWidth: '160px' }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Change Status</InputLabel>
+        <InputLabel id="demo-simple-select-label">Actions</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

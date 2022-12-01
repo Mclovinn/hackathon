@@ -15,6 +15,9 @@ import {
   CORAL_RED,
   SMALT,
   NAVY_BLUE,
+  NERO,
+  WISTERIA,
+  ROBINS_EGG_BLUE,
 } from './variables'
 
 // Recieves alpha as %, and transforms it to hex
@@ -46,6 +49,9 @@ export const defaultTheme: DefaultTheme = {
       black: BLACK,
       smalt: SMALT,
       navyBlue: NAVY_BLUE,
+      nero: NERO,
+      robinsEggBlue: ROBINS_EGG_BLUE,
+      wisteria: WISTERIA,
     },
 
     // Theme colors (always prioritize using these over the common colors)
@@ -54,7 +60,7 @@ export const defaultTheme: DefaultTheme = {
     secondary: BRIGHT_TURQUOISE,
 
     // Backgrounds
-    background: WHITE,
+    background: BLACK,
     secondaryBackground: BLUE_VIOLET + getOpacityInHex(40),
 
     // Buttons
@@ -62,7 +68,7 @@ export const defaultTheme: DefaultTheme = {
     secondaryOnHover: BRIGHT_TURQUOISE,
 
     // Texts
-    text: BLACK,
+    text: WHITE,
     secondaryText: PURPLE_HEART,
 
     // Status

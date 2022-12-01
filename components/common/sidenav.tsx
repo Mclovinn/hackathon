@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import { SectionsType } from '../../types/section.types'
 import { TransparentButton } from './buttons/transparent-button'
-// import { SidenavLinks } from '../../types/sidenav.types'
 
 const $SidenavContainer = styled.div`
   height: 100%;
@@ -12,7 +11,7 @@ const $SidenavContainer = styled.div`
   left: 0;
 `
 const $ButtonWrapper = styled.div`
-  margin-top: 100px;
+  margin-top: 200px;
 `
 
 interface $TransparentButtonProps {
@@ -22,8 +21,8 @@ interface $TransparentButtonProps {
 const $TransparentButton = styled(TransparentButton)<$TransparentButtonProps>`
   ${({ isActive, theme }) =>
     isActive &&
-    `border-left: 3px solid ${theme.palette.colors.navyBlue};
-    color: ${theme.palette.colors.navyBlue};`}
+    `border-left: 3px solid ${theme.palette.colors.robinsEggBlue};
+    color: ${theme.palette.colors.robinsEggBlue};`}
   justify-content: flex-start;
   margin: 15px;
   padding: 10px;

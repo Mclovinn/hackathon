@@ -1,6 +1,6 @@
 import React, { useState, ReactElement } from 'react'
 import { SectionsType } from '../types/section.types'
-import { Sidenav } from './common/sidenav'
+import { Sidenav } from './Common/sidenav'
 import { SectionLayout } from './section-layout'
 import { Orders } from './sections/orders'
 import { Tracking } from './sections/tracking'
