@@ -3,6 +3,7 @@ import GoogleMapReact from 'google-map-react'
 import styled from 'styled-components'
 import { Marker } from './marker/marker'
 import { AddressType } from '../../../../types/address.type'
+import { config } from '../../../../config/env.config'
 
 const $Container = styled.div`
   margin-top: 40px;
@@ -46,7 +47,7 @@ export const Map = ({ markers }: MapProps) => {
       {isMapLoaded && (
         <GoogleMapReact
           // TODO - Add apikey to .env
-          bootstrapURLKeys={{ key: 'AIzaSyDQNOfJ5jYbCl9qryeIge7FpzGnSle26HE' }}
+          bootstrapURLKeys={{ key: config.googleCloudConfig.apiKey }}
           defaultCenter={googleMapProps.center}
           defaultZoom={googleMapProps.zoom}
         >
