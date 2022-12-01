@@ -22,53 +22,28 @@ export const PersonaModel = model<OrderItem>(
     },
     sku: {
       type: String,
-      // validate: val => val.toString().trim().length > 0 && val.toString().trim().length <= 30,
     },
     status: {
       type: String,
-      // validate: val => val.toString().trim().length >= 0 && val.toString().trim().length <= 250,
     },
     destinationAddress: {
       type: String,
-      // validate: val => val.toString().trim().length >= 0 && val.toString().trim().length <= 250,
     },
     trackingId: {
       type: String,
-      // validate: val => val.toString().trim().length >= 0 && val.toString().trim().length <= 250,
     },
     manifestId: {
       type: String,
-      // validate: val => val.toString().trim().length >= 0 && val.toString().trim().length <= 250,
     },
     created: {
       type: String,
-      // validate: val => val.toString().trim().length >= 0 && val.toString().trim().length <= 250,
     },
     delivered: {
       type: String,
-      // validate: val => val.toString().trim().length >= 0 && val.toString().trim().length <= 250,
     },
     shipped: {
       type: String,
-      // validate: val => val.toString().trim().length >= 0 && val.toString().trim().length <= 250,
     },
-    // settings: {
-    //   type: Object,
-    //   schema: {
-    //     availableOnSearch: Boolean,
-    //     receiveContactRequest: Boolean,
-    //     showStatus: Boolean,
-    //   },
-    // },
-    // deleted: Boolean,
-    // user: {
-    //   type: String,
-    //   index: {
-    //     name: 'userIndex',
-    //     global: true,
-    //   },
-    // },
-    // avatar: String,
   },
   { throughput: 'ON_DEMAND' }
 )
