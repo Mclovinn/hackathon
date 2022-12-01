@@ -1,6 +1,7 @@
 import { OrderModel, OrderItem } from '../models/order'
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as dynamoose from 'dynamoose'
+import { v4 as uuidv4 } from 'uuid'
 interface RequestParameters {
   tableName: string
   req: NextApiRequest
@@ -22,6 +23,7 @@ class OrderService {
   }
 
   async postOrder(body: OrderItem) {
+    body.id = uuidv4()
     const orderCreated = await OrderModel.create(body)
     return orderCreated
   }
