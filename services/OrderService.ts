@@ -27,13 +27,16 @@ class OrderService {
     return orderCreated
   }
 
-  async getItem({ res, req }: RequestParameters): Promise<void> {
+  async getItem({ req }: RequestParameters): Promise<OrderItem[]> {
     let Item: OrderItem[]
-    req.query.status
-      ? (Item = await OrderModel.scan('status').contains(req.query.status.toString().toLocaleUpperCase()).exec())
-      : (Item = await OrderModel.scan('id').contains(req.query.id).exec())
-
-    return res.status(200).json(Item)
+    if (Object.keys(req.query).length === 0) {
+      Item = await OrderModel.scan('id').contains('').exec()
+    } else {
+      req.query.status
+        ? (Item = await OrderModel.scan('status').contains(req.query.status.toString().toLocaleUpperCase()).exec())
+        : (Item = await OrderModel.scan('id').contains(req.query.id).exec())
+    }
+    return Item
   }
 
   async updateOrder(body: OrderItem) {
