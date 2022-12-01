@@ -1,7 +1,7 @@
 import { model } from 'dynamoose'
-import { Document } from 'dynamoose/dist/Types'
+import { Item } from 'dynamoose/dist/Item'
 
-export class OrderDocument extends Document {
+export class OrderItem extends Item {
   id: string | undefined
   status: string | undefined
   sku: string | undefined
@@ -13,7 +13,7 @@ export class OrderDocument extends Document {
   shipped: string | undefined
 }
 
-export const PersonaModel = model<OrderDocument>(
+export const PersonaModel = model<OrderItem>(
   'Order',
   {
     id: {
