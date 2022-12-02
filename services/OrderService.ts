@@ -40,14 +40,18 @@ class OrderService {
     return Item
   }
 
-  async changeToDeliveredOrder({ req }: RequestParameters) {
-    console.log('paso por changeToDeliveredOrder')
-    const order = await OrderModel.scan('id').contains(req.query.id).exec()
-    if (order) {
-      order[0].status === OrderStatus.IN_TRANSIT ? console.log('si') : console.log('para para')
+  async changeOrderToDelivered({ req }: RequestParameters) {
+    const order = await OrderModel.scan('id').eq(req.query.id?.toString()).exec()
+    let orderUpdate
+    if (order.length && order[0].status === OrderStatus.IN_TRANSIT) {
+      orderUpdate = await OrderModel.update(
+        { id: order[0].id },
+        {
+          status: OrderStatus.DELIVERED,
+        }
+      )
     }
-    // const orderUpdate = await OrderModel.update(body)
-    // return orderUpdate
+    return orderUpdate
   }
 
   async updateOrder(body: OrderItem) {

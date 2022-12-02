@@ -37,15 +37,6 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
       return res.status(500)
     }
   }
-
-  if (req.method === 'PATCH') {
-    try {
-      await OrderService.changeToDeliveredOrder({ req, res })
-      return res.status(200).json('')
-    } catch (e) {
-      return res.status(500)
-    }
-  }
 }
 
 export default handler
