@@ -41,7 +41,7 @@ export const TrackingPage = () => {
           <TrackingInfo trackingId={trackingId} orderStatus={trackingInfo.currentStatus} />
           <$Wrapper>
             <Map markers={trackingInfo.events} />
-            <TrackingTable />
+            <TrackingTable events={trackingInfo.events} />
           </$Wrapper>
         </>
       )}
