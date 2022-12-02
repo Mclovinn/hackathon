@@ -15,8 +15,16 @@ type Props = {
 
 export const Dropdown = ({ selectedOrders }: Props) => {
   const [status, setStatus] = useState('')
-  const setOrderAsDeliveredMutation = useMutation(setOrderAsDelivered)
-  const initializeOrdersMutation = useMutation(initializeOrders)
+  const setOrderAsDeliveredMutation = useMutation(setOrderAsDelivered, {
+    onSuccess: (data, variables, context) => {
+      console.log(data, variables, context)
+    },
+  })
+  const initializeOrdersMutation = useMutation(initializeOrders, {
+    onSuccess: (data, variables, context) => {
+      console.log(data, variables, context)
+    },
+  })
 
   const handleChange = (event: SelectChangeEvent) => {
     setStatus(event.target.value as string)
@@ -28,10 +36,8 @@ export const Dropdown = ({ selectedOrders }: Props) => {
     //TODO: Manage states (loading, error, success)
 
     try {
-      for (let id of selectedIds) {
-        const response = await setOrderAsDeliveredMutation.mutate(id)
-        console.log(response)
-      }
+      const response = await initializeOrdersMutation.mutate(selectedIds)
+      console.log(response)
 
       // showGlobalSuccess({ message: 'Status successfully updated.' });
     } catch (e) {
@@ -46,8 +52,10 @@ export const Dropdown = ({ selectedOrders }: Props) => {
     //TODO: Manage states (loading, error, success)
 
     try {
-      const response = await initializeOrdersMutation.mutate(selectedIds)
-      console.log(response)
+      for (let id of selectedIds) {
+        const response = await setOrderAsDeliveredMutation.mutate(id)
+        console.log(response)
+      }
 
       // showGlobalSuccess({ message: 'Status successfully updated.' });
     } catch (e) {
