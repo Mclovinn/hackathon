@@ -30,7 +30,7 @@ class OrderService {
   async getItem({ req }: RequestParameters): Promise<OrderItem[]> {
     let Item: OrderItem[]
     if (Object.keys(req.query).length === 0) {
-      Item = await OrderModel.scan('id').contains('').exec()
+      Item = await OrderModel.scan().exec()
     } else {
       req.query.status
         ? (Item = await OrderModel.scan('status').contains(req.query.status.toString().toLocaleUpperCase()).exec())
