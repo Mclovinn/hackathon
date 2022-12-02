@@ -29,7 +29,7 @@ const smartContractConfig: SmartContractConfig = {
   privateKeyAdminAddress: process.env.LOGISTICS_PK_ADMIN_ADDRESS || '',
   logisticContractAddress: process.env.LOGISTICS_LOGISTIC_CONTRACT_ADDRESS || '',
   infuraKey: process.env.LOGISTICS_INFURA_KEY || '',
-  transactionDetailUrl: process.env.TRANSACTION_DETAIL_URL || '',
+  transactionDetailUrl: process.env.LOGISTICS_TRANSACTION_DETAIL_URL || '',
 }
 
 export const config: {
