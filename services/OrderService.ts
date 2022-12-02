@@ -4,6 +4,8 @@ import * as dynamoose from 'dynamoose'
 import { v4 as uuidv4 } from 'uuid'
 import { OrderStatus } from '../types/order-status'
 import { config } from '../config/env.config'
+import { getOrder } from './logistic.service'
+
 interface RequestParameters {
   req: NextApiRequest
   res: NextApiResponse
@@ -85,6 +87,12 @@ class OrderService {
   async deleteOrder() {
     const orderDeleted = await OrderModel.delete()
     return orderDeleted
+  }
+
+  async getOrderManifest(trackingId: any) {
+    const order = await getOrder(trackingId)
+    console.log(order)
+    return order
   }
 }
 
