@@ -4,10 +4,6 @@ import * as dynamoose from 'dynamoose'
 import { v4 as uuidv4 } from 'uuid'
 import { OrderStatus } from '../types/order-status'
 import { config } from '../config/env.config'
-
-const STATUS_READY_TO_FULFILL = 'READY_TO_FULFILL'
-const STATUS_IN_TRANSIT = 'IN_TRANSIT'
-
 interface RequestParameters {
   req: NextApiRequest
   res: NextApiResponse
@@ -39,11 +35,11 @@ class OrderService {
     const orders = await OrderModel.batchGet(orderIds)
     for (let i = 0; i < orders.length; i++) {
       let orderUpdated = orders[i]
-      if (orders[i].status == STATUS_READY_TO_FULFILL) {
+      if (orders[i].status == OrderStatus.READY_TO_FULFILL) {
         orderUpdated = await OrderModel.update(
           { id: orders[i].id },
           {
-            status: STATUS_IN_TRANSIT,
+            status: OrderStatus.IN_TRANSIT,
             trackingId: uuidv4(),
             manifestId: manifestId,
             shipped: Date.now().toString(),
