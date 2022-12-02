@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { DataGrid, GridRowsProp, GridColDef, GridToolbar } from '@mui/x-data-grid'
-import type {} from '@mui/x-data-grid/themeAugmentation'
+import type { } from '@mui/x-data-grid/themeAugmentation'
 import { Box } from '@mui/material'
 import styled from 'styled-components'
-import Dropdown from '../Common/dropdown.component'
+import Dropdown from '../common/dropdown.component'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};

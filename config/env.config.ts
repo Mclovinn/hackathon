@@ -1,15 +1,11 @@
-interface ServerConfig {
-  protocol: string
-  port: number
-  hostname: string
+interface GoogleCloudConfig {
+  apiKey: string
 }
 
-const apiServerConfig: ServerConfig = {
-  protocol: process.env.SP_API_PROTOCOL || 'http',
-  port: parseInt(process.env.SP_API_PORT as string) || 3001,
-  hostname: process.env.SP_API_HOSTNAME || 'localhost',
+const googleCloudConfig: GoogleCloudConfig = {
+  apiKey: process.env.LOGISTICS_GOOGLE_API_KEY || '',
 }
 
-export const config: { apiServer: ServerConfig } = {
-  apiServer: apiServerConfig,
+export const config: { googleCloudConfig: GoogleCloudConfig } = {
+  googleCloudConfig: googleCloudConfig,
 }
