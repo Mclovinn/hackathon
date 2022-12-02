@@ -12,6 +12,8 @@ import { SuccessAlert } from '../common/alert/success-alert'
 import { initializeOrders, setOrderAsDelivered } from '../../services/frontend-services/orders'
 import BounceLoader from 'react-spinners/BounceLoader'
 import { ErrorAlert } from '../common/alert/error-alert'
+import { OrderType } from '../../types/order.type'
+import { getOrderAddress } from '../../services/frontend-services/google-maps'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
@@ -41,7 +43,7 @@ export type TableRowType = {
   id: string
   sku: string
   status: OrderStatus
-  latitude: number
+  address: string
   tracking: string
 }
 
@@ -49,7 +51,7 @@ const columns: GridColDef[] = [
   { headerClassName: 'super-app-theme--header', field: 'id', headerName: 'Order ID', width: 300 },
   { headerClassName: 'super-app-theme--header', field: 'sku', headerName: 'SKU', width: 150 },
   { headerClassName: 'super-app-theme--header', field: 'status', headerName: 'Status', width: 120 },
-  { headerClassName: 'super-app-theme--header', field: 'latitude', headerName: 'Destination Address', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'address', headerName: 'Destination Address', width: 150 },
   { headerClassName: 'super-app-theme--header', field: 'tracking', headerName: 'Tracking ID', width: 300 },
 ]
 
@@ -79,6 +81,26 @@ export function Orders() {
     },
   })
 
+  useEffect(() => {
+    if (!orders) return
+    setOrders(orders)
+  }, [orders])
+
+  const setOrders = async (orders: OrderType[]) => {
+    let newParsedOrders: TableRowType[] = []
+    for (const order of orders) {
+      const address = await getOrderAddress(order.destinationAddress.latitude, order.destinationAddress.longitude)
+      newParsedOrders.push({
+        id: order.id,
+        sku: order.sku,
+        status: order.status,
+        address: address,
+        tracking: order.trackingId,
+      })
+    }
+    setParsedOrders(newParsedOrders)
+  }
+
   const setOrderAsDeliveredAction = async () => {
     for (let row of selectedRows) {
       await setOrderAsDeliveredMutation.mutate(row.id)
@@ -88,23 +110,6 @@ export function Orders() {
   const onInitializeSubmit = async () => {
     await initializeOrdersMutation.mutate(selectedRows.map(order => order.id))
   }
-
-  useEffect(() => {
-    if (!orders) return
-
-    let newParsedOrders: TableRowType[] = []
-    // TODO - Set real address name for destination
-    orders.forEach(order => {
-      newParsedOrders.push({
-        id: order.id,
-        sku: order.sku,
-        status: order.status,
-        latitude: order.destinationAddress.latitude,
-        tracking: order.trackingId,
-      })
-    })
-    setParsedOrders(newParsedOrders)
-  }, [orders])
 
   return (
     <>
