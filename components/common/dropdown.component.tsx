@@ -4,8 +4,13 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { GridValidRowModel } from '@mui/x-data-grid'
 
-export default function Dropdown() {
+type Props = {
+  orders: GridValidRowModel[]
+}
+
+export const Dropdown = ({ orders }: Props) => {
   const [status, setStatus] = React.useState('')
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -23,8 +28,12 @@ export default function Dropdown() {
           label="Status"
           onChange={handleChange}
         >
-          <MenuItem value={10}>In Transit</MenuItem>
-          <MenuItem value={20}>Delivered</MenuItem>
+          <MenuItem value={10} onClick={() => console.log('LOG-InTransit', orders)}>
+            In Transit
+          </MenuItem>
+          <MenuItem value={20} onClick={() => console.log('LOG-Delivered', orders)}>
+            Delivered
+          </MenuItem>
         </Select>
       </FormControl>
     </Box>

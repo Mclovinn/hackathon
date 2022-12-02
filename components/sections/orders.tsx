@@ -1,9 +1,16 @@
-import * as React from 'react'
-import { DataGrid, GridRowsProp, GridColDef, GridToolbar } from '@mui/x-data-grid'
-import type { } from '@mui/x-data-grid/themeAugmentation'
+import { useEffect, useState } from 'react'
+import {
+  DataGrid,
+  GridRowsProp,
+  GridColDef,
+  GridToolbar,
+  GridSelectionModel,
+  GridValidRowModel,
+} from '@mui/x-data-grid'
+import type {} from '@mui/x-data-grid/themeAugmentation'
 import { Box } from '@mui/material'
 import styled from 'styled-components'
-import Dropdown from '../common/dropdown.component'
+import { Dropdown } from '../common/dropdown.component'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
@@ -73,10 +80,13 @@ const columns: GridColDef[] = [
 ]
 
 export function Orders() {
+  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>()
+  const [selectedRows, setSelectedRows] = useState<GridValidRowModel[]>([])
+
   return (
     <$GridContainer>
       <$GridHeader>
-        <Dropdown />
+        <Dropdown orders={selectedRows} />
       </$GridHeader>
       <Box
         sx={{
@@ -101,6 +111,13 @@ export function Orders() {
           columns={columns}
           components={{ Toolbar: GridToolbar }}
           checkboxSelection
+          selectionModel={selectionModel}
+          onSelectionModelChange={e => {
+            setSelectionModel(e)
+            const selectedIDs = new Set(e)
+            const selected = rows.filter(r => selectedIDs.has(r.id))
+            setSelectedRows(selected)
+          }}
         />
       </Box>
     </$GridContainer>
