@@ -15,8 +15,10 @@ const $Title = styled.h1`
   padding: 0 30px;
 `
 
-const $Section = styled.div`
+const $SectionContent = styled.div`
+  margin-top: 40px;
   width: 100%;
+  height: 100%;
 `
 interface SectionLayoutProps {
   title: string
@@ -26,7 +28,7 @@ export const SectionLayout = ({ title, children }: SectionLayoutProps): ReactEle
   return (
     <$Container>
       <$Title>{title}</$Title>
-      <$Section>{children}</$Section>
+      <$SectionContent>{children}</$SectionContent>
     </$Container>
   )
 }

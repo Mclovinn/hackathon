@@ -18,7 +18,7 @@ import {
   NERO,
   WISTERIA,
   ROBINS_EGG_BLUE,
-} from './variables'
+} from './color-variables'
 
 // Recieves alpha as %, and transforms it to hex
 export const getOpacityInHex = (opacity: number): string => {
@@ -93,7 +93,7 @@ export const defaultTheme: DefaultTheme = {
 
   shadows: {
     primary: `inset 0px 4px 4px ${BLACK}`,
-    secondary: `inset 0px 4px 4px ${BLACK + getOpacityInHex(80)}`,
+    secondary: `0px 4px 4px ${BLACK + getOpacityInHex(80)}`,
   },
 
   fonts: {

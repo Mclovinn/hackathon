@@ -6,9 +6,7 @@ import { TransparentButton } from './buttons/transparent-button'
 const $SidenavContainer = styled.div`
   height: 100%;
   background: transparent;
-  max-width: 200px;
-  position: absolute;
-  left: 0;
+  max-width: 220px;
 `
 const $ButtonWrapper = styled.div`
   margin-top: 200px;
