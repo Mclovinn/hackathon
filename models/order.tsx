@@ -50,10 +50,10 @@ export const OrderModel = model<OrderItem>(
         type: String,
       },
       delivered: {
-        type: Number,
+        type: String,
       },
       shipped: {
-        type: Number,
+        type: String,
       },
     },
     {
