@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useMutation } from 'react-query'
 import { DataGrid, GridColDef, GridToolbar, GridSelectionModel } from '@mui/x-data-grid'
 import type {} from '@mui/x-data-grid/themeAugmentation'
 import { Box } from '@mui/material'
@@ -8,6 +9,8 @@ import { useQuery } from 'react-query'
 import { getOrders } from '../../services/frontend-services/orders'
 import { OrderStatus } from '../../types/order-status'
 import { SuccessAlert } from '../common/alert'
+import { initializeOrders, setOrderAsDelivered } from '../../services/frontend-services/orders'
+import BounceLoader from 'react-spinners/BounceLoader'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
@@ -24,6 +27,13 @@ const $GridHeader = styled.div`
   align-items: center;
   padding: 12px 20px;
   margin-top: 60px;
+`
+
+const $LoaderWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `
 
 export type TableRowType = {
@@ -45,9 +55,31 @@ const columns: GridColDef[] = [
 export function Orders() {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>()
   const [selectedRows, setSelectedRows] = useState<TableRowType[]>([])
-  const { data: orders } = useQuery('get-orders', getOrders)
+  const { data: orders, refetch } = useQuery('get-orders', getOrders)
   const [parsedOrders, setParsedOrders] = useState<TableRowType[]>([])
   const [transactionHash, setTransactionHash] = useState<string>('')
+  const initializeOrdersMutation = useMutation(initializeOrders, {
+    onSuccess: data => {
+      setTransactionHash(data.txHash)
+      refetch()
+    },
+  })
+  const setOrderAsDeliveredMutation = useMutation(setOrderAsDelivered, {
+    onSuccess: data => {
+      setTransactionHash(data.txHash)
+      refetch()
+    },
+  })
+
+  const setOrderAsDeliveredAction = async () => {
+    for (let row of selectedRows) {
+      await setOrderAsDeliveredMutation.mutate(row.id)
+    }
+  }
+
+  const onInitializeSubmit = async () => {
+    await initializeOrdersMutation.mutate(selectedRows.map(order => order.id))
+  }
 
   useEffect(() => {
     if (!orders) return
@@ -71,7 +103,7 @@ export function Orders() {
       {transactionHash !== '' && transactionHash !== undefined ? <SuccessAlert txHash={transactionHash} /> : null}
       <$GridContainer>
         <$GridHeader>
-          <Dropdown selectedOrders={selectedRows} setTransactionHash={setTransactionHash} />
+          <Dropdown onDeliveredSubmit={setOrderAsDeliveredAction} onInitializeSubmit={onInitializeSubmit} />
         </$GridHeader>
         <Box
           sx={{
@@ -105,6 +137,16 @@ export function Orders() {
             }}
           />
         </Box>
+        {initializeOrdersMutation.isLoading && (
+          <$LoaderWrapper>
+            <BounceLoader color="#7A27E8" />
+          </$LoaderWrapper>
+        )}
+        {setOrderAsDeliveredMutation.isLoading && (
+          <$LoaderWrapper>
+            <BounceLoader color="#7A27E8" />
+          </$LoaderWrapper>
+        )}
       </$GridContainer>
     </>
   )
