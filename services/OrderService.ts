@@ -12,10 +12,10 @@ class OrderService {
     // Create new DynamoDB instance
     const ddb = new dynamoose.aws.ddb.DynamoDB({
       credentials: {
-        accessKeyId: process.env.LOGISTICS_BACKEND_ACCESS_KEY || '',
-        secretAccessKey: process.env.LOGISTICS_BACKEND_SECRET_KEY || '',
+        accessKeyId: process.env.LOGISTICS_ACCESS_KEY || '',
+        secretAccessKey: process.env.LOGISTICS_SECRET_KEY || '',
       },
-      region: process.env.LOGISTICS_BACKEND_REGION || '',
+      region: process.env.LOGISTICS_REGION,
     })
     // Set DynamoDB instance to the Dynamoose DDB instance
     dynamoose.aws.ddb.set(ddb)
