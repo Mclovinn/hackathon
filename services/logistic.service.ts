@@ -4,7 +4,7 @@ import { LOGISTIC_ABI } from './contract-interfaces/LOGISTIC_ABI'
 
 const ADMIN_ADDRESS = '0xC6AD38D1f7834072103207ee6F821Ce2e41B7972'
 const PK_ADMIN_ADDRESS = '861c26341ac3a236e8b89520b027e18787fd2df039a96473363335a16b7258de'
-const LOGISTIC_CONTRACT_ADDRESS = '0x949aA34fFe87e1cfedF63A80F0Af117989DAfa8d'
+const LOGISTIC_CONTRACT_ADDRESS = '0x41FB648D1622E87e53D318d59264374b05178091'
 
 function logisticContract() {
   const web3 = web3Service.web3
@@ -22,9 +22,38 @@ export async function createOrders(orderIds: string[], location: string) {
   console.log(await web3Service.web3.eth.sendSignedTransaction(signedTx.rawTransaction || ''))
 }
 
-export async function getOrder(orderId: string) {
+enum OrderStatus {
+  IN_TRANSIT = 'In transit',
+  DELIVERED = 'Delivered',
+}
+
+type Order = {
+  currentStatus: OrderStatus
+  events: {
+    status: OrderStatus
+    timestamp: number
+    location: string
+    orderId: number
+    creatorAddress: string
+  }[]
+}
+const parseOrders = (data: any): Order => {
+  return {
+    currentStatus: data[0] as OrderStatus,
+    events: data[1].map((e: any) => ({
+      status: e.orderStatus,
+      timestamp: e.timestamp,
+      location: e.location,
+      orderId: e.orderId,
+      creatorAddress: e.creator,
+    })),
+  }
+}
+
+export async function getOrder(orderId: string): Promise<Order> {
   const contract = logisticContract()
-  return await contract.methods.getOrder(orderId).call()
+  const parsedData = parseOrders(await contract.methods.getOrder(orderId).call())
+  return parsedData
 }
 
 export async function deliverOrder(orderId: string, location: string) {
@@ -42,6 +71,7 @@ async function generateTx(encodeABI: any) {
   const web3 = web3Service.web3
 
   const estimatedGas = await web3.eth.estimateGas({
+    from: ADMIN_ADDRESS,
     to: contract.options.address,
     data: encodeABI,
   })
