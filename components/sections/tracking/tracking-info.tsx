@@ -23,7 +23,7 @@ const $Label = styled.div`
 const $Status = styled.div<{ orderStatus: OrderStatus }>`
   font-weight: bold;
   color: ${({ theme, orderStatus }) =>
-    orderStatus === OrderStatus.InTransit ? theme.status.inTransit : theme.status.delivered};
+    orderStatus === OrderStatus.IN_TRANSIT ? theme.status.inTransit : theme.status.delivered};
 `
 interface InfoProps {
   trackingId: string
@@ -40,7 +40,7 @@ export const TrackingInfo = ({ trackingId, orderStatus }: InfoProps) => {
       <$Wrapper>
         <$Label>Status: </$Label>
         <$Status orderStatus={orderStatus}>
-          {orderStatus === OrderStatus.Delivered ? 'Delivered' : orderStatus === OrderStatus.InTransit && 'In Transit'}
+          {orderStatus === OrderStatus.DELIVERED ? 'Delivered' : orderStatus === OrderStatus.IN_TRANSIT && 'In Transit'}
         </$Status>
       </$Wrapper>
     </$Container>

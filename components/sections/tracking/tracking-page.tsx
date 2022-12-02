@@ -48,7 +48,7 @@ export const TrackingPage = () => {
         <>
           <TrackingInfo
             trackingId={trackingId}
-            orderStatus={OrderStatus.Delivered}
+            orderStatus={OrderStatus.DELIVERED}
             showTrackingInfo={showTrackingInfo}
           />
           <$Wrapper>

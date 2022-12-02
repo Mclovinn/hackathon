@@ -2,10 +2,11 @@ import { OrderModel, OrderItem } from '../models/order'
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as dynamoose from 'dynamoose'
 import { v4 as uuidv4 } from 'uuid'
+import { OrderStatus } from '../types/order-status'
 import { config } from '../config/env.config'
 
-const STATUS_READY_TO_FULFILL = "READY_TO_FULFILL"
-const STATUS_IN_TRANSIT = "IN_TRANSIT"
+const STATUS_READY_TO_FULFILL = 'READY_TO_FULFILL'
+const STATUS_IN_TRANSIT = 'IN_TRANSIT'
 
 interface RequestParameters {
   req: NextApiRequest
@@ -35,18 +36,19 @@ class OrderService {
   async initializeOrders(orderIds: any) {
     let orderList: Array<OrderItem> = []
     const manifestId = uuidv4()
-    const orders = await OrderModel.batchGet(orderIds);
+    const orders = await OrderModel.batchGet(orderIds)
     for (let i = 0; i < orders.length; i++) {
       let orderUpdated = orders[i]
       if (orders[i].status == STATUS_READY_TO_FULFILL) {
         orderUpdated = await OrderModel.update(
-          { "id": orders[i].id },
+          { id: orders[i].id },
           {
-            "status": STATUS_IN_TRANSIT,
-            "trackingId": uuidv4(),
-            "manifestId": manifestId,
-            "shipped": Date.now().toString()
-          });
+            status: STATUS_IN_TRANSIT,
+            trackingId: uuidv4(),
+            manifestId: manifestId,
+            shipped: Date.now().toString(),
+          }
+        )
       }
       orderList.push(orderUpdated)
     }
@@ -63,6 +65,20 @@ class OrderService {
         : (Item = await OrderModel.scan('id').contains(req.query.id).exec())
     }
     return Item
+  }
+
+  async changeOrderToDelivered({ req }: RequestParameters) {
+    const order = await OrderModel.scan('id').eq(req.query.id?.toString()).exec()
+    let orderUpdate
+    if (order.length && order[0].status === OrderStatus.IN_TRANSIT) {
+      orderUpdate = await OrderModel.update(
+        { id: order[0].id },
+        {
+          status: OrderStatus.DELIVERED,
+        }
+      )
+    }
+    return orderUpdate
   }
 
   async updateOrder(body: OrderItem) {
