@@ -6,6 +6,7 @@ import { TrackingTable } from './tracking-table'
 import { Map } from './map/map'
 import { getTrackingInfo } from '../../../services/frontend-services/tracking'
 import { TrackingType } from '../../../types/tracking.type'
+import { getDeliveredAndOrderedEvents } from '../../../utils/events'
 
 const $Container = styled.div`
   margin-top: 40px;
@@ -27,8 +28,8 @@ export const TrackingPage = () => {
 
   const onSearchTrackingId = async () => {
     const response = await getTrackingInfo(trackingId)
-    //getDeliveredAndOrderedEvents(response.events)
-    setTrackingInfo(response)
+    const deliveredEvents = getDeliveredAndOrderedEvents(response.events)
+    setTrackingInfo({ currentStatus: response.currentStatus, events: deliveredEvents })
     setShowTrackingInfo(true)
   }
 
