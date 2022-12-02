@@ -6,6 +6,7 @@ import Collapse from '@mui/material/Collapse'
 import CloseIcon from '@mui/icons-material/Close'
 import { AlertTitle, Link, styled } from '@mui/material'
 import { useState } from 'react'
+import { config } from '../../config/env.config'
 
 const $Alert = styled(Alert)`
   position: fixed;
@@ -20,7 +21,7 @@ interface AlertProps {
 }
 export const SuccessAlert = ({ txHash }: AlertProps) => {
   const [open, setOpen] = useState<boolean>(true)
-
+  const url = config.smartContractConfig.transactionDetailUrl
   return (
     <Box sx={{ width: '100%' }}>
       <Collapse in={open}>
@@ -43,7 +44,7 @@ export const SuccessAlert = ({ txHash }: AlertProps) => {
         >
           <AlertTitle sx={{ fontSize: 22 }}>Transaction success!</AlertTitle>
           Enter
-          <Link href={`https://mumbai.polygonscan.com/tx/${txHash}`} target="_blank">
+          <Link href={`${url}/${txHash}`} target="_blank">
             this link
           </Link>
         </$Alert>
