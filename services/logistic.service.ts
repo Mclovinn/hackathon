@@ -2,6 +2,7 @@ import web3Service from './web3.service'
 import { AbiItem } from 'web3-utils'
 import { LOGISTIC_ABI } from './contract-interfaces/LOGISTIC_ABI'
 import { config } from '../config/env.config'
+import { OrderStatus } from '../types/order-status'
 
 const ADMIN_ADDRESS = config.smartContractConfig.adminContractAddress
 const PK_ADMIN_ADDRESS = config.smartContractConfig.privateKeyAdminAddress
@@ -24,11 +25,6 @@ export async function createOrders(orderIds: string[], location: string) {
   return signedTx.transactionHash
 }
 
-enum OrderStatus {
-  IN_TRANSIT = 'In transit',
-  DELIVERED = 'Delivered',
-}
-
 type Order = {
   currentStatus: OrderStatus
   events: {
@@ -41,9 +37,9 @@ type Order = {
 }
 const parseOrders = (data: any): Order => {
   return {
-    currentStatus: data[0] as OrderStatus,
+    currentStatus: (() => (data[0] == '0' ? OrderStatus.IN_TRANSIT : OrderStatus.DELIVERED))(),
     events: data[1].map((e: any) => ({
-      status: e.orderStatus,
+      status: (() => (e.orderStatus === '0' ? OrderStatus.IN_TRANSIT : OrderStatus.DELIVERED))(),
       timestamp: e.timestamp,
       location: e.location,
       orderId: e.orderId,

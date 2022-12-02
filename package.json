@@ -25,6 +25,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@lingui/react": "^3.14.0",
+    "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.16",
     "@mui/styled-engine-sc": "^5.10.16",
     "@mui/x-data-grid": "^5.17.13",
@@ -38,8 +39,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.1",
-    "web3": "^1.8.1",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
     "@commitlint/cli": "16.2.1",
