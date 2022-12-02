@@ -6,21 +6,15 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import { EventType } from '../../../types/tracking.type'
 
-function createData(orderId: number, adress: string) {
-  return { orderId, adress }
+interface TrackingTableProps {
+  events: EventType[]
 }
 
-const rows = [
-  createData(1, 'Colón 125'),
-  createData(2, 'Jujuy 127'),
-  createData(3, '9 de Julio 365'),
-  createData(4, 'Paraná 443'),
-]
-
-export const TrackingTable = () => {
+export const TrackingTable = ({ events }: TrackingTableProps) => {
   return (
-    <TableContainer component={Paper} sx={{ width: 300, marginLeft: 10, height: 300 }}>
+    <TableContainer component={Paper} sx={{ width: 300, marginLeft: 10, height: 'fit-content' }}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -29,12 +23,12 @@ export const TrackingTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.orderId} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+          {events.map((event, index) => (
+            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell component="th" scope="row">
-                {row.orderId}
+                {index + 1}
               </TableCell>
-              <TableCell align="left">{row.adress}</TableCell>
+              <TableCell align="left">{`${event.location.latitude}, ${event.location.longitude}`}</TableCell>
             </TableRow>
           ))}
         </TableBody>
