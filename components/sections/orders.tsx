@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid'
+import { useEffect, useState } from 'react'
+import { DataGrid, GridColDef, GridToolbar, GridSelectionModel } from '@mui/x-data-grid'
 import type {} from '@mui/x-data-grid/themeAugmentation'
 import { Box } from '@mui/material'
 import styled from 'styled-components'
-import Dropdown from '../common/dropdown.component'
+import { Dropdown } from '../common/dropdown.component'
 import { useQuery } from 'react-query'
 import { getOrders } from '../../services/frontend-services/orders'
 import { OrderStatus } from '../../types/order-status'
@@ -24,24 +24,25 @@ const $GridHeader = styled.div`
   padding: 12px 20px;
 `
 
-type TableRowType = {
+export type TableRowType = {
   id: string
-  col1: string
-  col2: string
-  col3: OrderStatus
-  col4: number
-  col5: string
+  sku: string
+  status: OrderStatus
+  latitude: number
+  tracking: string
 }
 
 const columns: GridColDef[] = [
-  { headerClassName: 'super-app-theme--header', field: 'col1', headerName: 'Order ID', width: 150 },
-  { headerClassName: 'super-app-theme--header', field: 'col2', headerName: 'SKU', width: 150 },
-  { headerClassName: 'super-app-theme--header', field: 'col3', headerName: 'Status', width: 150 },
-  { headerClassName: 'super-app-theme--header', field: 'col4', headerName: 'Destination Address', width: 150 },
-  { headerClassName: 'super-app-theme--header', field: 'col5', headerName: 'Tracking ID', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'id', headerName: 'Order ID', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'sku', headerName: 'SKU', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'status', headerName: 'Status', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'latitude', headerName: 'Destination Address', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'tracking', headerName: 'Tracking ID', width: 150 },
 ]
 
 export function Orders() {
+  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>()
+  const [selectedRows, setSelectedRows] = useState<TableRowType[]>([])
   const { data: orders } = useQuery('get-orders', getOrders)
   const [parsedOrders, setParsedOrders] = useState<TableRowType[]>([])
 
@@ -53,11 +54,10 @@ export function Orders() {
     orders.forEach(order => {
       newParsedOrders.push({
         id: order.id,
-        col1: order.id,
-        col2: order.sku,
-        col3: order.status,
-        col4: order.destinationAddress.latitude,
-        col5: order.trackingId,
+        sku: order.sku,
+        status: order.status,
+        latitude: order.destinationAddress.latitude,
+        tracking: order.trackingId,
       })
     })
     setParsedOrders(newParsedOrders)
@@ -66,7 +66,7 @@ export function Orders() {
   return (
     <$GridContainer>
       <$GridHeader>
-        <Dropdown />
+        <Dropdown selectedOrders={selectedRows} />
       </$GridHeader>
       <Box
         sx={{
@@ -91,6 +91,13 @@ export function Orders() {
           columns={columns}
           components={{ Toolbar: GridToolbar }}
           checkboxSelection
+          selectionModel={selectionModel}
+          onSelectionModelChange={e => {
+            setSelectionModel(e)
+            const selectedIDs = new Set(e)
+            const selected = parsedOrders.filter(r => selectedIDs.has(r.id))
+            setSelectedRows(selected)
+          }}
         />
       </Box>
     </$GridContainer>

@@ -4,12 +4,39 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { initializeOrders } from '../../services/frontend-services/orders'
+import { useMutation } from 'react-query'
+import { useState } from 'react'
+import { TableRowType } from '../sections/orders'
 
-export default function Dropdown() {
-  const [status, setStatus] = React.useState('')
+type Props = {
+  selectedOrders: TableRowType[]
+}
+
+export const Dropdown = ({ selectedOrders }: Props) => {
+  const [status, setStatus] = useState('')
+  const initializeOrdersMutation = useMutation(initializeOrders)
 
   const handleChange = (event: SelectChangeEvent) => {
     setStatus(event.target.value as string)
+  }
+
+  const selectedIds = selectedOrders.map(order => order.id)
+
+  const handleUpdateAction = async () => {
+    //TODO: Manage states (loading, error, success)
+
+    try {
+      const response = await initializeOrdersMutation.mutate(selectedIds)
+      console.log(response)
+
+      // showGlobalSuccess({ message: 'Status successfully updated.' });
+    } catch (e) {
+      console.error(e)
+      // showGlobalError({
+      //   message: 'There was a problem trying to change status',
+      // });
+    }
   }
 
   return (
@@ -23,8 +50,12 @@ export default function Dropdown() {
           label="Status"
           onChange={handleChange}
         >
-          <MenuItem value={10}>In Transit</MenuItem>
-          <MenuItem value={20}>Delivered</MenuItem>
+          <MenuItem value={10} onClick={() => handleUpdateAction()}>
+            In Transit
+          </MenuItem>
+          <MenuItem value={20} onClick={() => handleUpdateAction()}>
+            Delivered
+          </MenuItem>
         </Select>
       </FormControl>
     </Box>
