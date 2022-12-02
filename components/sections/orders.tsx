@@ -15,7 +15,7 @@ import BounceLoader from 'react-spinners/BounceLoader'
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
   height: fit-content;
-  max-width: 1000px;
+  width: 1200px;
   height: auto;
   margin: 20px auto;
   border-radius: 12px;
@@ -25,7 +25,7 @@ const $GridHeader = styled.div`
   display: flex;
   justify-content: right;
   align-items: center;
-  padding: 12px 20px;
+  padding: 15px;
   margin-top: 60px;
 `
 
@@ -45,11 +45,11 @@ export type TableRowType = {
 }
 
 const columns: GridColDef[] = [
-  { headerClassName: 'super-app-theme--header', field: 'id', headerName: 'Order ID', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'id', headerName: 'Order ID', width: 300 },
   { headerClassName: 'super-app-theme--header', field: 'sku', headerName: 'SKU', width: 150 },
-  { headerClassName: 'super-app-theme--header', field: 'status', headerName: 'Status', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'status', headerName: 'Status', width: 120 },
   { headerClassName: 'super-app-theme--header', field: 'latitude', headerName: 'Destination Address', width: 150 },
-  { headerClassName: 'super-app-theme--header', field: 'tracking', headerName: 'Tracking ID', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'tracking', headerName: 'Tracking ID', width: 300 },
 ]
 
 export function Orders() {
@@ -107,10 +107,8 @@ export function Orders() {
         </$GridHeader>
         <Box
           sx={{
-            height: 400,
-            width: '100%',
-            maxWidth: '1000px',
-            margin: '0 auto',
+            height: 600,
+            padding: '0 20px',
             '& .super-app-theme--header': {
               fontSize: '20px',
             },
@@ -122,7 +120,7 @@ export function Orders() {
             disableColumnMenu={true}
             sx={{
               border: 'none',
-              padding: '0 20px',
+              width: '100%',
             }}
             rows={parsedOrders}
             columns={columns}

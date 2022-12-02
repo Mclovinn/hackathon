@@ -6,7 +6,6 @@ const $Container = styled.div`
   margin-top: 4rem;
   margin-left: 2rem;
   width: 100%;
-  max-width: 1000px;
   position: relative;
 `
 const $Title = styled.h1<{ section: SectionsType }>`
@@ -15,6 +14,7 @@ const $Title = styled.h1<{ section: SectionsType }>`
   position: ${({ section }) => (section === SectionsType.ORDERS ? 'absolute' : 'none')};
   padding: ${({ section }) => (section === SectionsType.ORDERS ? '0 30px' : '0')};
   margin-top: ${({ section }) => (section === SectionsType.ORDERS ? '80px' : '40px')};
+  margin-left: ${({ section }) => (section === SectionsType.ORDERS ? '90px' : '40px')};
 `
 
 const $SectionContent = styled.div`
