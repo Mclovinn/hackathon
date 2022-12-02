@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { PrimaryButton } from '../../Common/buttons/primary-button'
-import { Input } from '../../Common/input'
+import { PrimaryButton } from '../../common/buttons/primary-button'
+import { Input } from '../../common/input'
 
 const $Container = styled.div`
   display: flex;

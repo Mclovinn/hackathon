@@ -13,6 +13,7 @@ const $Title = styled.h1`
   z-index: 1;
   position: absolute;
   padding: 0 30px;
+  margin-top: 60px;
 `
 
 const $SectionContent = styled.div`
