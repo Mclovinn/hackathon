@@ -52,5 +52,4 @@ class OrderService {
 
 const instance = new OrderService()
 Object.freeze(instance)
-
 export default instance
