@@ -9,7 +9,7 @@ const $SidenavContainer = styled.div`
   max-width: 220px;
 `
 const $ButtonWrapper = styled.div`
-  margin-top: 100px;
+  margin-top: 200px;
 `
 
 interface $TransparentButtonProps {
@@ -19,8 +19,8 @@ interface $TransparentButtonProps {
 const $TransparentButton = styled(TransparentButton)<$TransparentButtonProps>`
   ${({ isActive, theme }) =>
     isActive &&
-    `border-left: 3px solid ${theme.palette.colors.navyBlue};
-    color: ${theme.palette.colors.navyBlue};`}
+    `border-left: 3px solid ${theme.palette.colors.brightTurquoise};
+    color: ${theme.palette.colors.brightTurquoise};`}
   justify-content: flex-start;
   margin: 15px;
   padding: 10px;

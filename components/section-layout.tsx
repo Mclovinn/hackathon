@@ -1,29 +1,35 @@
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
+import { SectionsType } from '../types/section.types'
 
 const $Container = styled.div`
-  margin-left: 40px;
+  margin-top: 100px;
+  margin-left: 200px;
   width: 100%;
-  height: 100%;
+  max-width: 1000px;
+  position: relative;
 `
-const $Title = styled.div`
-  margin-top: 60px;
-  font-size: 32px;
+const $Title = styled.h1<{ section: SectionsType }>`
+  color: ${({ theme }) => theme.palette.colors.wisteria};
+  z-index: 1;
+  position: ${({ section }) => (section === SectionsType.ORDERS ? 'absolute' : 'none')};
+  padding: ${({ section }) => (section === SectionsType.ORDERS ? '0 30px' : '0')};
+  margin-top: 40px;
 `
 
 const $SectionContent = styled.div`
-  margin-top: 40px;
   width: 100%;
   height: 100%;
 `
 interface SectionLayoutProps {
   title: string
   children: ReactElement
+  section: SectionsType
 }
-export const SectionLayout = ({ title, children }: SectionLayoutProps): ReactElement => {
+export const SectionLayout = ({ title, children, section }: SectionLayoutProps): ReactElement => {
   return (
     <$Container>
-      <$Title>{title}</$Title>
+      <$Title section={section}>{title}</$Title>
       <$SectionContent>{children}</$SectionContent>
     </$Container>
   )

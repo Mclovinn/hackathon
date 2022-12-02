@@ -16,6 +16,9 @@ import {
   SMALT,
   NAVY_BLUE,
   KOURNIKOVA,
+  NERO,
+  WISTERIA,
+  ROBINS_EGG_BLUE,
 } from './color-variables'
 
 // Recieves alpha as %, and transforms it to hex
@@ -50,6 +53,9 @@ export const defaultTheme: DefaultTheme = {
       kournikova: KOURNIKOVA,
       emerald: EMERALD,
       coralRed: CORAL_RED,
+      nero: NERO,
+      robinsEggBlue: ROBINS_EGG_BLUE,
+      wisteria: WISTERIA,
     },
 
     // Theme colors (always prioritize using these over the common colors)
@@ -58,7 +64,7 @@ export const defaultTheme: DefaultTheme = {
     secondary: BRIGHT_TURQUOISE,
 
     // Backgrounds
-    background: WHITE,
+    background: BLACK,
     secondaryBackground: BLUE_VIOLET + getOpacityInHex(40),
 
     // Buttons
@@ -66,7 +72,7 @@ export const defaultTheme: DefaultTheme = {
     secondaryOnHover: BRIGHT_TURQUOISE,
 
     // Texts
-    text: BLACK,
+    text: WHITE,
     secondaryText: PURPLE_HEART,
   },
 
