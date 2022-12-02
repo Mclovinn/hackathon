@@ -14,7 +14,7 @@ const $Title = styled.h1<{ section: SectionsType }>`
   z-index: 1;
   position: ${({ section }) => (section === SectionsType.ORDERS ? 'absolute' : 'none')};
   padding: ${({ section }) => (section === SectionsType.ORDERS ? '0 30px' : '0')};
-  margin-top: 40px;
+  margin-top: ${({ section }) => (section === SectionsType.ORDERS ? '80px' : '40px')};
 `
 
 const $SectionContent = styled.div`
