@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse'
 import CloseIcon from '@mui/icons-material/Close'
 import { AlertTitle, Link, styled } from '@mui/material'
 import { useState } from 'react'
-import { config } from '../../config/env.config'
+import { config } from '../../../config/env.config'
 
 const $Alert = styled(Alert)`
   position: fixed;
