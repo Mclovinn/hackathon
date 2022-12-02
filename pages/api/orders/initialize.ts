@@ -13,7 +13,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
         return res.status(200).json({ orders, txHash })
       }
       return res.status(200).json('There is not orders to initialize')
-    } catch (e) {
+    } catch (e: any) {
       console.log(e)
       return res.status(500).json({ error: e.message })
     }

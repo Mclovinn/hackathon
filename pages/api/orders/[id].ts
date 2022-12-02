@@ -11,7 +11,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
         const txHash = order.trackingId && (await deliverOrder(order.trackingId, JSON.stringify(origin)))
         return res.status(200).json({ order, txHash })
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log(e)
       return res.status(500).json({ error: e.message })
     }
