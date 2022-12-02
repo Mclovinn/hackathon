@@ -9,11 +9,4 @@ const getCustomVariables = () => {
 
 module.exports = {
   env: getCustomVariables(),
-  i18n: {
-    locales: ['en-US', 'es'],
-    defaultLocale: 'en-US',
-    eslint: {
-      dirs: ['pages', 'services', 'styles', 'locales', 'config', 'interfaces', 'hooks', 'context', 'components'],
-    },
-  },
 }

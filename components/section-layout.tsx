@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { SectionsType } from '../types/section.types'
 
 const $Container = styled.div`
-  margin-top: 100px;
-  margin-left: 200px;
+  margin-top: 4rem;
+  margin-left: 2rem;
   width: 100%;
   max-width: 1000px;
   position: relative;
