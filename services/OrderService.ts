@@ -2,6 +2,7 @@ import { OrderModel, OrderItem } from '../models/order'
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as dynamoose from 'dynamoose'
 import { v4 as uuidv4 } from 'uuid'
+import { OrderStatus } from '../types/order-status'
 interface RequestParameters {
   req: NextApiRequest
   res: NextApiResponse
@@ -30,13 +31,23 @@ class OrderService {
   async getItem({ req }: RequestParameters): Promise<OrderItem[]> {
     let Item: OrderItem[]
     if (Object.keys(req.query).length === 0) {
-      Item = await OrderModel.scan('id').contains('').exec()
+      Item = await OrderModel.scan().exec()
     } else {
       req.query.status
         ? (Item = await OrderModel.scan('status').contains(req.query.status.toString().toLocaleUpperCase()).exec())
         : (Item = await OrderModel.scan('id').contains(req.query.id).exec())
     }
     return Item
+  }
+
+  async changeToDeliveredOrder({ req }: RequestParameters) {
+    console.log('paso por changeToDeliveredOrder')
+    const order = await OrderModel.scan('id').contains(req.query.id).exec()
+    if (order) {
+      order[0].status === OrderStatus.IN_TRANSIT ? console.log('si') : console.log('para para')
+    }
+    // const orderUpdate = await OrderModel.update(body)
+    // return orderUpdate
   }
 
   async updateOrder(body: OrderItem) {

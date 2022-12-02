@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 export enum OrderStatus {
-  Delivered,
-  InTransit,
+  READY_TO_FULFILL = 'READY_TO_FULFILL',
+  IN_TRANSIT = 'IN_TRANSIT',
+  DELIVERED = ' DELIVERED',
 }
