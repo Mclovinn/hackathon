@@ -36,11 +36,11 @@ class OrderService {
     let orderList: Array<OrderItem> = []
     const manifestId = uuidv4()
     const orders = await OrderModel.batchGet(orderIds);
-    await orders.forEach(async order => {
-      let orderUpdated = order
-      if (order.status == STATUS_READY_TO_FULFILL) {
+    for (let i = 0; i < orders.length; i++) {
+      let orderUpdated = orders[i]
+      if (orders[i].status == STATUS_READY_TO_FULFILL) {
         orderUpdated = await OrderModel.update(
-          { "id": order.id },
+          { "id": orders[i].id },
           {
             "status": STATUS_IN_TRANSIT,
             "trackingId": uuidv4(),
@@ -49,7 +49,7 @@ class OrderService {
           });
       }
       orderList.push(orderUpdated)
-    });
+    }
     return orderList
   }
 
