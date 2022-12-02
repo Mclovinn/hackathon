@@ -19,8 +19,8 @@ interface $TransparentButtonProps {
 const $TransparentButton = styled(TransparentButton)<$TransparentButtonProps>`
   ${({ isActive, theme }) =>
     isActive &&
-    `border-left: 3px solid ${theme.palette.colors.robinsEggBlue};
-    color: ${theme.palette.colors.robinsEggBlue};`}
+    `border-left: 3px solid ${theme.palette.colors.brightTurquoise};
+    color: ${theme.palette.colors.brightTurquoise};`}
   justify-content: flex-start;
   margin: 15px;
   padding: 10px;

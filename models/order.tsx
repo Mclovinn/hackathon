@@ -1,11 +1,13 @@
-import { model } from 'dynamoose'
+import { model, Schema } from 'dynamoose'
 import { Item } from 'dynamoose/dist/Item'
+import { Geopoint } from './geopoint.type'
 
 export class OrderItem extends Item {
   id: string | undefined
   status: string | undefined
   sku: string | undefined
-  destinationAddress: string | undefined
+  destinationAddress: Geopoint | undefined
+  sourceAddress: Geopoint | undefined
   trackingId: string | undefined
   manifestId: string | undefined
   created: string | undefined
@@ -15,35 +17,51 @@ export class OrderItem extends Item {
 
 export const OrderModel = model<OrderItem>(
   'Order',
-  {
-    id: {
-      type: String,
-      hashKey: true,
+  new Schema(
+    {
+      id: {
+        type: String,
+        hashKey: true,
+      },
+      sku: {
+        type: String,
+      },
+      status: {
+        type: String,
+      },
+      destinationAddress: {
+        type: Object,
+        schema: {
+          latitude: String,
+          longitude: String,
+        },
+      },
+      sourceAddress: {
+        type: Object,
+        schema: {
+          latitude: String,
+          longitude: String,
+        },
+      },
+      trackingId: {
+        type: String,
+      },
+      manifestId: {
+        type: String,
+      },
+      delivered: {
+        type: String,
+      },
+      shipped: {
+        type: String,
+      },
     },
-    sku: {
-      type: String,
-    },
-    status: {
-      type: String,
-    },
-    destinationAddress: {
-      type: String,
-    },
-    trackingId: {
-      type: String,
-    },
-    manifestId: {
-      type: String,
-    },
-    created: {
-      type: String,
-    },
-    delivered: {
-      type: String,
-    },
-    shipped: {
-      type: String,
-    },
-  },
+    {
+      timestamps: {
+        createdAt: 'created',
+        updatedAt: 'updated', // updatedAt will not be stored as part of the timestamp
+      },
+    }
+  ),
   { throughput: 'ON_DEMAND' }
 )

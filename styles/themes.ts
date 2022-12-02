@@ -15,6 +15,7 @@ import {
   CORAL_RED,
   SMALT,
   NAVY_BLUE,
+  KOURNIKOVA,
   NERO,
   WISTERIA,
   ROBINS_EGG_BLUE,
@@ -49,6 +50,9 @@ export const defaultTheme: DefaultTheme = {
       black: BLACK,
       smalt: SMALT,
       navyBlue: NAVY_BLUE,
+      kournikova: KOURNIKOVA,
+      emerald: EMERALD,
+      coralRed: CORAL_RED,
       nero: NERO,
       robinsEggBlue: ROBINS_EGG_BLUE,
       wisteria: WISTERIA,
@@ -70,12 +74,10 @@ export const defaultTheme: DefaultTheme = {
     // Texts
     text: WHITE,
     secondaryText: PURPLE_HEART,
-
-    // Status
-    success: EMERALD,
-    error: CORAL_RED,
   },
 
+  // Status
+  status: { delivered: EMERALD, inTransit: KOURNIKOVA },
   // Breakpoints for min-width
   breakpoints: {
     mobileS: '320px',

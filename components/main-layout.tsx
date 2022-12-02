@@ -1,7 +1,7 @@
 import React, { useState, ReactElement } from 'react'
 import styled from 'styled-components'
 import { SectionsType } from '../types/section.types'
-import { Sidenav } from './Common/sidenav'
+import { Sidenav } from './common/sidenav'
 import { SectionLayout } from './section-layout'
 import { Orders } from './sections/orders'
 import { TrackingPage } from './sections/tracking/tracking-page'
@@ -24,7 +24,9 @@ export const MainLayout = () => {
   return (
     <$SectionsContainer>
       <Sidenav setSection={setSection} section={section} />
-      <SectionLayout title={section}>{renderSection()}</SectionLayout>
+      <SectionLayout title={section} section={section}>
+        {renderSection()}
+      </SectionLayout>
     </$SectionsContainer>
   )
 }
