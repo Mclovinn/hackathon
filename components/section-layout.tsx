@@ -2,13 +2,17 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 const $Container = styled.div`
-  margin-left: 40px;
+  margin-top: 100px;
+  margin-left: 200px;
   width: 100%;
-  height: 100%;
+  max-width: 1000px;
+  position: relative;
 `
-const $Title = styled.div`
-  margin-top: 60px;
-  font-size: 32px;
+const $Title = styled.h1`
+  color: ${({ theme }) => theme.palette.colors.wisteria};
+  z-index: 1;
+  position: absolute;
+  padding: 0 30px;
 `
 
 const $SectionContent = styled.div`

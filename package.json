@@ -22,9 +22,12 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.218.0",
     "@babel/core": "^7.18.5",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@lingui/react": "^3.14.0",
     "@mui/material": "^5.10.16",
     "@mui/styled-engine-sc": "^5.10.16",
+    "@mui/x-data-grid": "^5.17.13",
     "dynamoose": "^3.1.0",
     "@types/googlemaps": "^3.43.3",
     "easy-peasy": "^5.0.4",

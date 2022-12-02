@@ -22,6 +22,9 @@ declare module 'styled-components' {
         black: string
         smalt: string
         navyBlue: string
+        nero: string
+        robinsEggBlue: string
+        wisteria: string
       }
 
       // Theme colors (always prioritize using these over the common colors)
@@ -30,6 +33,7 @@ declare module 'styled-components' {
       secondary: string
 
       // Backgrounds
+
       background: string
       secondaryBackground: string
 

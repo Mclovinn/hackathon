@@ -1,7 +1,7 @@
 import React, { useState, ReactElement } from 'react'
 import styled from 'styled-components'
 import { SectionsType } from '../types/section.types'
-import { Sidenav } from './common/sidenav'
+import { Sidenav } from './Common/sidenav'
 import { SectionLayout } from './section-layout'
 import { Orders } from './sections/orders'
 import { TrackingPage } from './sections/tracking/tracking-page'
