@@ -7,6 +7,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
       const order = await OrderService.postOrder(req.body)
       return res.status(200).json(order)
     } catch (e) {
+      console.log(e)
       return res.status(500)
     }
   }
@@ -16,6 +17,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
       const orders = await OrderService.getItem({ req, res })
       return res.status(200).json(orders)
     } catch (e) {
+      console.log(e)
       return res.status(500)
     }
   }
@@ -25,6 +27,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
       await OrderService.updateOrder(req.body)
       return res.status(200).json('')
     } catch (e) {
+      console.log(e)
       return res.status(500)
     }
   }
@@ -34,6 +37,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
       const order = await OrderService.deleteOrder()
       return res.status(200).json(order)
     } catch (e) {
+      console.log(e)
       return res.status(500)
     }
   }
