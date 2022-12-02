@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { initializeOrders } from '../../services/frontend-services/orders'
+import { initializeOrders, setOrderAsDelivered } from '../../services/frontend-services/orders'
 import { useMutation } from 'react-query'
 import { useState } from 'react'
 import { TableRowType } from '../sections/orders'
@@ -15,6 +15,7 @@ type Props = {
 
 export const Dropdown = ({ selectedOrders }: Props) => {
   const [status, setStatus] = useState('')
+  const setOrderAsDeliveredMutation = useMutation(setOrderAsDelivered)
   const initializeOrdersMutation = useMutation(initializeOrders)
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -24,6 +25,24 @@ export const Dropdown = ({ selectedOrders }: Props) => {
   const selectedIds = selectedOrders.map(order => order.id)
 
   const handleUpdateAction = async () => {
+    //TODO: Manage states (loading, error, success)
+
+    try {
+      for (let id of selectedIds) {
+        const response = await setOrderAsDeliveredMutation.mutate(id)
+        console.log(response)
+      }
+
+      // showGlobalSuccess({ message: 'Status successfully updated.' });
+    } catch (e) {
+      console.error(e)
+      // showGlobalError({
+      //   message: 'There was a problem trying to change status',
+      // });
+    }
+  }
+
+  const setOrderAsDeliveredAction = async () => {
     //TODO: Manage states (loading, error, success)
 
     try {
@@ -50,10 +69,10 @@ export const Dropdown = ({ selectedOrders }: Props) => {
           label="Status"
           onChange={handleChange}
         >
-          <MenuItem value={10} onClick={() => handleUpdateAction()}>
+          <MenuItem value={10} onClick={handleUpdateAction}>
             In Transit
           </MenuItem>
-          <MenuItem value={20} onClick={() => handleUpdateAction()}>
+          <MenuItem value={20} onClick={setOrderAsDeliveredAction}>
             Delivered
           </MenuItem>
         </Select>

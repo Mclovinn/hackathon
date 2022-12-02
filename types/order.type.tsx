@@ -14,3 +14,8 @@ export type OrderType = {
   status: OrderStatus
   trackingId: string
 }
+
+export type UpdateOrdersResponseType = {
+  orders: OrderType[]
+  txHash: string
+}
