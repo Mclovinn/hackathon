@@ -8,9 +8,10 @@ import { Dropdown } from '../common/dropdown.component'
 import { useQuery } from 'react-query'
 import { getOrders } from '../../services/frontend-services/orders'
 import { OrderStatus } from '../../types/order-status'
-import { SuccessAlert } from '../common/alert'
+import { SuccessAlert } from '../common/alert/success-alert'
 import { initializeOrders, setOrderAsDelivered } from '../../services/frontend-services/orders'
 import BounceLoader from 'react-spinners/BounceLoader'
+import { ErrorAlert } from '../common/alert/error-alert'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
@@ -58,16 +59,23 @@ export function Orders() {
   const { data: orders, refetch } = useQuery('get-orders', getOrders)
   const [parsedOrders, setParsedOrders] = useState<TableRowType[]>([])
   const [transactionHash, setTransactionHash] = useState<string>('')
+  const [error, setError] = useState<boolean>(false)
   const initializeOrdersMutation = useMutation(initializeOrders, {
     onSuccess: data => {
       setTransactionHash(data.txHash)
       refetch()
+    },
+    onError: error => {
+      error && setError(true)
     },
   })
   const setOrderAsDeliveredMutation = useMutation(setOrderAsDelivered, {
     onSuccess: data => {
       setTransactionHash(data.txHash)
       refetch()
+    },
+    onError: error => {
+      error && setError(true)
     },
   })
 
@@ -101,6 +109,7 @@ export function Orders() {
   return (
     <>
       {transactionHash !== '' && transactionHash !== undefined ? <SuccessAlert txHash={transactionHash} /> : null}
+      {error ? <ErrorAlert /> : null}
       <$GridContainer>
         <$GridHeader>
           <Dropdown onDeliveredSubmit={setOrderAsDeliveredAction} onInitializeSubmit={onInitializeSubmit} />
