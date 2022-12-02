@@ -15,6 +15,7 @@ import {
   CORAL_RED,
   SMALT,
   NAVY_BLUE,
+  KOURNIKOVA,
 } from './color-variables'
 
 // Recieves alpha as %, and transforms it to hex
@@ -46,6 +47,9 @@ export const defaultTheme: DefaultTheme = {
       black: BLACK,
       smalt: SMALT,
       navyBlue: NAVY_BLUE,
+      kournikova: KOURNIKOVA,
+      emerald: EMERALD,
+      coralRed: CORAL_RED,
     },
 
     // Theme colors (always prioritize using these over the common colors)
@@ -64,12 +68,10 @@ export const defaultTheme: DefaultTheme = {
     // Texts
     text: BLACK,
     secondaryText: PURPLE_HEART,
-
-    // Status
-    success: EMERALD,
-    error: CORAL_RED,
   },
 
+  // Status
+  status: { delivered: EMERALD, inTransit: KOURNIKOVA },
   // Breakpoints for min-width
   breakpoints: {
     mobileS: '320px',
