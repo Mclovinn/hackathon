@@ -1,4 +1,4 @@
 export type Geopoint = {
-  latitude: string;
-  longitude: string;
-};
+  latitude: string
+  longitude: string
+}
