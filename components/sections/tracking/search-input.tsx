@@ -20,14 +20,14 @@ interface SearchInputProps {
   // eslint-disable-next-line no-unused-vars
   onInputChange: (value: string) => void
   trackingId: string
-  setShowTrackingInfo: React.Dispatch<React.SetStateAction<boolean>>
+  onSubmit: () => void
 }
 
-export const SearchInput = ({ onInputChange, trackingId, setShowTrackingInfo }: SearchInputProps) => {
+export const SearchInput = ({ onInputChange, trackingId, onSubmit }: SearchInputProps) => {
   return (
     <$Container>
       <$Input placeholder={'Search by ID...'} onChange={e => onInputChange(e.target.value)} value={trackingId} />
-      <$PrimaryButton onClick={() => trackingId !== '' && setShowTrackingInfo(true)}>Submit</$PrimaryButton>
+      <$PrimaryButton onClick={() => trackingId !== '' && onSubmit()}>Submit</$PrimaryButton>
     </$Container>
   )
 }
