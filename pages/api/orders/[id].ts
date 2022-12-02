@@ -7,9 +7,9 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
     try {
       let order = await OrderService.changeOrderToDelivered({ req, res })
       if (order) {
-        const origin = order.sourceAddress
-        order.trackingId && (await deliverOrder(order.trackingId, JSON.stringify(origin)))
-        return res.status(200).json('')
+        const origin = order.destinationAddress
+        const txHash = order.trackingId && (await deliverOrder(order.trackingId, JSON.stringify(origin)))
+        return res.status(200).json({ order, txHash })
       }
     } catch (e) {
       console.log(e)
