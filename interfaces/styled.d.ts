@@ -22,6 +22,9 @@ declare module 'styled-components' {
         black: string
         smalt: string
         navyBlue: string
+        kournikova: string
+        emerald: string
+        coralRed: string
         nero: string
         robinsEggBlue: string
         wisteria: string
@@ -46,10 +49,11 @@ declare module 'styled-components' {
       secondaryText: string
 
       // Status
-      success: string
-      error: string
     }
-
+    status: {
+      delivered: string
+      inTransit: string
+    }
     // Breakpoints for min-width
     breakpoints: {
       mobileS: '320px'

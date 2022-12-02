@@ -24,7 +24,9 @@ export const MainLayout = () => {
   return (
     <$SectionsContainer>
       <Sidenav setSection={setSection} section={section} />
-      <SectionLayout title={section}>{renderSection()}</SectionLayout>
+      <SectionLayout title={section} section={section}>
+        {renderSection()}
+      </SectionLayout>
     </$SectionsContainer>
   )
 }
