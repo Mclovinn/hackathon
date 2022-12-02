@@ -15,5 +15,5 @@ export const TransparentButton = styled.button`
   }
   height: fit-content;
   width: 100%;
-  color: ${({ theme }) => theme.palette.colors.smalt};
+  color: ${({ theme }) => theme.palette.colors.robinsEggBlue};
 `
