@@ -3,7 +3,7 @@ import { DataGrid, GridRowsProp, GridColDef, GridToolbar } from '@mui/x-data-gri
 import type {} from '@mui/x-data-grid/themeAugmentation'
 import { Box } from '@mui/material'
 import styled from 'styled-components'
-import { Dropdown } from '../common/dropdown.component'
+import { Dropdown } from '../common/dropdown'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
