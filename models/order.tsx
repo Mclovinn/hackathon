@@ -1,4 +1,4 @@
-import { model } from 'dynamoose'
+import { model, Schema } from 'dynamoose'
 import { Item } from 'dynamoose/dist/Item'
 
 export class OrderItem extends Item {
@@ -15,35 +15,40 @@ export class OrderItem extends Item {
 
 export const OrderModel = model<OrderItem>(
   'Order',
-  {
-    id: {
-      type: String,
-      hashKey: true,
+  new Schema(
+    {
+      id: {
+        type: String,
+        hashKey: true,
+      },
+      sku: {
+        type: String,
+      },
+      status: {
+        type: String,
+      },
+      destinationAddress: {
+        type: String,
+      },
+      trackingId: {
+        type: String,
+      },
+      manifestId: {
+        type: String,
+      },
+      delivered: {
+        type: Number,
+      },
+      shipped: {
+        type: Number,
+      },
     },
-    sku: {
-      type: String,
-    },
-    status: {
-      type: String,
-    },
-    destinationAddress: {
-      type: String,
-    },
-    trackingId: {
-      type: String,
-    },
-    manifestId: {
-      type: String,
-    },
-    created: {
-      type: String,
-    },
-    delivered: {
-      type: String,
-    },
-    shipped: {
-      type: String,
-    },
-  },
+    {
+      timestamps: {
+        createdAt: 'created',
+        updatedAt: 'updated', // updatedAt will not be stored as part of the timestamp
+      },
+    }
+  ),
   { throughput: 'ON_DEMAND' }
 )
