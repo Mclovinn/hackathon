@@ -7,6 +7,7 @@ import { Dropdown } from '../common/dropdown.component'
 import { useQuery } from 'react-query'
 import { getOrders } from '../../services/frontend-services/orders'
 import { OrderStatus } from '../../types/order-status'
+import { SuccessAlert } from '../common/alert'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
@@ -22,6 +23,7 @@ const $GridHeader = styled.div`
   justify-content: right;
   align-items: center;
   padding: 12px 20px;
+  margin-top: 60px;
 `
 
 export type TableRowType = {
@@ -45,6 +47,7 @@ export function Orders() {
   const [selectedRows, setSelectedRows] = useState<TableRowType[]>([])
   const { data: orders } = useQuery('get-orders', getOrders)
   const [parsedOrders, setParsedOrders] = useState<TableRowType[]>([])
+  const [transactionHash, setTransactionHash] = useState<string>('')
 
   useEffect(() => {
     if (!orders) return
@@ -64,42 +67,45 @@ export function Orders() {
   }, [orders])
 
   return (
-    <$GridContainer>
-      <$GridHeader>
-        <Dropdown selectedOrders={selectedRows} />
-      </$GridHeader>
-      <Box
-        sx={{
-          height: 400,
-          width: '100%',
-          maxWidth: '1000px',
-          margin: '0 auto',
-          '& .super-app-theme--header': {
-            fontSize: '20px',
-          },
-        }}
-      >
-        <DataGrid
-          disableDensitySelector
-          disableColumnSelector
-          disableColumnMenu={true}
+    <>
+      {transactionHash !== '' && transactionHash !== undefined ? <SuccessAlert txHash={transactionHash} /> : null}
+      <$GridContainer>
+        <$GridHeader>
+          <Dropdown selectedOrders={selectedRows} setTransactionHash={setTransactionHash} />
+        </$GridHeader>
+        <Box
           sx={{
-            border: 'none',
-            padding: '0 20px',
+            height: 400,
+            width: '100%',
+            maxWidth: '1000px',
+            margin: '0 auto',
+            '& .super-app-theme--header': {
+              fontSize: '20px',
+            },
           }}
-          rows={parsedOrders}
-          columns={columns}
-          components={{ Toolbar: GridToolbar }}
-          checkboxSelection
-          selectionModel={selectionModel}
-          onSelectionModelChange={e => {
-            setSelectionModel(e)
-            const selectedIDs = new Set(e)
-            const selected = parsedOrders.filter(r => selectedIDs.has(r.id))
-            setSelectedRows(selected)
-          }}
-        />
-      </Box>
-    </$GridContainer>
+        >
+          <DataGrid
+            disableDensitySelector
+            disableColumnSelector
+            disableColumnMenu={true}
+            sx={{
+              border: 'none',
+              padding: '0 20px',
+            }}
+            rows={parsedOrders}
+            columns={columns}
+            components={{ Toolbar: GridToolbar }}
+            checkboxSelection
+            selectionModel={selectionModel}
+            onSelectionModelChange={e => {
+              setSelectionModel(e)
+              const selectedIDs = new Set(e)
+              const selected = parsedOrders.filter(r => selectedIDs.has(r.id))
+              setSelectedRows(selected)
+            }}
+          />
+        </Box>
+      </$GridContainer>
+    </>
   )
 }

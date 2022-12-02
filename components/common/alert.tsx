@@ -15,7 +15,9 @@ const $Alert = styled(Alert)`
   font-size: 16px;
   color: white;
 `
-
+const $Link = styled(Link)`
+  margin-left: 5px;
+`
 interface AlertProps {
   txHash: string
 }
@@ -44,9 +46,9 @@ export const SuccessAlert = ({ txHash }: AlertProps) => {
         >
           <AlertTitle sx={{ fontSize: 22 }}>Transaction success!</AlertTitle>
           Enter
-          <Link href={`${url}/${txHash}`} target="_blank">
+          <$Link href={`${url}/${txHash}`} target="_blank">
             this link
-          </Link>
+          </$Link>
         </$Alert>
       </Collapse>
     </Box>

@@ -11,9 +11,10 @@ import { TableRowType } from '../sections/orders'
 
 type Props = {
   selectedOrders: TableRowType[]
+  setTransactionHash: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const Dropdown = ({ selectedOrders }: Props) => {
+export const Dropdown = ({ selectedOrders, setTransactionHash }: Props) => {
   const [status, setStatus] = useState('')
   const setOrderAsDeliveredMutation = useMutation(setOrderAsDelivered, {
     onSuccess: (data, variables, context) => {
@@ -21,8 +22,8 @@ export const Dropdown = ({ selectedOrders }: Props) => {
     },
   })
   const initializeOrdersMutation = useMutation(initializeOrders, {
-    onSuccess: (data, variables, context) => {
-      console.log(data, variables, context)
+    onSuccess: data => {
+      setTransactionHash(data.txHash)
     },
   })
 
@@ -49,20 +50,8 @@ export const Dropdown = ({ selectedOrders }: Props) => {
   }
 
   const setOrderAsDeliveredAction = async () => {
-    //TODO: Manage states (loading, error, success)
-
-    try {
-      for (let id of selectedIds) {
-        const response = await setOrderAsDeliveredMutation.mutate(id)
-        console.log(response)
-      }
-
-      // showGlobalSuccess({ message: 'Status successfully updated.' });
-    } catch (e) {
-      console.error(e)
-      // showGlobalError({
-      //   message: 'There was a problem trying to change status',
-      // });
+    for (let id of selectedIds) {
+      await setOrderAsDeliveredMutation.mutate(id)
     }
   }
 
