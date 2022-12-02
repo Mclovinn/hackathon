@@ -7,6 +7,7 @@ export type EventType = {
   orderId: string
   status: OrderStatus
   timestamp: number
+  locationAddress?: string
 }
 
 export type TrackingType = {
