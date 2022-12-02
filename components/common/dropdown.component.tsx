@@ -49,20 +49,8 @@ export const Dropdown = ({ selectedOrders }: Props) => {
   }
 
   const setOrderAsDeliveredAction = async () => {
-    //TODO: Manage states (loading, error, success)
-
-    try {
-      for (let id of selectedIds) {
-        const response = await setOrderAsDeliveredMutation.mutate(id)
-        console.log(response)
-      }
-
-      // showGlobalSuccess({ message: 'Status successfully updated.' });
-    } catch (e) {
-      console.error(e)
-      // showGlobalError({
-      //   message: 'There was a problem trying to change status',
-      // });
+    for (let id of selectedIds) {
+      await setOrderAsDeliveredMutation.mutate(id)
     }
   }
 
