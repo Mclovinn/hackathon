@@ -93,7 +93,6 @@ class OrderService {
     const order = await getOrder(trackingId)
     for (let i = 0; i < order.events.length; i++) {
       order.events[i].location = JSON.parse(order.events[i].location)
-
     }
     return order
   }
