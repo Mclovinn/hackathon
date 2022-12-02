@@ -65,7 +65,8 @@ export async function deliverOrder(orderId: string, location: string) {
   const tx = await generateTx(encodeABI)
 
   const signedTx = await web3Service.web3.eth.accounts.signTransaction(tx, PK_ADMIN_ADDRESS)
-  return await web3Service.web3.eth.sendSignedTransaction(signedTx.rawTransaction || '')
+  console.log(await web3Service.web3.eth.sendSignedTransaction(signedTx.rawTransaction || ''))
+  return signedTx.transactionHash
 }
 
 async function generateTx(encodeABI: any) {
