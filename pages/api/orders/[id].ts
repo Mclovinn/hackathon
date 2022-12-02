@@ -13,7 +13,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
       }
     } catch (e) {
       console.log(e)
-      return res.status(500)
+      return res.status(500).json(e)
     }
   }
 }
