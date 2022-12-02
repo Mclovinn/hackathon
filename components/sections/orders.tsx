@@ -11,6 +11,9 @@ import type {} from '@mui/x-data-grid/themeAugmentation'
 import { Box } from '@mui/material'
 import styled from 'styled-components'
 import { Dropdown } from '../common/dropdown.component'
+import { useQuery } from 'react-query'
+import { getOrders } from '../../services/frontend-services/orders'
+import { OrderStatus } from '../../types/order-status'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
@@ -28,48 +31,14 @@ const $GridHeader = styled.div`
   padding: 12px 20px;
 `
 
-const rows: GridRowsProp = [
-  {
-    id: 1,
-    col1: '000001',
-    col2: '19631avAWg532Ncv397bnM',
-    col3: 'On Transit',
-    col4: '4303 Lochmere Lane',
-    col5: 'RH592501066CN',
-  },
-  {
-    id: 2,
-    col1: '000002',
-    col2: '13934avAWg532Ncv397krT',
-    col3: 'Ready to fulfill',
-    col4: '1892 Rocket Drive',
-    col5: 'RH510704820CN',
-  },
-  {
-    id: 3,
-    col1: '000003',
-    col2: '10534avAWg532Ncv397ioQ',
-    col3: 'On Transit',
-    col4: '3227 Airplane Avenue',
-    col5: 'RH198027657CN',
-  },
-  {
-    id: 4,
-    col1: '000004',
-    col2: '11034avAWg532Ncv397ppB',
-    col3: 'Delivered',
-    col4: '1483 Oral Lake Road',
-    col5: 'RH663410153CN',
-  },
-  {
-    id: 5,
-    col1: '000005',
-    col2: '10034avAWg532Ncv397qvC',
-    col3: 'Delivered',
-    col4: '4921 Kenwood Place',
-    col5: 'RH079667955CN',
-  },
-]
+type TableRowType = {
+  id: string
+  col1: string
+  col2: string
+  col3: OrderStatus
+  col4: number
+  col5: string
+}
 
 const columns: GridColDef[] = [
   { headerClassName: 'super-app-theme--header', field: 'col1', headerName: 'Order ID', width: 150 },
@@ -82,6 +51,26 @@ const columns: GridColDef[] = [
 export function Orders() {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>()
   const [selectedRows, setSelectedRows] = useState<GridValidRowModel[]>([])
+  const { data: orders } = useQuery('get-orders', getOrders)
+  const [parsedOrders, setParsedOrders] = useState<TableRowType[]>([])
+
+  useEffect(() => {
+    if (!orders) return
+
+    let newParsedOrders: TableRowType[] = []
+    // TODO - Set real address name for destination
+    orders.forEach(order => {
+      newParsedOrders.push({
+        id: order.id,
+        col1: order.id,
+        col2: order.sku,
+        col3: order.status,
+        col4: order.destinationAddress.latitude,
+        col5: order.trackingId,
+      })
+    })
+    setParsedOrders(newParsedOrders)
+  }, [orders])
 
   return (
     <$GridContainer>
@@ -107,7 +96,7 @@ export function Orders() {
             border: 'none',
             padding: '0 20px',
           }}
-          rows={rows}
+          rows={parsedOrders}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
           checkboxSelection
@@ -115,7 +104,7 @@ export function Orders() {
           onSelectionModelChange={e => {
             setSelectionModel(e)
             const selectedIDs = new Set(e)
-            const selected = rows.filter(r => selectedIDs.has(r.id))
+            const selected = parsedOrders.filter(r => selectedIDs.has(r.id))
             setSelectedRows(selected)
           }}
         />
