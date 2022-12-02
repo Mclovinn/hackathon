@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import * as dynamoose from 'dynamoose'
 import { v4 as uuidv4 } from 'uuid'
 import { OrderStatus } from '../types/order-status'
+import { config } from '../config/env.config'
 interface RequestParameters {
   req: NextApiRequest
   res: NextApiResponse
@@ -13,10 +14,10 @@ class OrderService {
     // Create new DynamoDB instance
     const ddb = new dynamoose.aws.ddb.DynamoDB({
       credentials: {
-        accessKeyId: process.env.LOGISTICS_ACCESS_KEY || '',
-        secretAccessKey: process.env.LOGISTICS_SECRET_KEY || '',
+        accessKeyId: config.awsConfig.accessKey,
+        secretAccessKey: config.awsConfig.secretKey,
       },
-      region: process.env.LOGISTICS_REGION,
+      region: config.awsConfig.region,
     })
     // Set DynamoDB instance to the Dynamoose DDB instance
     dynamoose.aws.ddb.set(ddb)

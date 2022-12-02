@@ -1,10 +1,11 @@
 import web3Service from './web3.service'
 import { AbiItem } from 'web3-utils'
 import { LOGISTIC_ABI } from './contract-interfaces/LOGISTIC_ABI'
+import { config } from '../config/env.config'
 
-const ADMIN_ADDRESS = '0xC6AD38D1f7834072103207ee6F821Ce2e41B7972'
-const PK_ADMIN_ADDRESS = '861c26341ac3a236e8b89520b027e18787fd2df039a96473363335a16b7258de'
-const LOGISTIC_CONTRACT_ADDRESS = '0x949aA34fFe87e1cfedF63A80F0Af117989DAfa8d'
+const ADMIN_ADDRESS = config.smartContractConfig.adminContractAddress
+const PK_ADMIN_ADDRESS = config.smartContractConfig.privateKeyAdminAddress
+const LOGISTIC_CONTRACT_ADDRESS = config.smartContractConfig.logisticContractAddress
 
 function logisticContract() {
   const web3 = web3Service.web3
