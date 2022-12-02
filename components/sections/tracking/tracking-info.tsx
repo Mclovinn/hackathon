@@ -28,7 +28,6 @@ const $Status = styled.div<{ orderStatus: OrderStatus }>`
 interface InfoProps {
   trackingId: string
   orderStatus: OrderStatus
-  showTrackingInfo: boolean
 }
 export const TrackingInfo = ({ trackingId, orderStatus }: InfoProps) => {
   return (

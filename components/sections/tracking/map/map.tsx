@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import GoogleMapReact from 'google-map-react'
 import styled from 'styled-components'
 import { Marker } from './marker/marker'
-import { AddressType } from '../../../../types/address.type'
 import { config } from '../../../../config/env.config'
+import { EventType } from '../../../../types/tracking.type'
 
 const $Container = styled.div`
   margin-top: 40px;
@@ -12,7 +12,7 @@ const $Container = styled.div`
 `
 
 interface MapProps {
-  markers?: AddressType[]
+  markers?: EventType[]
 }
 
 export const Map = ({ markers }: MapProps) => {
@@ -31,15 +31,17 @@ export const Map = ({ markers }: MapProps) => {
   useEffect(() => {
     if (!markers) return
 
+    // TODO - change default center
     setGoogleMapProps({
       ...googleMapProps,
       center: {
-        lat: markers[markers.length - 1].latitude,
-        lng: markers[markers.length - 1].longitude,
+        lat: -31.3594539,
+        lng: -64.208464,
       },
     })
     setIsMapLoaded(true)
-  }, [googleMapProps, markers])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [markers])
 
   return (
     // Important! Always set the container height explicitly
@@ -53,7 +55,7 @@ export const Map = ({ markers }: MapProps) => {
         >
           {markers &&
             markers.map((marker, index) => (
-              <Marker key={index} number={index} lat={marker.latitude} lng={marker.longitude} />
+              <Marker key={index} number={index + 1} lat={marker.location.latitude} lng={marker.location.longitude} />
             ))}
         </GoogleMapReact>
       )}
