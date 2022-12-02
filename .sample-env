@@ -1,4 +1,8 @@
 (* => Mandatory)
-PROJECT_KEY_API_PROTOCOL=                // http
-PROJECT_KEY_API_HOSTNAME=                // localhost
-PROJECT_KEY_API_PORT=                    // 3001
+LOGISTICS_API_PROTOCOL=                // http
+LOGISTICS_API_HOSTNAME=                // localhost
+LOGISTICS_API_PORT=                    // 3001
+LOGISTICS_ACCESS_KEY= //*
+LOGISTICS_SECRET_KEY= //*
+LOGISTICS_REGION=us-east-1  //*
+LOGISTICS_GOOGLE_API_KEY //*

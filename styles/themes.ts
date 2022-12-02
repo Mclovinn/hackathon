@@ -13,7 +13,12 @@ import {
   ZAMBEZI,
   EMERALD,
   CORAL_RED,
-} from './variables'
+  SMALT,
+  NAVY_BLUE,
+  NERO,
+  WISTERIA,
+  ROBINS_EGG_BLUE,
+} from './color-variables'
 
 // Recieves alpha as %, and transforms it to hex
 export const getOpacityInHex = (opacity: number): string => {
@@ -42,15 +47,20 @@ export const defaultTheme: DefaultTheme = {
       psychedelicPurple: PSYCHEDELIC_PURPLE,
       white: WHITE,
       black: BLACK,
+      smalt: SMALT,
+      navyBlue: NAVY_BLUE,
+      nero: NERO,
+      robinsEggBlue: ROBINS_EGG_BLUE,
+      wisteria: WISTERIA,
     },
 
     // Theme colors (always prioritize using these over the common colors)
     // General theme
-    primary: BLUE_VIOLET,
+    primary: BLACKCURRANT,
     secondary: BRIGHT_TURQUOISE,
 
     // Backgrounds
-    background: BLACKCURRANT,
+    background: BLACK,
     secondaryBackground: BLUE_VIOLET + getOpacityInHex(40),
 
     // Buttons
@@ -83,7 +93,7 @@ export const defaultTheme: DefaultTheme = {
 
   shadows: {
     primary: `inset 0px 4px 4px ${BLACK}`,
-    secondary: `inset 0px 4px 4px ${BLACK + getOpacityInHex(80)}`,
+    secondary: `0px 4px 4px ${BLACK + getOpacityInHex(80)}`,
   },
 
   fonts: {
