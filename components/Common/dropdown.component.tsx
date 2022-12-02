@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 
-export default function Dropdown() {
+export const Dropdown = () => {
   const [status, setStatus] = React.useState('')
 
   const handleChange = (event: SelectChangeEvent) => {
