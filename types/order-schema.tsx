@@ -8,7 +8,7 @@ const OrderSchema = Joi.object({
   trackingId: Joi.string().uuid(),
   manifestId: Joi.string().uuid(),
   created: Joi.date().timestamp(),
-  DELIVERED: Joi.date().timestamp(),
+  delivered: Joi.date().timestamp(),
   shipped: Joi.date().timestamp(),
 })
 export default OrderSchema
