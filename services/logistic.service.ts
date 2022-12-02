@@ -21,6 +21,7 @@ export async function createOrders(orderIds: string[], location: string) {
   const signedTx = await web3Service.web3.eth.accounts.signTransaction(tx, PK_ADMIN_ADDRESS)
   console.log(signedTx.transactionHash)
   console.log(await web3Service.web3.eth.sendSignedTransaction(signedTx.rawTransaction || ''))
+  return signedTx.transactionHash
 }
 
 enum OrderStatus {
