@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { config } from '../config/env.config'
 import { UserItem, UserModel } from '../models/user'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { AuthService } from './AuthService'
 
 interface RequestParameters {
   req: NextApiRequest
@@ -10,6 +11,7 @@ interface RequestParameters {
 }
 
 class UserService {
+  authService = new AuthService()
   constructor() {
     // Create new DynamoDB instance
     const ddb = new dynamoose.aws.ddb.DynamoDB({
@@ -24,9 +26,18 @@ class UserService {
   }
 
   async postUser(body: UserItem) {
-    body.id = uuidv4()
-    const userCreated = await UserModel.create(body)
-    return userCreated
+    if (body.email && body.password) {
+      const userData = await this.authService.signUp({ email: body.email, password: body.password })
+      if ({ userData }) {
+        body.id = uuidv4()
+        const userCreated = await UserModel.create(body)
+        return userCreated
+      } else {
+        console.log('no se creoo el usaurio')
+      }
+    } else {
+      console.log('no hay usuario o passsword')
+    }
   }
 
   async updateUser(body: UserItem) {
@@ -41,7 +52,6 @@ class UserService {
 
   async getItem({ req }: RequestParameters): Promise<UserItem[]> {
     let Item: UserItem[]
-    console.log('res', Object.keys(req.query).length)
     if (Object.keys(req.query).length === 0) {
       Item = await UserModel.scan().exec()
     } else {

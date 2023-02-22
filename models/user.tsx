@@ -9,6 +9,7 @@ export class UserItem extends Item {
   lastName: string | undefined
   role: UserRole | undefined
   idCognito: string | undefined
+  password?: string
 }
 
 export const UserModel = model<UserItem>(
