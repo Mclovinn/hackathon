@@ -41,7 +41,6 @@ class UserService {
 
   async getItem({ req }: RequestParameters): Promise<UserItem[]> {
     let Item: UserItem[]
-    console.log('res', Object.keys(req.query).length)
     if (Object.keys(req.query).length === 0) {
       Item = await UserModel.scan().exec()
     } else {
