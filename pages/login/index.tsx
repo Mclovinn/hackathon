@@ -16,15 +16,19 @@ const darkTheme = createTheme({
   typography: {
     h1: {
       fontSize: 48,
-      fontWeight: 500,
+      fontWeight: 700,
+      lineHeight: '56.25px',
     },
     subtitle1: {
       fontSize: 32,
-      fontWeight: 300,
-      lineHeight: 1.34375,
+      fontWeight: 400,
+      lineHeight: '37.5px',
     },
     button: {
       fontSize: 16,
+      lineHeight: '26px',
+      letterSpacing: '0.46px',
+      minHeight: '57px',
     },
   },
 })
@@ -37,7 +41,7 @@ const $Container = styled.div`
   align-items: center;
   & > div {
     margin-top: -100px;
-    width: 417px;
+    width: 424px;
     height: 400px;
     display: flex;
     justify-content: center;
@@ -47,11 +51,11 @@ const $Container = styled.div`
     }
     & > h6 {
       margin: 0 auto;
-      margin-bottom: 60px;
+      margin-bottom: 62px;
     }
 
     & > div {
-      margin-bottom: 30px;
+      margin-bottom: 32.5px;
     }
   }
 `
