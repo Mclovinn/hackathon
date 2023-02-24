@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import UserService from '../../services/user.service'
+import UserService from '../../services/UserService'
 
 const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
