@@ -4,31 +4,27 @@ import { ReactElement } from 'react'
 import { Button, Typography, TextField } from '@mui/material'
 import styled from 'styled-components'
 
-import '@fontsource/roboto/700.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/300.css'
-
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
   typography: {
     h1: {
-      fontSize: 48,
-      fontWeight: 700,
-      lineHeight: '56.25px',
-    },
-    subtitle1: {
       fontSize: 32,
-      fontWeight: 400,
+      fontWeight: 700,
       lineHeight: '37.5px',
     },
-    button: {
+    subtitle1: {
       fontSize: 16,
+      fontWeight: 400,
+      lineHeight: '18.75px',
+    },
+    button: {
+      fontSize: 13,
+      fontWeight: 500,
       lineHeight: '26px',
       letterSpacing: '0.46px',
-      minHeight: '57px',
+      minHeight: '34px',
     },
   },
 })
@@ -40,22 +36,47 @@ const $Container = styled.div`
   justify-content: center;
   align-items: center;
   & > div {
-    margin-top: -100px;
-    width: 424px;
-    height: 400px;
+    width: 100%;
     display: flex;
+    margin: 0 66px 0 79px;
     justify-content: center;
     flex-direction: column;
     & > h1 {
-      margin: 0 auto;
+      margin: 0 auto 20px auto;
     }
     & > h6 {
       margin: 0 auto;
-      margin-bottom: 62px;
+      margin-bottom: 60px;
     }
 
     & > div {
-      margin-bottom: 32.5px;
+      margin-bottom: 18.5px;
+    }
+  }
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
+    & > div {
+      width: 424px;
+      height: 400px;
+      & > h1 {
+        margin: 0 auto 10px auto;
+        font-size: 3rem;
+        line-height: 56.25px;
+      }
+      & > h6 {
+        margin: 0 auto;
+        margin-bottom: 62px;
+        font-size: 2rem;
+        line-height: 37.5px;
+      }
+
+      & > div {
+        margin-bottom: 32.5px;
+      }
+
+      & > button {
+        font-size: 1rem;
+        min-height: 57px;
+      }
     }
   }
 `
@@ -65,7 +86,7 @@ const $Button = styled(Button)`
   color: ${({ theme }) => theme.palette.colors.white};
 `
 
-const Landing = (): ReactElement => {
+const Login = (): ReactElement => {
   return (
     <div>
       <ThemeProvider theme={darkTheme}>
@@ -104,4 +125,4 @@ const Landing = (): ReactElement => {
   )
 }
 
-export default Landing
+export default Login
