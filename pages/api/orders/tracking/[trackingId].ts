@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import OrderService from '../../../../services/OrderService'
+import OrderService from '../../../../services/order.service'
 
 const handler = async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {

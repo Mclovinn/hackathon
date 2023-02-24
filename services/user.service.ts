@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { config } from '../config/env.config'
 import { UserItem, UserModel } from '../models/user'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { AuthService } from './AuthService'
+import { AuthService } from './auth.service'
 
 interface RequestParameters {
   req: NextApiRequest
