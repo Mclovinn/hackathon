@@ -12,6 +12,9 @@ interface AwsConfig {
   accessKey: string
   secretKey: string
   region: string
+  clientId: string
+  userPoolId: string
+  identityPoolId: string
 }
 
 const googleCloudConfig: GoogleCloudConfig = {
@@ -22,6 +25,9 @@ const awsConfig: AwsConfig = {
   accessKey: process.env.LOGISTICS_ACCESS_KEY || '',
   secretKey: process.env.LOGISTICS_SECRET_KEY || '',
   region: process.env.LOGISTICS_REGION || '',
+  clientId: process.env.LOGISTICS_AWSCOGNITO_APP || '',
+  userPoolId: process.env.LOGISTICS_AWSCOGNITO_ID || '',
+  identityPoolId: process.env.LOGISTICS_AWSCOGNITO_IDENTITY_POOL || '',
 }
 
 const smartContractConfig: SmartContractConfig = {
