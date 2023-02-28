@@ -5,7 +5,7 @@ import { Button, Typography, TextField, InputAdornment, IconButton } from '@mui/
 import styled from 'styled-components'
 import { AuthService } from '../../services/auth.service'
 import { useRouter } from 'next/router'
-import { DASHBOARD_URL } from '../constant/url-routes'
+import { DASHBOARD_URL } from '../../components/constant/url-routes'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const darkTheme = createTheme({
