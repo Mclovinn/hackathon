@@ -9,16 +9,6 @@ export class AuthService extends AWSService {
     super()
   }
 
-  private onInit = (): void => {
-    config.update({
-      region: this.region,
-    })
-    this.userPool = new CognitoUserPool({
-      UserPoolId: this.userPoolId,
-      ClientId: this.clientId,
-    })
-  }
-
   public signUp = async (
     userData: ICognitoSignUpUser
   ): Promise<{ userData: ICognitoSignUpUser | null; username: string } | undefined> => {
