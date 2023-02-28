@@ -1,5 +1,5 @@
 import { CognitoIdentityServiceProvider, config } from 'aws-sdk'
-import { CognitoUserPool } from 'amazon-cognito-identity-js'
+import { AuthenticationDetails, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js'
 import { AWSService } from './aws.service'
 import { ICognitoSignUpUser, ICognitoUser } from '../types/user.type'
 
@@ -7,6 +7,16 @@ export class AuthService extends AWSService {
   public userPool: CognitoUserPool | undefined
   constructor() {
     super()
+  }
+
+  private onInit = (): void => {
+    config.update({
+      region: this.region,
+    })
+    this.userPool = new CognitoUserPool({
+      UserPoolId: this.userPoolId,
+      ClientId: this.clientId,
+    })
   }
 
   public signUp = async (
@@ -21,7 +31,6 @@ export class AuthService extends AWSService {
       if (!userData) {
         console.log('The user could not be created')
       }
-
       return { userData, username: params.Username }
     }
     return { userData: null, username: 'null' }
@@ -62,9 +71,62 @@ export class AuthService extends AWSService {
       Filter: `email = \"${userEmail}\"`,
       Limit: 1,
     }
-
     const { Users } = await new CognitoIdentityServiceProvider().listUsers(params).promise()
 
     return Users
+  }
+
+  public async signIn({ email: Username, password: Password }: ICognitoUser): Promise<any> {
+    config.update({
+      region: this.region,
+    })
+    this.userPool = new CognitoUserPool({
+      UserPoolId: this.userPoolId,
+      ClientId: this.clientId,
+    })
+
+    const cognitoUser = new CognitoUser({
+      Username,
+      Pool: this.userPool,
+    })
+
+    const authenticationDetails = new AuthenticationDetails({
+      Username,
+      Password,
+    })
+
+    const res = await this.asyncAuthenticateUser(cognitoUser, authenticationDetails)
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        return err
+      })
+
+    if (res.accessToken) {
+      const cognitoId = res.accessToken?.payload?.sub
+      return {
+        cognitoId,
+        tokens: {
+          accessToken: res.accessToken.getJwtToken(),
+          idToken: res.idToken.getJwtToken(),
+          refreshToken: res.refreshToken.getToken(),
+        },
+      }
+    } else {
+      return res
+    }
+  }
+
+  private asyncAuthenticateUser = (
+    cognitoUser: CognitoUser,
+    authenticationDetails: AuthenticationDetails
+  ): Promise<any> => {
+    return new Promise(function (resolve, reject) {
+      return cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: resolve,
+        onFailure: reject,
+      })
+    })
   }
 }

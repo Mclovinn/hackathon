@@ -27,9 +27,10 @@ class UserService {
 
   async postUser(body: UserItem) {
     if (body.email && body.password) {
-      const userData = await this.authService.signUp({ email: body.email, password: body.password })
-      if ({ userData }) {
+      const user = await this.authService.signUp({ email: body.email, password: body.password })
+      if (user?.userData) {
         body.id = uuidv4()
+        body.idCognito = user.userData.cognitoId
         const userCreated = await UserModel.create(body)
         return userCreated
       } else {
@@ -47,6 +48,11 @@ class UserService {
 
   async getUser(id: string) {
     const user = await UserModel.get(id)
+    return user
+  }
+
+  async getUserWithParameter(parameter: string, cognitoId: string) {
+    const user = UserModel.scan(parameter).contains(cognitoId).exec()
     return user
   }
 

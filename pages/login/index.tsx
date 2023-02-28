@@ -1,8 +1,12 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Head from 'next/head'
-import { ReactElement } from 'react'
-import { Button, Typography, TextField } from '@mui/material'
+import { ReactElement, useEffect, useState } from 'react'
+import { Button, Typography, TextField, InputAdornment, IconButton } from '@mui/material'
 import styled from 'styled-components'
+import { AuthService } from '../../services/auth.service'
+import { useRouter } from 'next/router'
+import { DASHBOARD_URL } from '../constant/url-routes'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const darkTheme = createTheme({
   palette: {
@@ -87,6 +91,56 @@ const $Button = styled(Button)`
 `
 
 const Login = (): ReactElement => {
+  const [loginData, setLoginData] = useState({ username: '', password: '' })
+  const [isErrorEmail, setErrorEmail] = useState(false)
+  const [isErrorPassword, setErrorPassword] = useState(false)
+  const [isErrorMessage, setErrorMessage] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
+  const handleSubmit = (e: any) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value })
+  }
+  const authService = new AuthService()
+  useEffect(() => {
+    setErrorMessage(false)
+    if (loginData.username && loginData.username.length === 0) {
+      setErrorEmail(true)
+    } else {
+      setErrorEmail(false)
+    }
+  }, [loginData.username])
+
+  useEffect(() => {
+    if (loginData.password && loginData.password.length === 0) {
+      setErrorPassword(true)
+    } else {
+      setErrorPassword(false)
+    }
+  }, [loginData.password])
+
+  const onClick = async () => {
+    if (loginData.username.length === 0) {
+      setErrorEmail(true)
+    } else {
+      setErrorEmail(false)
+    }
+
+    if (loginData.password.length === 0) {
+      setErrorPassword(true)
+    } else {
+      setErrorPassword(false)
+    }
+    const userData = await authService.signIn({ email: loginData.username, password: loginData.password })
+
+    if (userData && !userData.message) {
+      router.push(`${DASHBOARD_URL}`)
+    } else {
+      if (userData.message !== 'Missing required parameter USERNAME') {
+        setErrorMessage(true)
+      }
+    }
+  }
+
   return (
     <div>
       <ThemeProvider theme={darkTheme}>
@@ -100,23 +154,42 @@ const Login = (): ReactElement => {
               <Typography variant="h1">LOGIN</Typography>
               <Typography variant="subtitle1">TO CONTINUE</Typography>
               <TextField
-                error
+                error={isErrorMessage || isErrorEmail}
                 id="standard-error-helper-text"
-                label="Error"
-                defaultValue="Email"
-                helperText="Complete this field"
+                label={!isErrorEmail ? 'Email' : 'Error'}
+                helperText={isErrorMessage ? 'The email is incorrect' : isErrorEmail && 'Complete this field'}
                 variant="standard"
+                name="username"
+                value={loginData.username}
+                onChange={handleSubmit}
               />
               <TextField
-                error
-                id="standard-error-helper-text"
-                label="Error"
-                defaultValue="Password"
-                helperText="Complete this field"
+                error={isErrorMessage || isErrorPassword}
+                id="outlined-password-input"
+                helperText={isErrorMessage ? 'The password is incorrect' : isErrorPassword && 'Complete this field'}
                 variant="standard"
+                label={!isErrorPassword ? 'Password' : 'Error'}
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                value={loginData.password}
+                onChange={handleSubmit}
               />
 
-              <$Button variant="contained">SIGN IN</$Button>
+              <$Button variant="contained" onClick={onClick}>
+                SIGN IN
+              </$Button>
             </div>
           </$Container>
         </main>
