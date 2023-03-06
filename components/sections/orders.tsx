@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
-import { DataGrid, GridColDef, GridToolbar, GridSelectionModel } from '@mui/x-data-grid'
-import type {} from '@mui/x-data-grid/themeAugmentation'
-import { Box } from '@mui/material'
+import { DataGrid, GridColDef, GridToolbar, GridSelectionModel, GridRenderCellParams } from '@mui/x-data-grid'
+import { Box, IconButton } from '@mui/material'
 import styled from 'styled-components'
 import { Dropdown } from '../common/dropdown.component'
 import { useQuery } from 'react-query'
@@ -14,6 +13,9 @@ import BounceLoader from 'react-spinners/BounceLoader'
 import { ErrorAlert } from '../common/alert/error-alert'
 import { OrderType } from '../../types/order.type'
 import { getOrderAddress } from '../../services/frontend-services/google-maps'
+import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined'
+import jsPDF from 'jspdf'
+import { QRCodeCanvas } from 'qrcode.react'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
@@ -39,6 +41,10 @@ const $LoaderWrapper = styled.div`
   transform: translate(-50%, -50%);
 `
 
+const $SectionCode = styled.div`
+  display: none;
+`
+
 export type TableRowType = {
   id: string
   sku: string
@@ -49,11 +55,47 @@ export type TableRowType = {
 
 const columns: GridColDef[] = [
   { headerClassName: 'super-app-theme--header', field: 'id', headerName: 'Order ID', width: 300 },
-  { headerClassName: 'super-app-theme--header', field: 'sku', headerName: 'SKU', width: 150 },
+  { headerClassName: 'super-app-theme--header', field: 'sku', headerName: 'SKU', width: 100 },
   { headerClassName: 'super-app-theme--header', field: 'status', headerName: 'Status', width: 120 },
   { headerClassName: 'super-app-theme--header', field: 'address', headerName: 'Destination Address', width: 150 },
   { headerClassName: 'super-app-theme--header', field: 'tracking', headerName: 'Tracking ID', width: 300 },
+  {
+    headerClassName: 'super-app-theme--header',
+    field: 'document',
+    headerName: 'Shipping Document',
+    width: 150,
+    align: 'center',
+    renderCell: (params: GridRenderCellParams<any, TableRowType>) => (
+      <>
+        <$SectionCode>
+          <QRCodeCanvas
+            value={`${window.location.href}tracking/${params.row.tracking}`}
+            id={`qrcode-${params.row.tracking}`}
+            size={300}
+            level="H"
+          />
+        </$SectionCode>
+        <IconButton aria-label="pdf-document" onClick={() => generatePDF(params.row)} size="medium">
+          <PictureAsPdfOutlinedIcon fontSize="large" />
+        </IconButton>
+      </>
+    ),
+  },
 ]
+
+const generatePDF = (data: TableRowType) => {
+  const pdf = new jsPDF({
+    unit: 'cm',
+    format: [10, 15],
+  })
+  const canvas = document.getElementById(`qrcode-${data.tracking}`) as HTMLCanvasElement
+  const base64Image = canvas.toDataURL()
+
+  pdf.addImage(base64Image, 'svg', 2.5, 3, 5, 5)
+  pdf.setFontSize(10)
+  pdf.text(data.tracking, 5, 8.5, { align: 'center' })
+  pdf.save('QR.pdf')
+}
 
 export function Orders() {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>()
@@ -103,12 +145,12 @@ export function Orders() {
 
   const setOrderAsDeliveredAction = async () => {
     for (let row of selectedRows) {
-      await setOrderAsDeliveredMutation.mutate(row.id)
+      setOrderAsDeliveredMutation.mutate(row.id)
     }
   }
 
   const onInitializeSubmit = async () => {
-    await initializeOrdersMutation.mutate(selectedRows.map(order => order.id))
+    initializeOrdersMutation.mutate(selectedRows.map(order => order.id))
   }
 
   return (
