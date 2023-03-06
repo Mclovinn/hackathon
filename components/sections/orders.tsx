@@ -65,21 +65,22 @@ const columns: GridColDef[] = [
     headerName: 'Shipping Document',
     width: 150,
     align: 'center',
-    renderCell: (params: GridRenderCellParams<any, TableRowType>) => (
-      <>
-        <$SectionCode>
-          <QRCodeCanvas
-            value={`${window.location.href}tracking/${params.row.tracking}`}
-            id={`qrcode-${params.row.tracking}`}
-            size={300}
-            level="H"
-          />
-        </$SectionCode>
-        <IconButton aria-label="pdf-document" onClick={() => generatePDF(params.row)} size="medium">
-          <PictureAsPdfOutlinedIcon fontSize="large" />
-        </IconButton>
-      </>
-    ),
+    renderCell: (params: GridRenderCellParams<any, TableRowType>) =>
+      params.row.status === OrderStatus.DELIVERED && (
+        <>
+          <$SectionCode>
+            <QRCodeCanvas
+              value={`${window.location.href}tracking/${params.row.tracking}`}
+              id={`qrcode-${params.row.tracking}`}
+              size={300}
+              level="H"
+            />
+          </$SectionCode>
+          <IconButton aria-label="pdf-document" onClick={() => generatePDF(params.row)} size="medium">
+            <PictureAsPdfOutlinedIcon fontSize="large" />
+          </IconButton>
+        </>
+      ),
   },
 ]
 
