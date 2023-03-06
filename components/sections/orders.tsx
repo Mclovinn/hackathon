@@ -95,7 +95,7 @@ const generatePDF = (data: TableRowType) => {
   pdf.addImage(base64Image, 'svg', 2.5, 3, 5, 5)
   pdf.setFontSize(10)
   pdf.text(data.tracking, 5, 8.5, { align: 'center' })
-  pdf.save('QR.pdf')
+  pdf.save(`QR-${data.tracking}.pdf`)
 }
 
 export function Orders() {
