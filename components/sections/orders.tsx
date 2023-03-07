@@ -70,8 +70,8 @@ const columns: GridColDef[] = [
         <>
           <$SectionCode>
             <QRCodeCanvas
-              value={`${window.location.href}tracking/${params.row.tracking}`}
-              id={`qrcode-${params.row.tracking}`}
+              value={`${window.location.href}tracking/${params.row.id}`}
+              id={`qrcode-${params.row.id}`}
               size={300}
               level="H"
             />
@@ -89,13 +89,13 @@ const generatePDF = (data: TableRowType) => {
     unit: 'cm',
     format: [10, 15],
   })
-  const canvas = document.getElementById(`qrcode-${data.tracking}`) as HTMLCanvasElement
+  const canvas = document.getElementById(`qrcode-${data.id}`) as HTMLCanvasElement
   const base64Image = canvas.toDataURL()
 
   pdf.addImage(base64Image, 'svg', 2.5, 3, 5, 5)
   pdf.setFontSize(10)
-  pdf.text(data.tracking, 5, 8.5, { align: 'center' })
-  pdf.save(`QR-${data.tracking}.pdf`)
+  pdf.text(data.id, 5, 8.5, { align: 'center' })
+  pdf.output('dataurlnewwindow', { filename: `QR-${data.id}.pdf` })
 }
 
 export function Orders() {
