@@ -37,7 +37,7 @@ export const TrackingPage = () => {
 
   return (
     <$Container>
-      <QrCodeReader delay={100} width={500} height={500} action={setQrRead} />
+      <QrCodeReader delay={100} width={500} height={500} action={setQrRead} deviceId="environment" />
       <p>{qrRead}</p>
       <SearchInput onInputChange={onInputChange} trackingId={trackingId} onSubmit={onSearchTrackingId} />
       {showTrackingInfo && trackingInfo && (
