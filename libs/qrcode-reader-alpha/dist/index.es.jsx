@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 import { jsx } from 'react/jsx-runtime';
 import React from 'react';
 import Webcam from 'react-webcam';

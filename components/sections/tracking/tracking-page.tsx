@@ -7,7 +7,7 @@ import { Map } from './map/map'
 import { getTrackingInfo } from '../../../services/frontend-services/tracking'
 import { TrackingType } from '../../../types/tracking.type'
 import { getDeliveredAndOrderedEvents } from '../../../utils/events'
-import QrCodeReader from '../../../libs/qrcode-reader-alpha/dist'
+import QrCodeReader from '../../../libs/qrcode-reader-alpha/dist/index.es'
 
 const $Container = styled.div`
   margin-top: 40px;
