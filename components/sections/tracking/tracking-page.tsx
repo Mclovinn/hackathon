@@ -7,6 +7,7 @@ import { Map } from './map/map'
 import { getTrackingInfo } from '../../../services/frontend-services/tracking'
 import { TrackingType } from '../../../types/tracking.type'
 import { getDeliveredAndOrderedEvents } from '../../../utils/events'
+import QrCodeReader from 'react-qrcode-reader'
 
 const $Container = styled.div`
   margin-top: 40px;
@@ -15,6 +16,7 @@ export const TrackingPage = () => {
   const [showTrackingInfo, setShowTrackingInfo] = useState<boolean>(false)
   const [trackingId, setTrackingId] = useState<string>('')
   const [trackingInfo, setTrackingInfo] = useState<TrackingType>()
+  const [qrRead, setQrRead] = React.useState<string>('')
 
   const onInputChange = (value: string) => {
     setTrackingId(value)
@@ -35,6 +37,8 @@ export const TrackingPage = () => {
 
   return (
     <$Container>
+      <QrCodeReader delay={100} width={500} height={500} action={setQrRead} />
+      <p>{qrRead}</p>
       <SearchInput onInputChange={onInputChange} trackingId={trackingId} onSubmit={onSearchTrackingId} />
       {showTrackingInfo && trackingInfo && (
         <>
