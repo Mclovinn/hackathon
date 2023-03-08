@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
     <StoreProvider store={store}>
       <ThemeProvider theme={theme}>
         <Head>
-          <title>My App</title>
+          <title>Blockwise</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <QueryClientProvider client={queryClient}>
