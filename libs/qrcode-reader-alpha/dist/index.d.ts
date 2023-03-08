@@ -10,8 +10,7 @@ interface QrCodeReaderProps {
   height: number
   onRead?: (code: QRCode) => void
   action?: (str: string) => void
-  deviceId?: string
-  facingMode?: string
+  videoConstraints?: MediaStreamConstraints['video']
 }
 declare function QrCodeReader({
   delay,
@@ -19,8 +18,7 @@ declare function QrCodeReader({
   height,
   onRead,
   action,
-  deviceId,
-  facingMode,
+  videoConstraints,
 }: QrCodeReaderProps): JSX.Element
 
 export { QrCodeReaderProps, QrCodeReader as default }

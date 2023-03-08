@@ -41,8 +41,13 @@ export const TrackingPage = () => {
 
   return (
     <$Container>
-      {/* <Webcam width={500} height={500} videoConstraints={{ facingMode: 'environment' }} /> */}
-      <QrCodeReader delay={100} width={500} height={500} action={setQrRead} facingMode="environment" />
+      <QrCodeReader
+        delay={100}
+        width={500}
+        height={500}
+        action={setQrRead}
+        videoConstraints={{ facingMode: 'environment' }}
+      />
       <p>{qrRead}</p>
       <SearchInput onInputChange={onInputChange} trackingId={trackingId} onSubmit={onSearchTrackingId} />
       {showTrackingInfo && trackingInfo && (
