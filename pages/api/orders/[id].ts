@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import OrderService from '../../../services/OrderService'
+import OrderService from '../../../services/order.service'
 import { deliverOrder } from '../../../services/logistic.service'
 import { OrderStatus } from '../../../types/order-status'
 
