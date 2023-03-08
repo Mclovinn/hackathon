@@ -4,6 +4,7 @@ import { config } from '../config/env.config'
 import { UserItem, UserModel } from '../models/user'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { AuthService } from './auth.service'
+import { UserRole } from '../types/user.type'
 
 interface RequestParameters {
   req: NextApiRequest
@@ -30,6 +31,7 @@ class UserService {
       const user = await this.authService.signUp({ email: body.email, password: body.password })
       if (user?.userData) {
         body.id = uuidv4()
+        body.role = body.role || UserRole.COURIER
         body.idCognito = user.userData.cognitoId
         const userCreated = await UserModel.create(body)
         return userCreated
@@ -51,8 +53,8 @@ class UserService {
     return user
   }
 
-  async getUserWithParameter(parameter: string, cognitoId: string) {
-    const user = UserModel.scan(parameter).contains(cognitoId).exec()
+  async getUserWithParameter(parameter: string, searchParameter: string) {
+    const user = UserModel.scan(parameter).contains(searchParameter).exec()
     return user
   }
 
