@@ -203,12 +203,14 @@ export function Orders() {
         )}
       </$GridContainer>
       <$SectionCode>
-        <QRCodeCanvas
-          value={`${window.location.origin.toString()}/tracking/${orderIdForQrCode}`}
-          id={`qrcode-${orderIdForQrCode}`}
-          size={500}
-          level="H"
-        />
+        {typeof window !== 'undefined' && (
+          <QRCodeCanvas
+            value={`${window.location.origin.toString()}/tracking/${orderIdForQrCode}`}
+            id={`qrcode-${orderIdForQrCode}`}
+            size={500}
+            level="H"
+          />
+        )}
       </$SectionCode>
     </>
   )
