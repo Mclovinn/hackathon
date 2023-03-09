@@ -13,9 +13,6 @@ const $Container = styled.div`
   flex-direction: column;
   padding-top: 100px;
   gap: 50px;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
-  }
 `
 
 const $Button = styled(Button)`
@@ -58,9 +55,15 @@ const Login = (): ReactElement => {
               <QrCodeReader
                 delay={100}
                 width={400}
-                height={300}
+                height={400}
                 action={setCode}
-                videoConstraints={{ facingMode: 'environment' }}
+                videoConstraints={{
+                  video: {
+                    width: { ideal: 1024 },
+                    height: { ideal: 576 },
+                    facingMode: { exact: 'environment' },
+                  },
+                }}
               />
             )
           ) : (
