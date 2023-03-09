@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { useStoreState } from '../../store/hooks'
 import { PrivatePage } from '../../components/routing/private-page'
 import QrCodeReader from '../../libs/qrcode-reader-alpha/dist/index.es'
+import router from 'next/router'
 
 const $Container = styled.div`
   display: flex;
@@ -32,8 +33,7 @@ const Login = (): ReactElement => {
   }, [sessionModel.session.name])
 
   useEffect(() => {
-    // TODO: redirect
-    if (qrCode) console.log(qrCode)
+    if (qrCode) router.push(qrCode)
   }, [qrCode])
 
   return (

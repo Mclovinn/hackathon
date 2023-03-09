@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { SearchInput } from './search-input'
 import { TrackingInfo } from './tracking-info'
@@ -33,10 +33,6 @@ export const TrackingPage = () => {
     setTrackingInfo({ currentStatus: response.currentStatus, events: deliveredEvents })
     setShowTrackingInfo(true)
   }
-
-  useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then(data => console.log(data))
-  }, [])
 
   return (
     <$Container>
