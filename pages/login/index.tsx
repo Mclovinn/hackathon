@@ -1,4 +1,3 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Head from 'next/head'
 import { ReactElement, useEffect, useState } from 'react'
 import { Button, Typography, TextField, InputAdornment, IconButton } from '@mui/material'
@@ -9,31 +8,6 @@ import { DASHBOARD_URL } from '../../components/constant/url-routes'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useStoreActions, useStoreState } from '../../store/hooks'
 import { PrivatePage } from '../../components/routing/private-page'
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-  typography: {
-    h1: {
-      fontSize: 32,
-      fontWeight: 700,
-      lineHeight: '37.5px',
-    },
-    subtitle1: {
-      fontSize: 16,
-      fontWeight: 400,
-      lineHeight: '18.75px',
-    },
-    button: {
-      fontSize: 13,
-      fontWeight: 500,
-      lineHeight: '26px',
-      letterSpacing: '0.46px',
-      minHeight: '34px',
-    },
-  },
-})
 
 const $Container = styled.div`
   width: 100%;
@@ -148,61 +122,59 @@ const Login = (): ReactElement => {
   }
 
   return (
-    <div>
-      <PrivatePage>
-        <ThemeProvider theme={darkTheme}>
-          <Head>
-            <title>My App</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <main>
-            <$Container>
-              <div>
-                <Typography variant="h1">LOGIN{sessionModel.session.email}</Typography>
-                <Typography variant="subtitle1">TO CONTINUE</Typography>
-                <TextField
-                  error={isErrorMessage || isErrorEmail}
-                  id="standard-error-helper-text"
-                  label={!isErrorEmail ? 'Email' : 'Error'}
-                  helperText={isErrorMessage ? 'The email is incorrect' : isErrorEmail && 'Complete this field'}
-                  variant="standard"
-                  name="username"
-                  value={loginData.username}
-                  onChange={handleSubmit}
-                />
-                <TextField
-                  error={isErrorMessage || isErrorPassword}
-                  id="outlined-password-input"
-                  helperText={isErrorMessage ? 'The password is incorrect' : isErrorPassword && 'Complete this field'}
-                  variant="standard"
-                  label={!isErrorPassword ? 'Password' : 'Error'}
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  value={loginData.password}
-                  onChange={handleSubmit}
-                />
+    <PrivatePage>
+      <div>
+        <Head>
+          <title>Blockwise | Login</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <main>
+          <$Container>
+            <div>
+              <Typography variant="h1">LOGIN{sessionModel.session.email}</Typography>
+              <Typography variant="subtitle1">TO CONTINUE</Typography>
+              <TextField
+                error={isErrorMessage || isErrorEmail}
+                id="standard-error-helper-text"
+                label={!isErrorEmail ? 'Email' : 'Error'}
+                helperText={isErrorMessage ? 'The email is incorrect' : isErrorEmail && 'Complete this field'}
+                variant="standard"
+                name="username"
+                value={loginData.username}
+                onChange={handleSubmit}
+              />
+              <TextField
+                error={isErrorMessage || isErrorPassword}
+                id="outlined-password-input"
+                helperText={isErrorMessage ? 'The password is incorrect' : isErrorPassword && 'Complete this field'}
+                variant="standard"
+                label={!isErrorPassword ? 'Password' : 'Error'}
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                value={loginData.password}
+                onChange={handleSubmit}
+              />
 
-                <$Button variant="contained" onClick={onClick}>
-                  SIGN IN
-                </$Button>
-              </div>
-            </$Container>
-          </main>
-        </ThemeProvider>
-      </PrivatePage>
-    </div>
+              <$Button variant="contained" onClick={onClick}>
+                SIGN IN
+              </$Button>
+            </div>
+          </$Container>
+        </main>
+      </div>
+    </PrivatePage>
   )
 }
 
