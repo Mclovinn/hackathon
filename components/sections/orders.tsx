@@ -53,54 +53,24 @@ export type TableRowType = {
   tracking: string
 }
 
-const columns: GridColDef[] = [
-  { headerClassName: 'super-app-theme--header', field: 'id', headerName: 'Order ID', width: 300 },
-  { headerClassName: 'super-app-theme--header', field: 'sku', headerName: 'SKU', width: 100 },
-  { headerClassName: 'super-app-theme--header', field: 'status', headerName: 'Status', width: 120 },
-  { headerClassName: 'super-app-theme--header', field: 'address', headerName: 'Destination Address', width: 150 },
-  { headerClassName: 'super-app-theme--header', field: 'tracking', headerName: 'Tracking ID', width: 300 },
-  {
-    headerClassName: 'super-app-theme--header',
-    field: 'document',
-    headerName: 'Shipping Document',
-    width: 150,
-    align: 'center',
-    renderCell: (params: GridRenderCellParams<any, TableRowType>) =>
-      params.row.status === OrderStatus.DELIVERED && (
-        <>
-          <$SectionCode>
-            <QRCodeCanvas
-              value={`${window.location.href}tracking/${params.row.id}`}
-              id={`qrcode-${params.row.id}`}
-              size={300}
-              level="H"
-            />
-          </$SectionCode>
-          <IconButton aria-label="pdf-document" onClick={() => generatePDF(params.row)} size="medium">
-            <PictureAsPdfOutlinedIcon fontSize="large" />
-          </IconButton>
-        </>
-      ),
-  },
-]
-
-const generatePDF = (data: TableRowType) => {
+const generatePDF = (orderId: string) => {
   const pdf = new jsPDF({
     unit: 'cm',
     format: [10, 15],
   })
-  const canvas = document.getElementById(`qrcode-${data.id}`) as HTMLCanvasElement
+  const canvas = document.getElementById(`qrcode-${orderId}`) as HTMLCanvasElement
   const base64Image = canvas.toDataURL()
 
   pdf.addImage(base64Image, 'svg', 2.5, 3, 5, 5)
   pdf.setFontSize(10)
-  pdf.text(data.id, 5, 8.5, { align: 'center' })
-  pdf.output('dataurlnewwindow', { filename: `QR-${data.id}.pdf` })
+  pdf.text(orderId, 5, 8.5, { align: 'center' })
+  pdf.output('dataurlnewwindow', { filename: `QR-${orderId}.pdf` })
 }
 
 export function Orders() {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>()
   const [selectedRows, setSelectedRows] = useState<TableRowType[]>([])
+  const [orderIdForQrCode, setOrderIdForQrCode] = useState<string>('')
   const { data: orders, refetch } = useQuery('get-orders', getOrders)
   const [parsedOrders, setParsedOrders] = useState<TableRowType[]>([])
   const [transactionHash, setTransactionHash] = useState<string>('')
@@ -124,10 +94,39 @@ export function Orders() {
     },
   })
 
+  const columns: GridColDef[] = [
+    { headerClassName: 'super-app-theme--header', field: 'id', headerName: 'Order ID', width: 300 },
+    { headerClassName: 'super-app-theme--header', field: 'sku', headerName: 'SKU', width: 100 },
+    { headerClassName: 'super-app-theme--header', field: 'status', headerName: 'Status', width: 120 },
+    { headerClassName: 'super-app-theme--header', field: 'address', headerName: 'Destination Address', width: 150 },
+    { headerClassName: 'super-app-theme--header', field: 'tracking', headerName: 'Tracking ID', width: 300 },
+    {
+      headerClassName: 'super-app-theme--header',
+      field: 'document',
+      headerName: 'Shipping Document',
+      width: 150,
+      align: 'center',
+      renderCell: (params: GridRenderCellParams<any, TableRowType>) =>
+        params.row.status !== OrderStatus.READY_TO_FULFILL && (
+          <>
+            <IconButton aria-label="pdf-document" onClick={() => setOrderIdForQrCode(params.row.id)} size="medium">
+              <PictureAsPdfOutlinedIcon fontSize="large" />
+            </IconButton>
+          </>
+        ),
+    },
+  ]
+
   useEffect(() => {
     if (!orders) return
     setOrders(orders)
   }, [orders])
+
+  useEffect(() => {
+    if (!orderIdForQrCode) return
+    generatePDF(orderIdForQrCode)
+    setOrderIdForQrCode('')
+  }, [orderIdForQrCode])
 
   const setOrders = async (orders: OrderType[]) => {
     let newParsedOrders: TableRowType[] = []
@@ -203,6 +202,16 @@ export function Orders() {
           </$LoaderWrapper>
         )}
       </$GridContainer>
+      <$SectionCode>
+        {typeof window !== 'undefined' && (
+          <QRCodeCanvas
+            value={`${window.location.origin.toString()}/tracking/${orderIdForQrCode}`}
+            id={`qrcode-${orderIdForQrCode}`}
+            size={500}
+            level="H"
+          />
+        )}
+      </$SectionCode>
     </>
   )
 }
