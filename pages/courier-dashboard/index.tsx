@@ -26,13 +26,6 @@ const Login = (): ReactElement => {
   const [showScanner, setShowScanner] = useState<boolean>(false)
   const [qrCode, setCode] = useState<string>('')
   const [username, setUsername] = useState<string>('')
-  const [test, setTest] = useState<string>('')
-
-  const setOrders = async () => {
-    const t = (await navigator.mediaDevices.enumerateDevices()).filter(device => device.kind == 'videoinput')
-    console.log(t)
-    setTest(JSON.stringify(t))
-  }
 
   useEffect(() => {
     if (sessionModel.session.name) setUsername(sessionModel.session.name)
@@ -43,10 +36,6 @@ const Login = (): ReactElement => {
     if (qrCode) console.log(qrCode)
   }, [qrCode])
 
-  useEffect(() => {
-    setOrders()
-  }, [])
-
   return (
     <PrivatePage>
       <div>
@@ -56,7 +45,6 @@ const Login = (): ReactElement => {
         </Head>
         <$Container>
           <Typography variant="h1">Welcome{username && `, ${username}`}!</Typography>
-          {test}
 
           {!qrCode ? (
             !showScanner ? (
@@ -70,10 +58,10 @@ const Login = (): ReactElement => {
                 height={400}
                 action={setCode}
                 videoConstraints={{
+                  facingMode: 'environment',
                   video: {
-                    width: { ideal: 1024 },
-                    height: { ideal: 576 },
-                    facingMode: { exact: 'environment' },
+                    width: { min: 1920 },
+                    height: { min: 1080 },
                   },
                 }}
               />
