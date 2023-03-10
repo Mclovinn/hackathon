@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { OrderStatus } from '../../../types/order-status'
 
-const $Container = styled.div`
-  margin-top: 40px;
-`
+const $Container = styled.div``
 const $Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -18,7 +16,8 @@ const $Id = styled.div`
 `
 
 const $Label = styled.div`
-  margin-right: 12px;
+  margin-right: 15px;
+  margin-left: 15px;
 `
 const $Status = styled.div<{ orderStatus: OrderStatus }>`
   font-weight: bold;
@@ -27,7 +26,7 @@ const $Status = styled.div<{ orderStatus: OrderStatus }>`
 `
 interface InfoProps {
   trackingId: string
-  orderStatus: OrderStatus
+  orderStatus?: OrderStatus
 }
 export const TrackingInfo = ({ trackingId, orderStatus }: InfoProps) => {
   return (
@@ -36,12 +35,16 @@ export const TrackingInfo = ({ trackingId, orderStatus }: InfoProps) => {
         <$Label>Tracking ID: </$Label>
         <$Id>{trackingId}</$Id>
       </$Wrapper>
-      <$Wrapper>
-        <$Label>Status: </$Label>
-        <$Status orderStatus={orderStatus}>
-          {orderStatus === OrderStatus.DELIVERED ? 'Delivered' : orderStatus === OrderStatus.IN_TRANSIT && 'In Transit'}
-        </$Status>
-      </$Wrapper>
+      {orderStatus && (
+        <$Wrapper>
+          <$Label>Status: </$Label>
+          <$Status orderStatus={orderStatus}>
+            {orderStatus === OrderStatus.DELIVERED
+              ? 'Delivered'
+              : orderStatus === OrderStatus.IN_TRANSIT && 'In Transit'}
+          </$Status>
+        </$Wrapper>
+      )}
     </$Container>
   )
 }

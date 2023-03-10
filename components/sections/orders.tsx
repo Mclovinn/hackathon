@@ -53,24 +53,24 @@ export type TableRowType = {
   tracking: string
 }
 
-const generatePDF = (orderId: string) => {
+const generatePDF = (trackingId: string) => {
   const pdf = new jsPDF({
     unit: 'cm',
     format: [10, 15],
   })
-  const canvas = document.getElementById(`qrcode-${orderId}`) as HTMLCanvasElement
+  const canvas = document.getElementById(`qrcode-${trackingId}`) as HTMLCanvasElement
   const base64Image = canvas.toDataURL()
 
   pdf.addImage(base64Image, 'svg', 2.5, 3, 5, 5)
   pdf.setFontSize(10)
-  pdf.text(orderId, 5, 8.5, { align: 'center' })
-  pdf.output('dataurlnewwindow', { filename: `QR-${orderId}.pdf` })
+  pdf.text(trackingId, 5, 8.5, { align: 'center' })
+  pdf.output('dataurlnewwindow', { filename: `QR-${trackingId}.pdf` })
 }
 
 export function Orders() {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>()
   const [selectedRows, setSelectedRows] = useState<TableRowType[]>([])
-  const [orderIdForQrCode, setOrderIdForQrCode] = useState<string>('')
+  const [trackingIdForQrCode, setTrackingIdForQrCode] = useState<string>('')
   const { data: orders, refetch } = useQuery('get-orders', getOrders)
   const [parsedOrders, setParsedOrders] = useState<TableRowType[]>([])
   const [transactionHash, setTransactionHash] = useState<string>('')
@@ -109,7 +109,11 @@ export function Orders() {
       renderCell: (params: GridRenderCellParams<any, TableRowType>) =>
         params.row.status !== OrderStatus.READY_TO_FULFILL && (
           <>
-            <IconButton aria-label="pdf-document" onClick={() => setOrderIdForQrCode(params.row.id)} size="medium">
+            <IconButton
+              aria-label="pdf-document"
+              onClick={() => setTrackingIdForQrCode(params.row.tracking)}
+              size="medium"
+            >
               <PictureAsPdfOutlinedIcon fontSize="large" />
             </IconButton>
           </>
@@ -123,10 +127,10 @@ export function Orders() {
   }, [orders])
 
   useEffect(() => {
-    if (!orderIdForQrCode) return
-    generatePDF(orderIdForQrCode)
-    setOrderIdForQrCode('')
-  }, [orderIdForQrCode])
+    if (!trackingIdForQrCode) return
+    generatePDF(trackingIdForQrCode)
+    setTrackingIdForQrCode('')
+  }, [trackingIdForQrCode])
 
   const setOrders = async (orders: OrderType[]) => {
     let newParsedOrders: TableRowType[] = []
@@ -205,8 +209,8 @@ export function Orders() {
       <$SectionCode>
         {typeof window !== 'undefined' && (
           <QRCodeCanvas
-            value={`${window.location.origin.toString()}/tracking/${orderIdForQrCode}`}
-            id={`qrcode-${orderIdForQrCode}`}
+            value={`${window.location.origin.toString()}/tracking/${trackingIdForQrCode}`}
+            id={`qrcode-${trackingIdForQrCode}`}
             size={500}
             level="H"
           />
