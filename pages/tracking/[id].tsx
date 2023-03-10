@@ -7,8 +7,9 @@ import { Map } from '../../components/sections/tracking/map/map'
 import { TrackingType } from '../../types/tracking.type'
 import { getTrackingInfo } from '../../services/frontend-services/tracking'
 import { getDeliveredAndOrderedEvents } from '../../utils/events'
-import { ThemeProvider } from '@mui/material'
+import { Alert, ThemeProvider } from '@mui/material'
 import { darkTheme } from '../../styles/darkTheme'
+import axios from 'axios'
 
 const $Container = styled.div`
   display: flex;
@@ -30,11 +31,19 @@ const OrderDetailPage = (): ReactElement => {
   const { id } = router.query
   const [trackingId, setTrackingId] = useState<string>('')
   const [trackingInfo, setTrackingInfo] = useState<TrackingType>()
+  const [errorMsg, setErrorMsg] = useState<string>('')
 
   const onSearchTrackingId = async (trackingId: string) => {
-    const response = await getTrackingInfo(trackingId)
-    const deliveredEvents = getDeliveredAndOrderedEvents(response.events)
-    setTrackingInfo({ currentStatus: response.currentStatus, events: deliveredEvents })
+    try {
+      const response = await getTrackingInfo(trackingId)
+      const deliveredEvents = getDeliveredAndOrderedEvents(response.events)
+      setTrackingInfo({ currentStatus: response.currentStatus, events: deliveredEvents })
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setErrorMsg(error.response?.data.error || 'Request Error')
+      } else setErrorMsg('Error! See console logs.')
+      console.error(error)
+    }
   }
 
   useEffect(() => {
@@ -55,6 +64,7 @@ const OrderDetailPage = (): ReactElement => {
             <Map markers={trackingInfo.events} />
           </$Wrapper>
         )}
+        {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
       </$Container>
     </ThemeProvider>
   )
