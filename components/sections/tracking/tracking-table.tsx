@@ -35,7 +35,7 @@ export const TrackingTable = ({ events }: TrackingTableProps) => {
   }
 
   return (
-    <TableContainer component={Paper} sx={{ width: 300, marginLeft: 10, height: 'fit-content' }}>
+    <TableContainer component={Paper} sx={{ maxWidth: 800, height: 'fit-content' }}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>

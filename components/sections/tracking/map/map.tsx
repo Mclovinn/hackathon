@@ -6,9 +6,10 @@ import { config } from '../../../../config/env.config'
 import { EventType } from '../../../../types/tracking.type'
 
 const $Container = styled.div`
-  margin-top: 40px;
+  margin-top: 30px;
   height: 450px;
-  width: calc(100% - 400px);
+  width: 100%;
+  max-width: 800px;
 `
 
 interface MapProps {
@@ -22,7 +23,7 @@ export const Map = ({ markers }: MapProps) => {
       lat: 0,
       lng: 0,
     },
-    zoom: 13,
+    zoom: 12,
   }
 
   const [googleMapProps, setGoogleMapProps] = useState(defaultProps)
@@ -31,12 +32,14 @@ export const Map = ({ markers }: MapProps) => {
   useEffect(() => {
     if (!markers) return
 
+    const lastMark = markers[markers.length - 1]
+
     // TODO - change default center
     setGoogleMapProps({
       ...googleMapProps,
       center: {
-        lat: -31.3594539,
-        lng: -64.208464,
+        lat: Number(lastMark.location.latitude),
+        lng: Number(lastMark.location.longitude),
       },
     })
     setIsMapLoaded(true)
@@ -48,7 +51,6 @@ export const Map = ({ markers }: MapProps) => {
     <$Container>
       {isMapLoaded && (
         <GoogleMapReact
-          // TODO - Add apikey to .env
           bootstrapURLKeys={{ key: config.googleCloudConfig.apiKey }}
           defaultCenter={googleMapProps.center}
           defaultZoom={googleMapProps.zoom}
