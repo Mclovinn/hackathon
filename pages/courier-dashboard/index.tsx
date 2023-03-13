@@ -4,8 +4,8 @@ import { Button, CircularProgress, Typography } from '@mui/material'
 import styled from 'styled-components'
 import { useStoreState } from '../../store/hooks'
 import { PrivatePage } from '../../components/routing/private-page'
-import QrCodeReader from '../../libs/qrcode-reader-alpha/dist/index.es'
 import router from 'next/router'
+import QrCodeReader from 'react-qrcode-reader'
 
 const $Container = styled.div`
   display: flex;
@@ -59,10 +59,7 @@ const Login = (): ReactElement => {
                 action={setCode}
                 videoConstraints={{
                   facingMode: 'environment',
-                  video: {
-                    width: { min: 1920 },
-                    height: { min: 1080 },
-                  },
+                  aspectRatio: 1.1,
                 }}
               />
             )
