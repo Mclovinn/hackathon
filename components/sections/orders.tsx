@@ -64,7 +64,10 @@ const generatePDF = (trackingId: string) => {
   pdf.addImage(base64Image, 'svg', 2.5, 3, 5, 5)
   pdf.setFontSize(10)
   pdf.text(trackingId, 5, 8.5, { align: 'center' })
-  pdf.output('dataurlnewwindow', { filename: `QR-${trackingId}.pdf` })
+  pdf.setProperties({
+    title: trackingId,
+  })
+  window.open(pdf.output('bloburl'))
 }
 
 export function Orders() {
