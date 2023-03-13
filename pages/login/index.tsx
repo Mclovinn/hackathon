@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service'
 import { useRouter } from 'next/router'
 import { DASHBOARD_URL } from '../../components/constant/url-routes'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { useStoreActions, useStoreState } from '../../store/hooks'
+import { useStoreActions } from '../../store/hooks'
 import { PrivatePage } from '../../components/routing/private-page'
 
 const $Container = styled.div`
@@ -15,10 +15,15 @@ const $Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url('images/background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
   & > div {
     width: 100%;
     display: flex;
-    margin: 0 66px 0 79px;
+    margin: 0 50px;
     justify-content: center;
     flex-direction: column;
     & > h1 {
@@ -26,7 +31,8 @@ const $Container = styled.div`
     }
     & > h6 {
       margin: 0 auto;
-      margin-bottom: 60px;
+      margin-bottom: 50px;
+      font-weight: lighter;
     }
 
     & > div {
@@ -72,7 +78,6 @@ const Login = (): ReactElement => {
   const [isErrorPassword, setErrorPassword] = useState(false)
   const [isErrorMessage, setErrorMessage] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const { sessionModel } = useStoreState(store => store)
   const setSession = useStoreActions(state => state.sessionModel.setSessionThunk)
   const router = useRouter()
   const handleSubmit = (e: any) => {
@@ -131,7 +136,7 @@ const Login = (): ReactElement => {
         <main>
           <$Container>
             <div>
-              <Typography variant="h1">LOGIN{sessionModel.session.email}</Typography>
+              <Typography variant="h1">LOGIN</Typography>
               <Typography variant="subtitle1">TO CONTINUE</Typography>
               <TextField
                 error={isErrorMessage || isErrorEmail}
