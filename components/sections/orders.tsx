@@ -75,6 +75,7 @@ export function Orders() {
   const [parsedOrders, setParsedOrders] = useState<TableRowType[]>([])
   const [transactionHash, setTransactionHash] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
+  const [locationPath, setLocationPath] = useState<string>('')
   const initializeOrdersMutation = useMutation(initializeOrders, {
     onSuccess: data => {
       setTransactionHash(data.txHash)
@@ -125,6 +126,11 @@ export function Orders() {
     if (!orders) return
     setOrders(orders)
   }, [orders])
+
+  useEffect(() => {
+    const path = window.location.origin.toString()
+    if (path) setLocationPath(path)
+  }, [])
 
   useEffect(() => {
     if (!trackingIdForQrCode) return
@@ -207,9 +213,9 @@ export function Orders() {
         )}
       </$GridContainer>
       <$SectionCode>
-        {typeof window !== 'undefined' && (
+        {locationPath && (
           <QRCodeCanvas
-            value={`${window.location.origin.toString()}/tracking/${trackingIdForQrCode}`}
+            value={`${locationPath}/tracking/${trackingIdForQrCode}`}
             id={`qrcode-${trackingIdForQrCode}`}
             size={500}
             level="H"
