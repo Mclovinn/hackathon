@@ -67,11 +67,6 @@ const $Container = styled.div`
   }
 `
 
-const $Button = styled(Button)`
-  background-color: ${({ theme }) => theme.palette.colors.smalt};
-  color: ${({ theme }) => theme.palette.colors.white};
-`
-
 const Login = (): ReactElement => {
   const [loginData, setLoginData] = useState({ username: '', password: '' })
   const [isErrorEmail, setErrorEmail] = useState(false)
@@ -172,9 +167,9 @@ const Login = (): ReactElement => {
                 onChange={handleSubmit}
               />
 
-              <$Button variant="contained" onClick={onClick}>
+              <Button variant="contained" onClick={onClick}>
                 SIGN IN
-              </$Button>
+              </Button>
             </div>
           </$Container>
         </main>
