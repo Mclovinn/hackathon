@@ -15,7 +15,7 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
             const orderUpdate = await OrderService.changeOrderToDelivered({ req, res })
             return res.status(200).json({ orderUpdate, txHash })
           }
-        }
+        } else return res.status(500).json('Order has no status IN_TRANSIT')
       }
     } catch (e) {
       console.log(e)

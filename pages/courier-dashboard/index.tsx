@@ -21,7 +21,7 @@ const $Button = styled(Button)`
   color: ${({ theme }) => theme.palette.colors.white};
 `
 
-const Login = (): ReactElement => {
+const CourierDashboard = (): ReactElement => {
   const { sessionModel } = useStoreState(store => store)
 
   const [showScanner, setShowScanner] = useState<boolean>(false)
@@ -72,4 +72,4 @@ const Login = (): ReactElement => {
   )
 }
 
-export default Login
+export default CourierDashboard

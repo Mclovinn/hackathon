@@ -27,24 +27,31 @@ const $Status = styled.div<{ orderStatus: OrderStatus }>`
 interface InfoProps {
   trackingId: string
   orderStatus?: OrderStatus
+  shippingDate?: Date
 }
-export const TrackingInfo = ({ trackingId, orderStatus }: InfoProps) => {
+export const TrackingInfo = ({ trackingId, orderStatus, shippingDate }: InfoProps) => {
   return (
     <$Container>
       <$Wrapper>
         <$Label>Tracking ID: </$Label>
         <$Id>{trackingId}</$Id>
       </$Wrapper>
-      {orderStatus && (
-        <$Wrapper>
-          <$Label>Status: </$Label>
+
+      <$Wrapper>
+        <$Label>Status: </$Label>
+        {orderStatus && (
           <$Status orderStatus={orderStatus}>
             {orderStatus === OrderStatus.DELIVERED
               ? 'Delivered'
               : orderStatus === OrderStatus.IN_TRANSIT && 'In Transit'}
           </$Status>
-        </$Wrapper>
-      )}
+        )}
+      </$Wrapper>
+
+      <$Wrapper>
+        <$Label>Shipping Date: </$Label>
+        {shippingDate && <$Id>{shippingDate}</$Id>}
+      </$Wrapper>
     </$Container>
   )
 }

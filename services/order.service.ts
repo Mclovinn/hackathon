@@ -66,7 +66,12 @@ class OrderService {
   }
 
   async getOrder({ req }: RequestParameters): Promise<OrderItem> {
-    const order = await OrderModel.scan('id').eq(req.query.id?.toString()).exec()
+    const order = await OrderModel.query('id').eq(req.query.id).exec()
+    return order[0]
+  }
+
+  async getOrderByTrackingId({ req }: RequestParameters): Promise<OrderItem> {
+    const order = await OrderModel.query('trackingId').eq(req.query.trackingId).exec()
     return order[0]
   }
 
