@@ -45,6 +45,10 @@ export const OrderModel = model<OrderItem>(
       },
       trackingId: {
         type: String,
+        index: {
+          name: 'trackingId-index',
+          type: 'global',
+        },
       },
       manifestId: {
         type: String,

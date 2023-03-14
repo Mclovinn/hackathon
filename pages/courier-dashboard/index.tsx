@@ -16,12 +16,7 @@ const $Container = styled.div`
   gap: 50px;
 `
 
-const $Button = styled(Button)`
-  background-color: ${({ theme }) => theme.palette.colors.smalt};
-  color: ${({ theme }) => theme.palette.colors.white};
-`
-
-const Login = (): ReactElement => {
+const CourierDashboard = (): ReactElement => {
   const { sessionModel } = useStoreState(store => store)
 
   const [showScanner, setShowScanner] = useState<boolean>(false)
@@ -48,9 +43,9 @@ const Login = (): ReactElement => {
 
           {!qrCode ? (
             !showScanner ? (
-              <$Button variant="contained" onClick={() => setShowScanner(!showScanner)}>
+              <Button variant="contained" onClick={() => setShowScanner(!showScanner)}>
                 SCAN QR
-              </$Button>
+              </Button>
             ) : (
               <QrCodeReader
                 delay={100}
@@ -72,4 +67,4 @@ const Login = (): ReactElement => {
   )
 }
 
-export default Login
+export default CourierDashboard
