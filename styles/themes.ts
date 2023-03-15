@@ -19,6 +19,7 @@ import {
   NERO,
   WISTERIA,
   ROBINS_EGG_BLUE,
+  BACKGROUND_BLACK,
 } from './color-variables'
 
 // Recieves alpha as %, and transforms it to hex
@@ -64,7 +65,7 @@ export const defaultTheme: DefaultTheme = {
     secondary: BRIGHT_TURQUOISE,
 
     // Backgrounds
-    background: BLACK,
+    background: BACKGROUND_BLACK,
     secondaryBackground: BLUE_VIOLET + getOpacityInHex(40),
 
     // Buttons
