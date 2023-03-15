@@ -1,5 +1,5 @@
 import { AppBar, Dialog, IconButton, Slide, Toolbar, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import { TransitionProps } from '@mui/material/transitions'
 import QrCodeReader from 'react-qrcode-reader'
@@ -28,13 +28,12 @@ const $Container = styled.div`
   height: 100%;
 `
 
-export const QrReaderModal = ({ open, onSubmit, onClose }: QrReaderModalProps) => {
+const QrReaderModal = ({ open, onSubmit, onClose }: QrReaderModalProps): ReactElement => {
   const [qrCode, setCode] = useState<string>('')
   const [innerWidth, setInnerWidth] = useState<number>(0)
 
   useEffect(() => {
     if (window) {
-      console.log(window.innerWidth)
       const availableWidth = window.innerWidth > 600 ? 600 : window.innerWidth
       setInnerWidth(availableWidth)
     }
@@ -71,3 +70,5 @@ export const QrReaderModal = ({ open, onSubmit, onClose }: QrReaderModalProps) =
     </Dialog>
   )
 }
+
+export default QrReaderModal

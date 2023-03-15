@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useStoreState } from '../../store/hooks'
 import { PrivatePage } from '../../components/routing/private-page'
 import router from 'next/router'
-import { QrReaderModal } from './qr-reader-modal'
+import QrReaderModal from './qr-reader-modal'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 
 const $Container = styled.div`
