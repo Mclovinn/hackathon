@@ -5,15 +5,36 @@ import styled from 'styled-components'
 import { useStoreState } from '../../store/hooks'
 import { PrivatePage } from '../../components/routing/private-page'
 import router from 'next/router'
-import QrCodeReader from 'react-qrcode-reader'
+import { QrReaderModal } from './qr-reader-modal'
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 
 const $Container = styled.div`
   display: flex;
-  justify-content: center;
+  height: 100vh;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  padding-top: 100px;
-  gap: 50px;
+  padding: 60px 0;
+  gap: 40px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
+    justify-content: center;
+    height: auto;
+  }
+`
+
+const $Title = styled(Typography)`
+  font-size: 1.3rem;
+  align-self: flex-start;
+  margin-left: 30px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
+    align-self: center;
+    justify-content: center;
+    max-width: 800px;
+    height: auto;
+    margin-left: 0;
+  }
 `
 
 const CourierDashboard = (): ReactElement => {
@@ -28,7 +49,10 @@ const CourierDashboard = (): ReactElement => {
   }, [sessionModel.session.name])
 
   useEffect(() => {
-    if (qrCode) router.push(qrCode)
+    if (qrCode) {
+      setShowScanner(false)
+      router.push(qrCode)
+    }
   }, [qrCode])
 
   return (
@@ -39,29 +63,17 @@ const CourierDashboard = (): ReactElement => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <$Container>
-          <Typography variant="h1">Welcome{username && `, ${username}`}!</Typography>
+          <$Title variant="h5">Welcome{username && `, ${username}`}!</$Title>
 
           {!qrCode ? (
-            !showScanner ? (
-              <Button variant="contained" onClick={() => setShowScanner(!showScanner)}>
-                SCAN QR
-              </Button>
-            ) : (
-              <QrCodeReader
-                delay={100}
-                width={400}
-                height={400}
-                action={setCode}
-                videoConstraints={{
-                  facingMode: 'environment',
-                  aspectRatio: 1.1,
-                }}
-              />
-            )
+            <Button variant="contained" onClick={() => setShowScanner(true)} startIcon={<QrCodeScannerIcon />}>
+              QR ORDER DETAIL
+            </Button>
           ) : (
             <CircularProgress />
           )}
         </$Container>
+        <QrReaderModal open={showScanner} onSubmit={setCode} onClose={() => setShowScanner(false)} />
       </div>
     </PrivatePage>
   )
