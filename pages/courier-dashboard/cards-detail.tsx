@@ -1,11 +1,13 @@
-import { Card, CardContent, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material'
-import React, { ReactElement } from 'react'
+import { Card, CardContent, List, ListItem, ListItemIcon, ListItemText, Skeleton, Typography } from '@mui/material'
+import React, { ReactElement, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import CheckIcon from '@mui/icons-material/Check'
 import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined'
 import PendingOrderIcon from '../../lib/icons/pending-order-icon'
 import DeliveredOrderIcon from '../../lib/icons/delivered-order-icon'
+import { getOrdersReport } from '../../services/frontend-services/orders'
+import { OrdersReport } from '../../models/report'
 
 const $CardTitle = styled(Typography)`
   display: flex;
@@ -28,10 +30,25 @@ const $CardHeader = styled(CardContent)`
 `
 
 const $ListItemIcon = styled(ListItemIcon)`
-  max-width: 35px;
+  min-width: 35px;
 `
 
 const CardsDetail = (): ReactElement => {
+  const [orderReport, setOrderReport] = useState<OrdersReport | undefined>()
+
+  const getOrderReport = async () => {
+    try {
+      const data = await getOrdersReport()
+      setOrderReport(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    getOrderReport()
+  }, [])
+
   return (
     <>
       <Card
@@ -52,13 +69,19 @@ const CardsDetail = (): ReactElement => {
               <$ListItemIcon>
                 <WarehouseOutlinedIcon fontSize="small" />
               </$ListItemIcon>
-              <ListItemText primary={`${3} Orders in the warehouse`} />
+              <ListItemText
+                primary={
+                  !orderReport ? <Skeleton width={175} /> : `${orderReport?.readyToFullfil} Orders in the warehouse`
+                }
+              />
             </ListItem>
             <ListItem>
-              <ListItemIcon>
+              <$ListItemIcon>
                 <DeliveredOrderIcon width={18} height={18} />
-              </ListItemIcon>
-              <ListItemText primary={`${1} Delivery pending`} />
+              </$ListItemIcon>
+              <ListItemText
+                primary={!orderReport ? <Skeleton width={145} /> : `${orderReport?.inTransit} Delivery pending`}
+              />
             </ListItem>
           </List>
         </$CardHeader>
@@ -78,10 +101,12 @@ const CardsDetail = (): ReactElement => {
           </$CardTitle>
           <List dense>
             <ListItem>
-              <ListItemIcon>
+              <$ListItemIcon>
                 <PendingOrderIcon width={18} height={18} />
-              </ListItemIcon>
-              <ListItemText primary={`${9} Orders delivered`} />
+              </$ListItemIcon>
+              <ListItemText
+                primary={!orderReport ? <Skeleton width={135} /> : `${orderReport?.delivered} Orders delivered`}
+              />
             </ListItem>
           </List>
         </$CardHeader>

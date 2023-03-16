@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { OrderStatus } from '../types/order-status'
 import { config } from '../config/env.config'
 import { getOrder } from './logistic.service'
+import { OrdersReport } from '../models/report'
 
 interface RequestParameters {
   req: NextApiRequest
@@ -101,6 +102,18 @@ class OrderService {
       order.events[i].location = JSON.parse(order.events[i].location)
     }
     return order
+  }
+
+  async getOrdersReport(): Promise<OrdersReport> {
+    const deliveredCount = await OrderModel.query('status').eq(OrderStatus.DELIVERED).count().exec()
+    const inTransitCount = await OrderModel.query('status').eq(OrderStatus.IN_TRANSIT).count().exec()
+    const readyYoFulfillCount = await OrderModel.query('status').eq(OrderStatus.READY_TO_FULFILL).count().exec()
+    const report: OrdersReport = {
+      inTransit: inTransitCount.count,
+      readyToFullfil: readyYoFulfillCount.count,
+      delivered: deliveredCount.count,
+    }
+    return report
   }
 }
 

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { OrdersReport } from '../../models/report'
 import { OrderStatus } from '../../types/order-status'
 import { OrderType, UpdateOrdersResponseType } from '../../types/order.type'
 
@@ -20,4 +21,9 @@ export const initializeOrders = async (orderIds: string[]): Promise<UpdateOrders
 export const setOrderAsDelivered = async (orderId: string): Promise<UpdateOrdersResponseType> => {
   const response = await axios.patch(`/api/orders/${orderId}`, { status: OrderStatus.DELIVERED })
   return response.data as UpdateOrdersResponseType
+}
+
+export const getOrdersReport = async (): Promise<OrdersReport> => {
+  const response = await axios.get('/api/reports/orders')
+  return response.data as OrdersReport
 }

@@ -28,6 +28,10 @@ export const OrderModel = model<OrderItem>(
       },
       status: {
         type: String,
+        index: {
+          name: 'status-index',
+          type: 'global',
+        },
       },
       destinationAddress: {
         type: Object,
