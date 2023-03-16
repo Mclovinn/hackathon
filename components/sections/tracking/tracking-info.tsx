@@ -1,3 +1,5 @@
+import { Chip } from '@mui/material'
+import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 import { OrderStatus } from '../../../types/order-status'
@@ -8,11 +10,8 @@ const $Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   margin-top: 15px;
-  font-size: 18px;
-`
-const $Id = styled.div`
-  font-weight: bold;
-  color: ${({ theme }) => theme.palette.colors.zambezi};
+  font-size: 17px;
+  font-weight: 400;
 `
 
 const $Label = styled.div`
@@ -28,29 +27,41 @@ interface InfoProps {
   trackingId: string
   orderStatus?: OrderStatus
   shippingDate?: Date
+  manifestId?: string
 }
-export const TrackingInfo = ({ trackingId, orderStatus, shippingDate }: InfoProps) => {
+export const TrackingInfo = ({ trackingId, orderStatus, shippingDate, manifestId }: InfoProps) => {
   return (
     <$Container>
       <$Wrapper>
         <$Label>Tracking ID: </$Label>
-        <$Id>{trackingId}</$Id>
+        {trackingId}
       </$Wrapper>
 
       <$Wrapper>
         <$Label>Status: </$Label>
         {orderStatus && (
           <$Status orderStatus={orderStatus}>
-            {orderStatus === OrderStatus.DELIVERED
-              ? 'Delivered'
-              : orderStatus === OrderStatus.IN_TRANSIT && 'In Transit'}
+            {orderStatus === OrderStatus.DELIVERED ? (
+              <Chip label="Delivered" color="success" size="small" variant="outlined" />
+            ) : (
+              orderStatus === OrderStatus.IN_TRANSIT && <Chip label="In Transit" size="small" variant="outlined" />
+            )}
           </$Status>
         )}
       </$Wrapper>
 
       <$Wrapper>
         <$Label>Shipping Date: </$Label>
-        {shippingDate && <$Id>{shippingDate}</$Id>}
+        {shippingDate && moment(shippingDate).format('L')}
+      </$Wrapper>
+
+      <$Wrapper>
+        <$Label>Shipping Address: -</$Label>
+      </$Wrapper>
+
+      <$Wrapper>
+        <$Label>Manifest ID: </$Label>
+        {manifestId}
       </$Wrapper>
     </$Container>
   )

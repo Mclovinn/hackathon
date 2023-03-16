@@ -7,7 +7,7 @@ import { Map } from '../../components/sections/tracking/map/map'
 import { TrackingType } from '../../types/tracking.type'
 import { getTrackingInfo } from '../../services/frontend-services/tracking'
 import { getDeliveredAndOrderedEvents } from '../../utils/events'
-import { Alert, Button, CircularProgress, ThemeProvider } from '@mui/material'
+import { Alert, Button, CircularProgress, ThemeProvider, Typography } from '@mui/material'
 import { darkTheme } from '../../styles/darkTheme'
 import axios from 'axios'
 import { getOrderByTrackingId, setOrderAsDelivered } from '../../services/frontend-services/orders'
@@ -16,6 +16,7 @@ import { OrderStatus } from '../../types/order-status'
 import { useStoreState } from '../../store/hooks'
 import { UserRole } from '../../types/user.type'
 import { useQuery } from 'react-query'
+import BackgroundCard from '../../components/common/background-card'
 
 const $Container = styled.div`
   display: flex;
@@ -30,6 +31,24 @@ const $Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   align-items: center;
+`
+
+const $Title = styled(Typography)`
+  font-size: 1.3rem;
+  font-weight: 700;
+  align-self: center;
+  justify-content: center;
+  padding: 20px 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
+    height: auto;
+    padding-left: 0;
+  }
+`
+
+const $ButtonsWrapper = styled.div`
+  display: flex;
+  gap: 50px;
 `
 
 const OrderDetailPage = (): ReactElement => {
@@ -71,6 +90,7 @@ const OrderDetailPage = (): ReactElement => {
   const onSearchOrderTrackingId = async (trackingId: string) => {
     try {
       const data = await getOrderByTrackingId(trackingId)
+      console.log(data)
       if (data) setOrderInfo(data)
     } catch (error: unknown) {
       console.error(error)
@@ -106,12 +126,17 @@ const OrderDetailPage = (): ReactElement => {
   return (
     <ThemeProvider theme={darkTheme}>
       <$Container>
-        <h1>QR Detail</h1>
-        <TrackingInfo
-          trackingId={trackingId}
-          orderStatus={trackingInfo && trackingInfo.currentStatus}
-          shippingDate={orderInfo && orderInfo.shipped}
-        />
+        <$Title variant="h5">QR detail</$Title>
+
+        <BackgroundCard title={`Tracking ID: ${trackingId}`}>
+          <TrackingInfo
+            trackingId={trackingId}
+            orderStatus={trackingInfo && trackingInfo.currentStatus}
+            shippingDate={orderInfo && orderInfo.shipped}
+            manifestId={orderInfo?.manifestId}
+          />
+        </BackgroundCard>
+
         {trackingInfo && (
           <$Wrapper>
             <TrackingTable events={trackingInfo.events} />
@@ -119,20 +144,24 @@ const OrderDetailPage = (): ReactElement => {
           </$Wrapper>
         )}
         {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
-
-        {!loadingTransaction ? (
-          id &&
-          orderInfo &&
-          sessionModel.session.role === UserRole.COURIER &&
-          trackingInfo?.currentStatus !== OrderStatus.DELIVERED &&
-          !transactionHash && (
-            <Button variant="contained" onClick={() => deliverOrder()}>
-              DELIVERED
-            </Button>
-          )
-        ) : (
-          <CircularProgress />
-        )}
+        <$ButtonsWrapper>
+          {!loadingTransaction ? (
+            id &&
+            orderInfo &&
+            sessionModel.session.role === UserRole.COURIER &&
+            trackingInfo?.currentStatus !== OrderStatus.DELIVERED &&
+            !transactionHash && (
+              <Button variant="contained" onClick={() => deliverOrder()}>
+                DELIVERED
+              </Button>
+            )
+          ) : (
+            <CircularProgress />
+          )}
+          <Button variant="contained" onClick={() => deliverOrder()}>
+            SHOW MAP
+          </Button>
+        </$ButtonsWrapper>
         {txError && <Alert severity="error">{txError}</Alert>}
         {transactionHash && <Alert severity="success">DELIVERED! Tx: {transactionHash}</Alert>}
       </$Container>
