@@ -4,10 +4,10 @@ import styled from 'styled-components'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import CheckIcon from '@mui/icons-material/Check'
 import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined'
-import PendingOrderIcon from '../../lib/icons/pending-order-icon'
-import DeliveredOrderIcon from '../../lib/icons/delivered-order-icon'
-import { getOrdersReport } from '../../services/frontend-services/orders'
-import { OrdersReport } from '../../models/report'
+import { OrdersReport } from '../../../models/report'
+import { getOrdersReport } from '../../../services/frontend-services/orders'
+import DeliveredOrderIcon from '../../../lib/icons/delivered-order-icon'
+import PendingOrderIcon from '../../../lib/icons/pending-order-icon'
 
 const $CardTitle = styled(Typography)`
   display: flex;

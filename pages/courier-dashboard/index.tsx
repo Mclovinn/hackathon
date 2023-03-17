@@ -5,9 +5,9 @@ import styled from 'styled-components'
 import { useStoreState } from '../../store/hooks'
 import { PrivatePage } from '../../components/routing/private-page'
 import router from 'next/router'
-import QrReaderModal from './qr-reader-modal'
+import QrReaderModal from '../../components/sections/courier-dashboard/qr-reader-modal'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
-import CardsDetail from './cards-detail'
+import CardsDetail from '../../components/sections/courier-dashboard/cards-detail'
 
 const $Container = styled.div`
   display: flex;
