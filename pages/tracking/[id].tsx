@@ -128,12 +128,13 @@ const OrderDetailPage = (): ReactElement => {
       <$Container>
         <$Title variant="h5">QR detail</$Title>
 
-        <BackgroundCard title={`Tracking ID: ${trackingId}`}>
+        <BackgroundCard title={`Tracking Info`}>
           <TrackingInfo
             trackingId={trackingId}
             orderStatus={trackingInfo && trackingInfo.currentStatus}
             shippingDate={orderInfo && orderInfo.shipped}
             manifestId={orderInfo?.manifestId}
+            location={orderInfo?.destinationAddress}
           />
         </BackgroundCard>
 

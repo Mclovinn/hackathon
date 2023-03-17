@@ -28,7 +28,7 @@ const $CardContent = styled.div`
 `
 
 const $EmptyIcon = styled.div`
-  width: 20px;
+  width: 18px;
 `
 
 interface Props {
@@ -42,7 +42,7 @@ const BackgroundCard = ({ title, icon, children }: Props): ReactElement => {
     <Card
       sx={{
         width: {
-          xs: 0.85,
+          xs: 0.9,
           md: 600,
         },
       }}
