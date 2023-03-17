@@ -24,7 +24,7 @@ const $CardLayout = styled(CardContent)`
 `
 
 const $CardContent = styled.div`
-  padding: 5px 5px 20px 5px;
+  padding: 5px;
 `
 
 const $EmptyIcon = styled.div`

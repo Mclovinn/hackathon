@@ -7,7 +7,7 @@ import { Map } from '../../components/sections/tracking/map/map'
 import { TrackingType } from '../../types/tracking.type'
 import { getTrackingInfo } from '../../services/frontend-services/tracking'
 import { getDeliveredAndOrderedEvents } from '../../utils/events'
-import { Alert, Button, CircularProgress, ThemeProvider, Typography } from '@mui/material'
+import { Alert, Button, ThemeProvider, Typography } from '@mui/material'
 import { darkTheme } from '../../styles/darkTheme'
 import axios from 'axios'
 import { getOrderByTrackingId, setOrderAsDelivered } from '../../services/frontend-services/orders'
@@ -17,6 +17,9 @@ import { useStoreState } from '../../store/hooks'
 import { UserRole } from '../../types/user.type'
 import { useQuery } from 'react-query'
 import BackgroundCard from '../../components/common/background-card'
+import { LoadingButton } from '@mui/lab'
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
+import CheckIcon from '@mui/icons-material/Check'
 
 const $Container = styled.div`
   display: flex;
@@ -24,6 +27,7 @@ const $Container = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 30px;
+  margin-bottom: 50px;
 `
 
 const $Wrapper = styled.div`
@@ -98,6 +102,7 @@ const OrderDetailPage = (): ReactElement => {
   }
 
   const deliverOrder = async () => {
+    if (transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED) return
     setTxError('')
     setLoadingTransaction(true)
     if (!id || !orderInfo?.id) return
@@ -146,25 +151,35 @@ const OrderDetailPage = (): ReactElement => {
         )}
         {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
         <$ButtonsWrapper>
-          {!loadingTransaction ? (
-            id &&
-            orderInfo &&
-            sessionModel.session.role === UserRole.COURIER &&
-            trackingInfo?.currentStatus !== OrderStatus.DELIVERED &&
-            !transactionHash && (
-              <Button variant="contained" onClick={() => deliverOrder()}>
-                DELIVERED
-              </Button>
-            )
-          ) : (
-            <CircularProgress />
+          {id && orderInfo && sessionModel.session.role === UserRole.COURIER && (
+            <LoadingButton
+              color={!transactionHash && trackingInfo?.currentStatus !== OrderStatus.DELIVERED ? 'primary' : 'success'}
+              onClick={() => deliverOrder()}
+              loading={loadingTransaction}
+              loadingPosition="start"
+              variant="contained"
+              startIcon={
+                transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED ? (
+                  <CheckIcon />
+                ) : (
+                  <LocalShippingOutlinedIcon />
+                )
+              }
+            >
+              <span>
+                {transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED
+                  ? 'DELIVERED'
+                  : loadingTransaction
+                  ? 'Saving'
+                  : 'MARK AS DELIVERED'}
+              </span>
+            </LoadingButton>
           )}
           <Button variant="contained" onClick={() => deliverOrder()}>
             SHOW MAP
           </Button>
         </$ButtonsWrapper>
         {txError && <Alert severity="error">{txError}</Alert>}
-        {transactionHash && <Alert severity="success">DELIVERED! Tx: {transactionHash}</Alert>}
       </$Container>
     </ThemeProvider>
   )
