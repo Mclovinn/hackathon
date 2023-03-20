@@ -27,4 +27,20 @@ export const darkTheme = createTheme({
       minHeight: '34px',
     },
   },
+  components: {
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          color: '#FFFFFF',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          color: '#FFFFFF',
+        },
+      },
+    },
+  },
 })

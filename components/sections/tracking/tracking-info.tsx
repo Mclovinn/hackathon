@@ -25,7 +25,6 @@ const $Id = styled.div`
   }
 `
 const $Chip = styled(Chip)`
-  color: ${({ theme }) => theme.palette.colors.white};
   margin-left: 10px;
 `
 
