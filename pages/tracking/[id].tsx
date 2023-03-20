@@ -7,7 +7,7 @@ import { Map } from '../../components/sections/tracking/map/map'
 import { TrackingType } from '../../types/tracking.type'
 import { getTrackingInfo } from '../../services/frontend-services/tracking'
 import { getDeliveredAndOrderedEvents } from '../../utils/events'
-import { Alert, Button, CircularProgress, ThemeProvider } from '@mui/material'
+import { Alert, Button, ThemeProvider, Typography } from '@mui/material'
 import { darkTheme } from '../../styles/darkTheme'
 import axios from 'axios'
 import { getOrderByTrackingId, setOrderAsDelivered } from '../../services/frontend-services/orders'
@@ -16,6 +16,10 @@ import { OrderStatus } from '../../types/order-status'
 import { useStoreState } from '../../store/hooks'
 import { UserRole } from '../../types/user.type'
 import { useQuery } from 'react-query'
+import BackgroundCard from '../../components/common/background-card'
+import { LoadingButton } from '@mui/lab'
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
+import CheckIcon from '@mui/icons-material/Check'
 
 const $Container = styled.div`
   display: flex;
@@ -23,6 +27,7 @@ const $Container = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 30px;
+  margin-bottom: 50px;
 `
 
 const $Wrapper = styled.div`
@@ -30,6 +35,24 @@ const $Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   align-items: center;
+`
+
+const $Title = styled(Typography)`
+  font-size: 1.3rem;
+  font-weight: 700;
+  align-self: center;
+  justify-content: center;
+  padding: 20px 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
+    height: auto;
+    padding-left: 0;
+  }
+`
+
+const $ButtonsWrapper = styled.div`
+  display: flex;
+  gap: 50px;
 `
 
 const OrderDetailPage = (): ReactElement => {
@@ -71,6 +94,7 @@ const OrderDetailPage = (): ReactElement => {
   const onSearchOrderTrackingId = async (trackingId: string) => {
     try {
       const data = await getOrderByTrackingId(trackingId)
+      console.log(data)
       if (data) setOrderInfo(data)
     } catch (error: unknown) {
       console.error(error)
@@ -78,6 +102,7 @@ const OrderDetailPage = (): ReactElement => {
   }
 
   const deliverOrder = async () => {
+    if (transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED) return
     setTxError('')
     setLoadingTransaction(true)
     if (!id || !orderInfo?.id) return
@@ -106,12 +131,18 @@ const OrderDetailPage = (): ReactElement => {
   return (
     <ThemeProvider theme={darkTheme}>
       <$Container>
-        <h1>QR Detail</h1>
-        <TrackingInfo
-          trackingId={trackingId}
-          orderStatus={trackingInfo && trackingInfo.currentStatus}
-          shippingDate={orderInfo && orderInfo.shipped}
-        />
+        <$Title variant="h5">QR detail</$Title>
+
+        <BackgroundCard title={`Tracking Info`}>
+          <TrackingInfo
+            trackingId={trackingId}
+            orderStatus={trackingInfo && trackingInfo.currentStatus}
+            shippingDate={orderInfo && orderInfo.shipped}
+            manifestId={orderInfo?.manifestId}
+            location={orderInfo?.destinationAddress}
+          />
+        </BackgroundCard>
+
         {trackingInfo && (
           <$Wrapper>
             <TrackingTable events={trackingInfo.events} />
@@ -119,22 +150,36 @@ const OrderDetailPage = (): ReactElement => {
           </$Wrapper>
         )}
         {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
-
-        {!loadingTransaction ? (
-          id &&
-          orderInfo &&
-          sessionModel.session.role === UserRole.COURIER &&
-          trackingInfo?.currentStatus !== OrderStatus.DELIVERED &&
-          !transactionHash && (
-            <Button variant="contained" onClick={() => deliverOrder()}>
-              DELIVERED
-            </Button>
-          )
-        ) : (
-          <CircularProgress />
-        )}
+        <$ButtonsWrapper>
+          {id && orderInfo && sessionModel.session.role === UserRole.COURIER && (
+            <LoadingButton
+              color={!transactionHash && trackingInfo?.currentStatus !== OrderStatus.DELIVERED ? 'primary' : 'success'}
+              onClick={() => deliverOrder()}
+              loading={loadingTransaction}
+              loadingPosition="start"
+              variant="contained"
+              startIcon={
+                transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED ? (
+                  <CheckIcon />
+                ) : (
+                  <LocalShippingOutlinedIcon />
+                )
+              }
+            >
+              <span>
+                {transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED
+                  ? 'DELIVERED'
+                  : loadingTransaction
+                  ? 'Saving'
+                  : 'MARK AS DELIVERED'}
+              </span>
+            </LoadingButton>
+          )}
+          <Button variant="contained" onClick={() => deliverOrder()}>
+            SHOW MAP
+          </Button>
+        </$ButtonsWrapper>
         {txError && <Alert severity="error">{txError}</Alert>}
-        {transactionHash && <Alert severity="success">DELIVERED! Tx: {transactionHash}</Alert>}
       </$Container>
     </ThemeProvider>
   )

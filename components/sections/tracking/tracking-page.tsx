@@ -7,6 +7,7 @@ import { Map } from './map/map'
 import { getTrackingInfo } from '../../../services/frontend-services/tracking'
 import { TrackingType } from '../../../types/tracking.type'
 import { getDeliveredAndOrderedEvents } from '../../../utils/events'
+import BackgroundCard from '../../common/background-card'
 
 const $Container = styled.div`
   margin-top: 40px;
@@ -39,7 +40,9 @@ export const TrackingPage = () => {
       <SearchInput onInputChange={onInputChange} trackingId={trackingId} onSubmit={onSearchTrackingId} />
       {showTrackingInfo && trackingInfo && (
         <>
-          <TrackingInfo trackingId={trackingId} orderStatus={trackingInfo.currentStatus} />
+          <BackgroundCard title={`Tracking Info`}>
+            <TrackingInfo trackingId={trackingId} orderStatus={trackingInfo.currentStatus} />
+          </BackgroundCard>
           <$Wrapper>
             <Map markers={trackingInfo.events} />
             <TrackingTable events={trackingInfo.events} />
