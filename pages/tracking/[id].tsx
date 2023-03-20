@@ -2,12 +2,10 @@ import { useRouter } from 'next/router'
 import React, { ReactElement, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { TrackingInfo } from '../../components/sections/tracking/tracking-info'
-import { TrackingTable } from '../../components/sections/tracking/tracking-table'
-import { Map } from '../../components/sections/tracking/map/map'
 import { TrackingType } from '../../types/tracking.type'
 import { getTrackingInfo } from '../../services/frontend-services/tracking'
 import { getDeliveredAndOrderedEvents } from '../../utils/events'
-import { Alert, Button, ThemeProvider, Typography } from '@mui/material'
+import { Alert, Button, ThemeProvider } from '@mui/material'
 import { darkTheme } from '../../styles/darkTheme'
 import axios from 'axios'
 import { getOrderByTrackingId, setOrderAsDelivered } from '../../services/frontend-services/orders'
@@ -20,6 +18,9 @@ import BackgroundCard from '../../components/common/background-card'
 import { LoadingButton } from '@mui/lab'
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
 import CheckIcon from '@mui/icons-material/Check'
+import { EventsMap } from '../../components/sections/tracking/map/event-map'
+import { SimpleTopNav } from '../../components/common/simple-topbar'
+import { COURIER_DASHBOARD_URL } from '../../components/constant/url-routes'
 
 const $Container = styled.div`
   display: flex;
@@ -28,26 +29,7 @@ const $Container = styled.div`
   flex-direction: column;
   gap: 30px;
   margin-bottom: 50px;
-`
-
-const $Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-`
-
-const $Title = styled(Typography)`
-  font-size: 1.3rem;
-  font-weight: 700;
-  align-self: center;
-  justify-content: center;
-  padding: 20px 0;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
-    height: auto;
-    padding-left: 0;
-  }
+  margin-top: 20px;
 `
 
 const $ButtonsWrapper = styled.div`
@@ -63,6 +45,7 @@ const OrderDetailPage = (): ReactElement => {
   const [orderInfo, setOrderInfo] = useState<OrderType>()
   const [transactionHash, setTransactionHash] = useState<string>('')
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false)
+  const [showEventsMap, setShowEventsMap] = useState<boolean>(false)
   const [txError, setTxError] = useState<string>('')
   const [errorMsg, setErrorMsg] = useState<string>('')
   const { sessionModel } = useStoreState(store => store)
@@ -130,57 +113,61 @@ const OrderDetailPage = (): ReactElement => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <$Container>
-        <$Title variant="h5">QR detail</$Title>
+      {showEventsMap ? (
+        <>
+          <SimpleTopNav title="Event Map" onBack={() => setShowEventsMap(false)} />
+          <EventsMap markers={trackingInfo?.events} />
+        </>
+      ) : (
+        <>
+          <SimpleTopNav title="QR detail" onBack={() => router.push(`${COURIER_DASHBOARD_URL}`)} />
+          <$Container>
+            <BackgroundCard title={`Tracking Info`}>
+              <TrackingInfo
+                trackingId={trackingId}
+                orderStatus={trackingInfo && trackingInfo.currentStatus}
+                shippingDate={orderInfo && orderInfo.shipped}
+                manifestId={orderInfo?.manifestId}
+                location={orderInfo?.destinationAddress}
+              />
+            </BackgroundCard>
 
-        <BackgroundCard title={`Tracking Info`}>
-          <TrackingInfo
-            trackingId={trackingId}
-            orderStatus={trackingInfo && trackingInfo.currentStatus}
-            shippingDate={orderInfo && orderInfo.shipped}
-            manifestId={orderInfo?.manifestId}
-            location={orderInfo?.destinationAddress}
-          />
-        </BackgroundCard>
-
-        {trackingInfo && (
-          <$Wrapper>
-            <TrackingTable events={trackingInfo.events} />
-            <Map markers={trackingInfo.events} />
-          </$Wrapper>
-        )}
-        {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
-        <$ButtonsWrapper>
-          {id && orderInfo && sessionModel.session.role === UserRole.COURIER && (
-            <LoadingButton
-              color={!transactionHash && trackingInfo?.currentStatus !== OrderStatus.DELIVERED ? 'primary' : 'success'}
-              onClick={() => deliverOrder()}
-              loading={loadingTransaction}
-              loadingPosition="start"
-              variant="contained"
-              startIcon={
-                transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED ? (
-                  <CheckIcon />
-                ) : (
-                  <LocalShippingOutlinedIcon />
-                )
-              }
-            >
-              <span>
-                {transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED
-                  ? 'DELIVERED'
-                  : loadingTransaction
-                  ? 'Saving'
-                  : 'MARK AS DELIVERED'}
-              </span>
-            </LoadingButton>
-          )}
-          <Button variant="contained" onClick={() => deliverOrder()}>
-            SHOW MAP
-          </Button>
-        </$ButtonsWrapper>
-        {txError && <Alert severity="error">{txError}</Alert>}
-      </$Container>
+            {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+            <$ButtonsWrapper>
+              {id && orderInfo && sessionModel.session.role === UserRole.COURIER && (
+                <LoadingButton
+                  color={
+                    !transactionHash && trackingInfo?.currentStatus !== OrderStatus.DELIVERED ? 'primary' : 'success'
+                  }
+                  onClick={() => deliverOrder()}
+                  loading={loadingTransaction}
+                  loadingPosition="start"
+                  variant="contained"
+                  startIcon={
+                    transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED ? (
+                      <CheckIcon />
+                    ) : (
+                      <LocalShippingOutlinedIcon />
+                    )
+                  }
+                >
+                  <span>
+                    {transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED
+                      ? 'DELIVERED'
+                      : loadingTransaction
+                      ? 'Saving'
+                      : 'MARK AS DELIVERED'}
+                  </span>
+                </LoadingButton>
+              )}
+              <Button variant="contained" onClick={() => setShowEventsMap(true)}>
+                SHOW MAP
+              </Button>
+            </$ButtonsWrapper>
+            {txError && <Alert severity="error">{txError}</Alert>}
+          </$Container>
+        </>
+      )}
     </ThemeProvider>
   )
 }
