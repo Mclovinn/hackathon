@@ -55,6 +55,10 @@ const $ButtonsWrapper = styled.div`
   gap: 50px;
 `
 
+const $LoadingButton = styled(LoadingButton)`
+  color: ${({ theme }) => theme.palette.colors.white};
+`
+
 const OrderDetailPage = (): ReactElement => {
   const router = useRouter()
   const { id } = router.query
@@ -152,7 +156,7 @@ const OrderDetailPage = (): ReactElement => {
         {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
         <$ButtonsWrapper>
           {id && orderInfo && sessionModel.session.role === UserRole.COURIER && (
-            <LoadingButton
+            <$LoadingButton
               color={!transactionHash && trackingInfo?.currentStatus !== OrderStatus.DELIVERED ? 'primary' : 'success'}
               onClick={() => deliverOrder()}
               loading={loadingTransaction}
@@ -173,7 +177,7 @@ const OrderDetailPage = (): ReactElement => {
                   ? 'Saving'
                   : 'MARK AS DELIVERED'}
               </span>
-            </LoadingButton>
+            </$LoadingButton>
           )}
           <Button variant="contained" onClick={() => deliverOrder()}>
             SHOW MAP

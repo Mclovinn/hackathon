@@ -7,9 +7,11 @@ import { getOrdersReport } from '../../../services/frontend-services/orders'
 import DeliveredOrderIcon from '../../../lib/icons/delivered-order-icon'
 import PendingOrderIcon from '../../../lib/icons/pending-order-icon'
 import BackgroundCard from '../../common/background-card'
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
+import CheckIcon from '@mui/icons-material/Check'
 
 const $ListItemIcon = styled(ListItemIcon)`
-  min-width: 35px;
+  min-width: 35px !important;
 `
 
 const CardsDetail = (): ReactElement => {
@@ -30,7 +32,7 @@ const CardsDetail = (): ReactElement => {
 
   return (
     <>
-      <BackgroundCard title={'Active Orders'}>
+      <BackgroundCard title={'Active Orders'} icon={<DescriptionOutlinedIcon />}>
         <List dense>
           <ListItem>
             <$ListItemIcon>
@@ -53,7 +55,7 @@ const CardsDetail = (): ReactElement => {
         </List>
       </BackgroundCard>
 
-      <BackgroundCard title={'Orders Delivered'}>
+      <BackgroundCard title={'Orders Delivered'} icon={<CheckIcon />}>
         <List dense>
           <ListItem>
             <$ListItemIcon>

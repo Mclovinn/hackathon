@@ -17,14 +17,11 @@ const $CardTitle = styled(Typography)`
 `
 
 const $CardLayout = styled(CardContent)`
-  padding: 0;
-  :last-child {
-    padding-bottom: 10px;
-  }
+  padding: 0 !important;
 `
 
 const $CardContent = styled.div`
-  padding: 5px;
+  padding: 10px 5px;
 `
 
 const $EmptyIcon = styled.div`

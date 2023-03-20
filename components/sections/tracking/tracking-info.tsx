@@ -10,7 +10,6 @@ const $Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin-top: 15px;
   font-weight: 400;
 `
 
@@ -26,7 +25,16 @@ const $Id = styled.div`
   }
 `
 const $Chip = styled(Chip)`
+  color: ${({ theme }) => theme.palette.colors.white};
   margin-left: 10px;
+`
+
+const $Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 15px;
+  margin-top: 10px;
 `
 
 interface InfoProps {
@@ -49,7 +57,7 @@ export const TrackingInfo = ({ trackingId, orderStatus, shippingDate, manifestId
   }, [location])
 
   return (
-    <>
+    <$Container>
       <$Wrapper>
         <$Label>
           Tracking ID: <$Id>{trackingId}</$Id>
@@ -60,9 +68,11 @@ export const TrackingInfo = ({ trackingId, orderStatus, shippingDate, manifestId
         <$Label>
           Status:
           {orderStatus && orderStatus === OrderStatus.DELIVERED ? (
-            <$Chip label="Delivered" color="success" size="small" variant="outlined" />
+            <$Chip label="Delivered" color="success" size="small" />
           ) : (
-            orderStatus === OrderStatus.IN_TRANSIT && <$Chip label="In Transit" size="small" variant="outlined" />
+            orderStatus === OrderStatus.IN_TRANSIT && (
+              <$Chip label="In Transit" size="small" color="success" variant="outlined" />
+            )
           )}
         </$Label>
       </$Wrapper>
@@ -80,6 +90,6 @@ export const TrackingInfo = ({ trackingId, orderStatus, shippingDate, manifestId
           Manifest ID: <$Id>{manifestId}</$Id>
         </$Label>
       </$Wrapper>
-    </>
+    </$Container>
   )
 }
