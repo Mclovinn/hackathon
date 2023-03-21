@@ -78,7 +78,6 @@ export const TrackingSection = ({ trackingId, showTopBar }: TrackingSectionProps
   const onSearchOrderTrackingId = async (trackingId: string) => {
     try {
       const data = await getOrderByTrackingId(trackingId)
-      console.log(data)
       if (data) setOrderInfo(data)
     } catch (error: unknown) {
       console.error(error)
