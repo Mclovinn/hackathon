@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { getOrderAddress } from '../../../services/frontend-services/google-maps'
 import { AddressType } from '../../../types/address.type'
 import { OrderStatus } from '../../../types/order-status'
+import BackgroundCard from '../../common/background-card'
 
 const $Wrapper = styled.div`
   display: flex;
@@ -56,39 +57,41 @@ export const TrackingInfo = ({ trackingId, orderStatus, shippingDate, manifestId
   }, [location])
 
   return (
-    <$Container>
-      <$Wrapper>
-        <$Label>
-          Tracking ID: <$Id>{trackingId}</$Id>
-        </$Label>
-      </$Wrapper>
+    <BackgroundCard title={`Tracking Info`}>
+      <$Container>
+        <$Wrapper>
+          <$Label>
+            Tracking ID: <$Id>{trackingId}</$Id>
+          </$Label>
+        </$Wrapper>
 
-      <$Wrapper>
-        <$Label>
-          Status:
-          {orderStatus && orderStatus === OrderStatus.DELIVERED ? (
-            <$Chip label="Delivered" color="success" size="small" />
-          ) : (
-            orderStatus === OrderStatus.IN_TRANSIT && (
-              <$Chip label="In Transit" size="small" color="success" variant="outlined" />
-            )
-          )}
-        </$Label>
-      </$Wrapper>
+        <$Wrapper>
+          <$Label>
+            Status:
+            {orderStatus && orderStatus === OrderStatus.DELIVERED ? (
+              <$Chip label="Delivered" color="success" size="small" />
+            ) : (
+              orderStatus === OrderStatus.IN_TRANSIT && (
+                <$Chip label="In Transit" size="small" color="success" variant="outlined" />
+              )
+            )}
+          </$Label>
+        </$Wrapper>
 
-      <$Wrapper>
-        <$Label>Shipping date: {shippingDate && moment(shippingDate).format('L')}</$Label>
-      </$Wrapper>
+        <$Wrapper>
+          <$Label>Shipping date: {shippingDate && moment(shippingDate).format('L')}</$Label>
+        </$Wrapper>
 
-      <$Wrapper>
-        <$Label>Shipping Address: {address || '-'}</$Label>
-      </$Wrapper>
+        <$Wrapper>
+          <$Label>Shipping Address: {address || '-'}</$Label>
+        </$Wrapper>
 
-      <$Wrapper>
-        <$Label>
-          Manifest ID: <$Id>{manifestId}</$Id>
-        </$Label>
-      </$Wrapper>
-    </$Container>
+        <$Wrapper>
+          <$Label>
+            Manifest ID: <$Id>{manifestId}</$Id>
+          </$Label>
+        </$Wrapper>
+      </$Container>
+    </BackgroundCard>
   )
 }

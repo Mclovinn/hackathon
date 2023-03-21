@@ -6,10 +6,10 @@ import { config } from '../../../../config/env.config'
 import { EventType } from '../../../../types/tracking.type'
 
 const $Container = styled.div`
-  margin-top: 30px;
-  height: 450px;
+  height: calc(100vh - 60px);
   width: 100%;
   max-width: 800px;
+  max-height: 800px;
 `
 
 interface MapProps {
