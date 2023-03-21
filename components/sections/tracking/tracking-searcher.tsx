@@ -13,7 +13,7 @@ const $Container = styled.div`
   margin-top: 40px;
   padding-left: 30px;
 `
-export const TrackingPage = () => {
+export const TrackingSearcher = () => {
   const [showTrackingInfo, setShowTrackingInfo] = useState<boolean>(false)
   const [trackingId, setTrackingId] = useState<string>('')
   const [trackingInfo, setTrackingInfo] = useState<TrackingType>()

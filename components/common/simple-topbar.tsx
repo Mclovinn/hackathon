@@ -5,22 +5,23 @@ import { IconButton, Typography } from '@mui/material'
 
 const $NavBar = styled.div`
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
   padding: 20px 0;
   width: 100%;
-  position: relative;
   height: 60px;
 `
 
 const $IconButton = styled(IconButton)`
-  position: absolute;
+  position: absolute !important;
   left: 15px;
 `
 
 const $Title = styled(Typography)`
   font-size: 1.3rem;
   font-weight: 700;
+  flex-grow: 1;
+  text-align: center;
 `
 
 interface SimpleTopNavProps {
