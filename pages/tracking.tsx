@@ -2,7 +2,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { ReactElement } from 'react'
 import MenuAppBar from '../components/navbar'
 import { PrivatePage } from '../components/routing/private-page'
-import { TrackingPage } from '../components/sections/tracking/tracking-page'
+import { TrackingSearcher } from '../components/sections/tracking/tracking-searcher'
 import { SectionsType } from '../types/section.types'
 import styled from 'styled-components'
 import { Typography } from '@mui/material'
@@ -48,7 +48,7 @@ const Dashboard = (): ReactElement => {
             <$Container>
               <Typography variant="h1">{SectionsType.TRACKING}</Typography>
               <$SectionContent>
-                <TrackingPage />
+                <TrackingSearcher />
               </$SectionContent>
             </$Container>
           </main>
