@@ -17,7 +17,7 @@ export const EventsMap = ({ markers }: EventsMapProps) => {
   return (
     <$Container>
       <Map markers={markers} />
-      <EventsDrawer />
+      <EventsDrawer events={markers} />
     </$Container>
   )
 }
