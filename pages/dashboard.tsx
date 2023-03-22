@@ -1,6 +1,7 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { ReactElement } from 'react'
 import { MainLayout } from '../components/main-layout'
+import MenuAppBar from '../components/navbar'
 import { PrivatePage } from '../components/routing/private-page'
 
 const darkTheme = createTheme({
@@ -14,6 +15,7 @@ const Dashboard = (): ReactElement => {
     <div>
       <PrivatePage>
         <ThemeProvider theme={darkTheme}>
+          <MenuAppBar />
           <main>
             <MainLayout />
           </main>

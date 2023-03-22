@@ -4,7 +4,7 @@ import { Button, Typography, TextField, InputAdornment, IconButton } from '@mui/
 import styled from 'styled-components'
 import { AuthService } from '../../services/auth.service'
 import { useRouter } from 'next/router'
-import { DASHBOARD_URL } from '../../components/constant/url-routes'
+import { ORDERS_URL } from '../../components/constant/url-routes'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useStoreActions } from '../../store/hooks'
 import { PrivatePage } from '../../components/routing/private-page'
@@ -113,7 +113,7 @@ const Login = (): ReactElement => {
     setSession(userData)
 
     if (userData && !userData.message) {
-      router.push(`${DASHBOARD_URL}`)
+      router.push(`${ORDERS_URL}`)
     } else {
       if (userData.message !== 'Missing required parameter USERNAME') {
         setErrorMessage(true)

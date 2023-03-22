@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect } from 'react'
 import router from 'next/router'
 import { useStoreState } from '../../store/hooks'
-import { DASHBOARD_URL, HOME_URL, LOGIN_URL, COURIER_DASHBOARD_URL } from '../constant/url-routes'
+import { LOGIN_URL, COURIER_DASHBOARD_URL } from '../constant/url-routes'
 import { UserRole } from '../../types/user.type'
 import { ThemeProvider } from '@mui/material'
 import { darkTheme } from '../../styles/darkTheme'
@@ -16,12 +16,10 @@ export const PrivatePage = ({ children }: PublicPageProps): ReactElement => {
   const { isAuthenticated } = session
 
   useEffect(() => {
-    if (isAuthenticated) {
-      if (session.role === UserRole.WAREHOUSE_OPERATOR) router.push(`${DASHBOARD_URL}`)
-      else if (session.role === UserRole.COURIER) router.push(`${COURIER_DASHBOARD_URL}`)
-      else router.push(`${HOME_URL}`)
-    } else {
+    if (!isAuthenticated) {
       router.push(`${LOGIN_URL}`)
+    } else {
+      if (session.role === UserRole.COURIER) router.push(`${COURIER_DASHBOARD_URL}`)
     }
   }, [isAuthenticated, session.role])
 

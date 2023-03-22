@@ -31,7 +31,7 @@ const $GridHeader = styled.div`
   justify-content: right;
   align-items: center;
   padding: 15px;
-  margin-top: 60px;
+  margin-top: 40px;
 `
 
 const $LoaderWrapper = styled.div`
