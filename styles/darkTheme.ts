@@ -14,6 +14,9 @@ export const darkTheme = createTheme({
       fontWeight: 700,
       lineHeight: '37.5px',
     },
+    h5: {
+      fontSize: 20,
+    },
     subtitle1: {
       fontSize: 16,
       fontWeight: 400,

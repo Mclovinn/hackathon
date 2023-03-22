@@ -4,7 +4,7 @@ import { SectionsType } from '../types/section.types'
 import { Sidenav } from './common/sidenav'
 import { SectionLayout } from './section-layout'
 import { Orders } from './sections/orders'
-import { TrackingPage } from './sections/tracking/tracking-page'
+import { TrackingSearcher } from './sections/tracking/tracking-searcher'
 
 const $SectionsContainer = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const MainLayout = () => {
 
   const renderSection = (): ReactElement => {
     if (section === SectionsType.ORDERS) return <Orders />
-    else if (section === SectionsType.TRACKING) return <TrackingPage />
+    else if (section === SectionsType.TRACKING) return <TrackingSearcher />
     else return <></>
   }
 
