@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { SearchInput } from './search-input'
 import { TrackingInfo } from './tracking-info'
-import { TrackingTable } from './tracking-timeline'
+import { TrackingEventsTimeline } from './tracking-timeline'
 import { Map } from './map/map'
 import { getTrackingInfo } from '../../../services/frontend-services/tracking'
 import { TrackingType } from '../../../types/tracking.type'
@@ -45,7 +45,7 @@ export const TrackingSearcher = () => {
           </BackgroundCard>
           <$Wrapper>
             <Map markers={trackingInfo.events} />
-            <TrackingTable events={trackingInfo.events} />
+            <TrackingEventsTimeline events={trackingInfo.events} />
           </$Wrapper>
         </>
       )}
