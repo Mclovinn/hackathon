@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useState, useEffect } from 'react'
 import { EventType } from '../../../types/tracking.type'
 import { getOrderAddress } from '../../../services/frontend-services/google-maps'
-import CheckIcon from '@mui/icons-material/Check'
+import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined'
 import styled from 'styled-components'
 import {
   Timeline,
@@ -15,25 +15,27 @@ import {
 } from '@mui/lab'
 import moment from 'moment'
 import { OrderStatus } from '../../../types/order-status'
+import DeliveredOrderIcon from '../../../lib/icons/delivered-order-icon'
+import CheckpointIcon from '../../../lib/icons/checkpoint-icon'
 
 const $Container = styled.div`
   padding: 5px;
 `
 
 const $Address = styled.div`
-  font-size: 18px;
+  font-size: 15px;
 `
 const $Date = styled.div`
-  font-size: 15px;
-  color: #ffffff80;
-  font-weight: 300;
+  font-size: 12px;
+  opacity: 0.4;
 `
 
 interface TrackingTableProps {
   events: EventType[]
+  orderStatus?: OrderStatus
 }
 
-export const TrackingEventsTimeline = ({ events }: TrackingTableProps) => {
+export const TrackingEventsTimeline = ({ events, orderStatus }: TrackingTableProps) => {
   const [eventsParsed, setEventsParsed] = useState<EventType[]>()
 
   useEffect(() => {
@@ -53,6 +55,21 @@ export const TrackingEventsTimeline = ({ events }: TrackingTableProps) => {
     setEventsParsed(newParsedOrders)
   }
 
+  const getIconStatus = (trackingStatus: EventType, index: number) => {
+    switch (trackingStatus.status) {
+      case OrderStatus.READY_TO_FULFILL:
+        return <WarehouseOutlinedIcon />
+      case OrderStatus.DELIVERED:
+        return eventsParsed && index < eventsParsed.length - 1 ? (
+          <CheckpointIcon width={20} height={20} />
+        ) : (
+          <DeliveredOrderIcon width={20} height={20} />
+        )
+      default:
+        return !trackingStatus.orderId ? <WarehouseOutlinedIcon /> : <CheckpointIcon width={20} height={20} />
+    }
+  }
+
   return (
     <$Container>
       <Timeline
@@ -66,16 +83,11 @@ export const TrackingEventsTimeline = ({ events }: TrackingTableProps) => {
         {eventsParsed?.map((event, index) => (
           <TimelineItem key={index}>
             <TimelineSeparator>
-              <TimelineDot color="primary">
-                <CheckIcon />
-              </TimelineDot>
-              {event.status !== OrderStatus.DELIVERED && <TimelineConnector />}
+              <TimelineDot color="primary">{getIconStatus(event, index)}</TimelineDot>
+              {orderStatus !== OrderStatus.DELIVERED && index < eventsParsed.length - 1 && <TimelineConnector />}
             </TimelineSeparator>
             <TimelineContent sx={{ py: '12px', px: 2 }}>
-              <$Address>
-                {event.locationAddress}
-                {event.status}
-              </$Address>
+              <$Address>{event.locationAddress}</$Address>
               <$Date>{moment.unix(event.timestamp).format('L')}</$Date>
             </TimelineContent>
           </TimelineItem>
