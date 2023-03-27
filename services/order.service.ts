@@ -28,29 +28,31 @@ class OrderService {
 
   async postOrder(body: OrderItem) {
     body.id = uuidv4()
+    if (!body.trackingId) body.trackingId = '0'
     const orderCreated = await OrderModel.create(body)
     return orderCreated
   }
 
   async initializeOrders(orderIds: any) {
-    let orderList: Array<OrderItem> = []
     const manifestId = uuidv4()
     const orders = await OrderModel.batchGet(orderIds)
-    for (let i = 0; i < orders.length; i++) {
-      let orderUpdated = orders[i]
-      if (orders[i].status == OrderStatus.READY_TO_FULFILL) {
-        orderUpdated = await OrderModel.update(
-          { id: orders[i].id },
-          {
-            status: OrderStatus.IN_TRANSIT,
-            trackingId: uuidv4(),
-            manifestId: manifestId,
-            shipped: Date.now().toString(),
-          }
-        )
-      }
-      orderList.push(orderUpdated)
-    }
+
+    const orderList = await Promise.all(
+      orders.map(async order => {
+        if (order.status == OrderStatus.READY_TO_FULFILL) {
+          const orderUpdated = await OrderModel.update(
+            { id: order.id },
+            {
+              status: OrderStatus.IN_TRANSIT,
+              trackingId: uuidv4(),
+              manifestId: manifestId,
+              shipped: Date.now().toString(),
+            }
+          )
+          return orderUpdated
+        }
+      })
+    )
     return orderList
   }
 
