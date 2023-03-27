@@ -15,7 +15,7 @@ import BlockwiseIcon from '../lib/icons/blockwise_icon'
 import TrackingIcon from '../lib/icons/tracking_icon'
 import { useStoreActions, useStoreState } from '../store/hooks'
 import router from 'next/router'
-import { HOME_URL, ORDERS_URL, TRACKING_URL } from './constant/url-routes'
+import { ORDERS_URL, TRACKING_URL } from './constant/url-routes'
 import { UserRole } from '../types/user.type'
 import { AuthService } from '../services/auth.service'
 
@@ -29,6 +29,13 @@ export default function MenuAppBar() {
   const $StyledBox = styled((props: BoxProps) => <Box {...props} />)(({ theme }) => ({
     '& .MuiPaper-root': {
       background: theme.palette.colors.nero,
+
+      '& div p': {
+        display: 'none',
+        '@media (min-width: 769px)': {
+          display: 'block',
+        },
+      },
     },
   }))
   const $StyledDrawer = styled((props: DrawerProps) => <Drawer elevation={12} {...props} />)(({ theme }) => ({
@@ -54,7 +61,27 @@ export default function MenuAppBar() {
 
         '& ul:first-child': {
           '& li:first-child': {
-            padding: '20px 16px',
+            padding: '20px 16px 23px 16px',
+            cursor: 'auto',
+            margin: '0',
+            '&:hover': {
+              background: 'none',
+            },
+          },
+        },
+
+        '& ul li': {
+          width: 'auto',
+          '& div': {
+            maxWidth: '100%',
+            marginRight: '23px',
+          },
+
+          borderRadius: '4px',
+          margin: '8px',
+          cursor: 'pointer',
+          '&:hover': {
+            background: theme.palette.colors.summerSky,
           },
         },
 
@@ -63,7 +90,7 @@ export default function MenuAppBar() {
         },
       },
       '& .MuiListItem-root': {
-        padding: '8px 26px',
+        padding: '8px 16px',
       },
     },
   }))
@@ -123,7 +150,7 @@ export default function MenuAppBar() {
         <Box>
           <nav>
             <List>
-              <ListItem disablePadding onClick={() => router.push(`${HOME_URL}`)}>
+              <ListItem disablePadding>
                 <ListItemIcon>
                   <BlockwiseIcon width={170} height={33} />
                 </ListItemIcon>

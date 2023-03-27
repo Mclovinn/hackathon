@@ -28,6 +28,7 @@ declare module 'styled-components' {
         nero: string
         robinsEggBlue: string
         wisteria: string
+        summerSky: string
       }
 
       // Theme colors (always prioritize using these over the common colors)

@@ -20,6 +20,7 @@ import {
   WISTERIA,
   ROBINS_EGG_BLUE,
   BACKGROUND_BLACK,
+  SUMMER_SKY,
 } from './color-variables'
 
 // Recieves alpha as %, and transforms it to hex
@@ -57,6 +58,7 @@ export const defaultTheme: DefaultTheme = {
       nero: NERO,
       robinsEggBlue: ROBINS_EGG_BLUE,
       wisteria: WISTERIA,
+      summerSky: SUMMER_SKY,
     },
 
     // Theme colors (always prioritize using these over the common colors)
