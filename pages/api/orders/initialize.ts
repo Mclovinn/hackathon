@@ -7,8 +7,8 @@ const handler = async function (req: NextApiRequest, res: NextApiResponse) {
     try {
       const orders = await OrderService.initializeOrders(req.body.orderIds)
       if (orders.length > 0) {
-        const trackingIds = orders.map(order => order.trackingId || '')
-        const origin = orders[0].sourceAddress
+        const trackingIds = orders.map(order => order?.trackingId || '')
+        const origin = orders[0]?.sourceAddress
         const txHash = await createOrders(trackingIds, JSON.stringify(origin))
         return res.status(200).json({ orders, txHash })
       }
