@@ -119,4 +119,19 @@ export class AuthService extends AWSService {
       })
     })
   }
+
+  public logout = async () => {
+    this.userPool = new CognitoUserPool({
+      UserPoolId: this.userPoolId,
+      ClientId: this.clientId,
+    })
+    const user = this.userPool.getCurrentUser()
+    if (user) {
+      await user.signOut()
+      return true
+    } else {
+      console.log('the user is not logged in')
+      return true
+    }
+  }
 }

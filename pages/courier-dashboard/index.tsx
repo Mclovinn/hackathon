@@ -8,6 +8,7 @@ import router from 'next/router'
 import QrReaderModal from '../../components/sections/courier-dashboard/qr-reader-modal'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import CardsDetail from '../../components/sections/courier-dashboard/cards-detail'
+import MenuAppBar from '../../components/navbar'
 
 const $Container = styled.div`
   display: flex;
@@ -68,6 +69,7 @@ const CourierDashboard = (): ReactElement => {
           <title>Blockwise | Courier</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
+        <MenuAppBar />
         <$Container>
           <$Title variant="h5">
             Welcome
