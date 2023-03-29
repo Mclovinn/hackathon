@@ -10,6 +10,8 @@ interface QrReaderModalProps {
   // eslint-disable-next-line no-unused-vars
   onSubmit: (qrCode: string) => void
   onClose: () => void
+  // eslint-disable-next-line no-unused-vars
+  onError: (error: string) => void
 }
 
 const Transition = React.forwardRef(function Transition(
@@ -28,7 +30,7 @@ const $Container = styled.div`
   height: 100%;
 `
 
-const QrReaderModal = ({ open, onSubmit, onClose }: QrReaderModalProps): ReactElement => {
+const QrReaderModal = ({ open, onSubmit, onClose, onError }: QrReaderModalProps): ReactElement => {
   const [qrCode, setCode] = useState<string>('')
   const [innerWidth, setInnerWidth] = useState<number>(0)
 
@@ -40,8 +42,14 @@ const QrReaderModal = ({ open, onSubmit, onClose }: QrReaderModalProps): ReactEl
   }, [])
 
   useEffect(() => {
-    if (qrCode) onSubmit(qrCode)
-  }, [onSubmit, qrCode])
+    if (!qrCode) return
+    else if (qrCode.includes(window.location.origin.toString())) {
+      onSubmit(qrCode)
+    } else {
+      setCode('')
+      onError('QR URL not valid')
+    }
+  }, [onSubmit, onError, qrCode])
 
   return (
     <Dialog fullScreen open={open} onClose={onClose} TransitionComponent={Transition}>
