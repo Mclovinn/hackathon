@@ -46,7 +46,7 @@ const CardsDetail = (): ReactElement => {
           </ListItem>
           <ListItem>
             <$ListItemIcon>
-              <DeliveredOrderIcon width={18} height={18} />
+              <PendingOrderIcon width={18} height={18} />
             </$ListItemIcon>
             <ListItemText
               primary={!orderReport ? <Skeleton width={145} /> : `${orderReport?.inTransit} Delivery pending`}
@@ -59,7 +59,7 @@ const CardsDetail = (): ReactElement => {
         <List dense>
           <ListItem>
             <$ListItemIcon>
-              <PendingOrderIcon width={18} height={18} />
+              <DeliveredOrderIcon width={18} height={18} />
             </$ListItemIcon>
             <ListItemText
               primary={!orderReport ? <Skeleton width={135} /> : `${orderReport?.delivered} Orders delivered`}

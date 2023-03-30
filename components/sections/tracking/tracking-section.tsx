@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab'
-import { Alert, Button } from '@mui/material'
+import { Button } from '@mui/material'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -19,6 +19,7 @@ import { EventsMap } from './map/event-map'
 import { TrackingInfo } from './tracking-info'
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
 import CheckIcon from '@mui/icons-material/Check'
+import { ErrorRedAlert } from '../../common/alert/error-red-alert'
 
 const $Container = styled.div`
   display: flex;
@@ -32,7 +33,7 @@ const $Container = styled.div`
 
 const $ButtonsWrapper = styled.div`
   display: flex;
-  gap: 50px;
+  gap: 30px;
 `
 
 interface TrackingSectionProps {
@@ -47,7 +48,6 @@ export const TrackingSection = ({ trackingId, showTopBar }: TrackingSectionProps
   const [transactionHash, setTransactionHash] = useState<string>('')
   const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false)
   const [showEventsMap, setShowEventsMap] = useState<boolean>(false)
-  const [txError, setTxError] = useState<string>('')
   const [errorMsg, setErrorMsg] = useState<string>('')
   const { sessionModel } = useStoreState(store => store)
 
@@ -86,7 +86,7 @@ export const TrackingSection = ({ trackingId, showTopBar }: TrackingSectionProps
 
   const deliverOrder = async () => {
     if (transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED) return
-    setTxError('')
+    setErrorMsg('')
     setLoadingTransaction(true)
     if (!trackingId || !orderInfo?.id) return
     try {
@@ -95,7 +95,7 @@ export const TrackingSection = ({ trackingId, showTopBar }: TrackingSectionProps
       refetch()
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setTxError(error.response?.data || 'Request Error')
+        setErrorMsg(error.response?.data || 'Request Error')
       } else setErrorMsg('Error! See console logs.')
       console.error(error)
     } finally {
@@ -114,7 +114,7 @@ export const TrackingSection = ({ trackingId, showTopBar }: TrackingSectionProps
       {showEventsMap ? (
         <>
           {showTopBar && <SimpleTopNav title="Event Map" onBack={() => setShowEventsMap(false)} />}
-          <EventsMap markers={trackingInfo?.events} />
+          <EventsMap markers={trackingInfo?.events} orderStatus={trackingInfo?.currentStatus} />
         </>
       ) : (
         <>
@@ -128,39 +128,47 @@ export const TrackingSection = ({ trackingId, showTopBar }: TrackingSectionProps
               location={orderInfo?.destinationAddress}
             />
 
-            {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
-            <$ButtonsWrapper>
-              {trackingId && orderInfo && sessionModel.session.role === UserRole.COURIER && (
-                <LoadingButton
-                  color={
-                    !transactionHash && trackingInfo?.currentStatus !== OrderStatus.DELIVERED ? 'primary' : 'success'
-                  }
-                  onClick={() => deliverOrder()}
-                  loading={loadingTransaction}
-                  loadingPosition="start"
-                  variant="contained"
-                  startIcon={
-                    transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED ? (
-                      <CheckIcon />
-                    ) : (
-                      <LocalShippingOutlinedIcon />
-                    )
-                  }
-                >
-                  <span>
-                    {transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED
-                      ? 'DELIVERED'
-                      : loadingTransaction
-                      ? 'Saving'
-                      : 'MARK AS DELIVERED'}
-                  </span>
-                </LoadingButton>
-              )}
-              <Button variant="contained" onClick={() => setShowEventsMap(true)}>
-                SHOW MAP
-              </Button>
-            </$ButtonsWrapper>
-            {txError && <Alert severity="error">{txError}</Alert>}
+            {trackingInfo && (
+              <$ButtonsWrapper>
+                {trackingId && orderInfo && sessionModel.session.role === UserRole.COURIER && (
+                  <LoadingButton
+                    color={
+                      !transactionHash && trackingInfo?.currentStatus !== OrderStatus.DELIVERED ? 'primary' : 'success'
+                    }
+                    onClick={() => deliverOrder()}
+                    loading={loadingTransaction}
+                    loadingPosition="start"
+                    variant="contained"
+                    startIcon={
+                      transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED ? (
+                        <CheckIcon />
+                      ) : (
+                        <LocalShippingOutlinedIcon />
+                      )
+                    }
+                  >
+                    <span>
+                      {transactionHash || trackingInfo?.currentStatus == OrderStatus.DELIVERED
+                        ? 'DELIVERED'
+                        : loadingTransaction
+                        ? 'Saving'
+                        : 'MARK AS DELIVERED'}
+                    </span>
+                  </LoadingButton>
+                )}
+                <Button variant="contained" onClick={() => setShowEventsMap(true)}>
+                  SHOW MAP
+                </Button>
+              </$ButtonsWrapper>
+            )}
+
+            {errorMsg && (
+              <ErrorRedAlert
+                title="Failed to mark order"
+                subtitle={`Please try again. (${errorMsg})`}
+                onClose={() => setErrorMsg('')}
+              />
+            )}
           </$Container>
         </>
       )}

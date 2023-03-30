@@ -9,6 +9,7 @@ import QrReaderModal from '../../components/sections/courier-dashboard/qr-reader
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import CardsDetail from '../../components/sections/courier-dashboard/cards-detail'
 import MenuAppBar from '../../components/navbar'
+import { ErrorRedAlert } from '../../components/common/alert/error-red-alert'
 
 const $Container = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ const CourierDashboard = (): ReactElement => {
   const [showScanner, setShowScanner] = useState<boolean>(false)
   const [qrCode, setCode] = useState<string>('')
   const [username, setUsername] = useState<string>('')
+  const [errorMsg, setErrorMsg] = useState<string>('')
 
   useEffect(() => {
     if (sessionModel.session.name) setUsername(sessionModel.session.name)
@@ -90,8 +92,23 @@ const CourierDashboard = (): ReactElement => {
           ) : (
             <CircularProgress />
           )}
+          {errorMsg && (
+            <ErrorRedAlert
+              title="Error reading QR detail"
+              subtitle={`Please try again. (${errorMsg})`}
+              onClose={() => setErrorMsg('')}
+            />
+          )}
         </$Container>
-        <QrReaderModal open={showScanner} onSubmit={setCode} onClose={() => setShowScanner(false)} />
+        <QrReaderModal
+          open={showScanner}
+          onSubmit={setCode}
+          onClose={() => setShowScanner(false)}
+          onError={error => {
+            setShowScanner(false)
+            setErrorMsg(error)
+          }}
+        />
       </div>
     </PrivatePage>
   )
