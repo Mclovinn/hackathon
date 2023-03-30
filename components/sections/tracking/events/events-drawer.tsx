@@ -35,13 +35,7 @@ export const EventsDrawer = ({ events, orderStatus }: EventsDrawerProps) => {
       <Button variant="contained" onClick={toggleDrawer(!open)} startIcon={<ListAltOutlinedIcon />}>
         Events
       </Button>
-      <$SwipeableDrawer
-        anchor="bottom"
-        open={open}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
-        color="red"
-      >
+      <$SwipeableDrawer anchor="bottom" open={open} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
         {events && <TrackingEventsTimeline events={events} orderStatus={orderStatus} />}
       </$SwipeableDrawer>
     </$Container>

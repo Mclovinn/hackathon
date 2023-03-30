@@ -114,7 +114,7 @@ export const TrackingSection = ({ trackingId, showTopBar }: TrackingSectionProps
       {showEventsMap ? (
         <>
           {showTopBar && <SimpleTopNav title="Event Map" onBack={() => setShowEventsMap(false)} />}
-          <EventsMap markers={trackingInfo?.events} />
+          <EventsMap markers={trackingInfo?.events} orderStatus={trackingInfo?.currentStatus} />
         </>
       ) : (
         <>

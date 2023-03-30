@@ -60,13 +60,13 @@ export const TrackingEventsTimeline = ({ events, orderStatus }: TrackingTablePro
       case OrderStatus.READY_TO_FULFILL:
         return <WarehouseOutlinedIcon />
       case OrderStatus.DELIVERED:
-        return eventsParsed && index < eventsParsed.length - 1 ? (
-          <CheckpointIcon width={20} height={20} />
+        return eventsParsed && index === eventsParsed.length - 1 && orderStatus === OrderStatus.DELIVERED ? (
+          <DeliveredOrderIcon width={24} height={24} />
         ) : (
-          <DeliveredOrderIcon width={20} height={20} />
+          <CheckpointIcon width={24} height={24} />
         )
       default:
-        return !trackingStatus.orderId ? <WarehouseOutlinedIcon /> : <CheckpointIcon width={20} height={20} />
+        return !trackingStatus.orderId ? <WarehouseOutlinedIcon /> : <CheckpointIcon width={24} height={24} />
     }
   }
 
@@ -83,8 +83,10 @@ export const TrackingEventsTimeline = ({ events, orderStatus }: TrackingTablePro
         {eventsParsed?.map((event, index) => (
           <TimelineItem key={index}>
             <TimelineSeparator>
-              <TimelineDot color="primary">{getIconStatus(event, index)}</TimelineDot>
-              {orderStatus !== OrderStatus.DELIVERED && index < eventsParsed.length - 1 && <TimelineConnector />}
+              <TimelineDot sx={{ width: 36, height: 36 }} color="primary">
+                {getIconStatus(event, index)}
+              </TimelineDot>
+              {index < eventsParsed.length - 1 && <TimelineConnector />}
             </TimelineSeparator>
             <TimelineContent sx={{ py: '12px', px: 2 }}>
               <$Address>{event.locationAddress}</$Address>
