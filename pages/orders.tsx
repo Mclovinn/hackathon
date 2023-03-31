@@ -4,7 +4,6 @@ import { ReactElement } from 'react'
 import MenuAppBar from '../components/navbar'
 import { PrivatePage } from '../components/routing/private-page'
 import { Orders } from '../components/sections/orders'
-import { SectionsType } from '../types/section.types'
 import styled from 'styled-components'
 
 const darkTheme = createTheme({
@@ -20,8 +19,7 @@ const $Container = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top: 2.5rem;
-  padding-left: 2.3rem;
+  padding: 2.5rem 2.3rem;
   position: relative;
 
   & > h1 {
@@ -34,7 +32,6 @@ const $Container = styled.div`
 
 const $SectionContent = styled.div`
   width: 100%;
-  max-width: 1200px;
   height: 100%;
 `
 
@@ -46,7 +43,7 @@ const Dashboard = (): ReactElement => {
           <MenuAppBar />
           <main>
             <$Container>
-              <Typography variant="h1">{SectionsType.ORDERS}</Typography>
+              <Typography variant="h1">ORDERS</Typography>
               <$SectionContent>
                 <Orders />
               </$SectionContent>

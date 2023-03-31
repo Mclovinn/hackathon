@@ -29,6 +29,8 @@ declare module 'styled-components' {
         robinsEggBlue: string
         wisteria: string
         summerSky: string
+        greenLight: string
+        warningMain: string
       }
 
       // Theme colors (always prioritize using these over the common colors)

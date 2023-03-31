@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BlockwiseIcon = ({ width, height }: { width: number; height: number }) => {
+const BlockwiseIcon = ({ width, height }: { width: number; height?: number }) => {
   return (
     <svg width={width} height={height} viewBox="0 0 170 35" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

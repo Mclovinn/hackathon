@@ -21,6 +21,8 @@ import {
   ROBINS_EGG_BLUE,
   BACKGROUND_BLACK,
   SUMMER_SKY,
+  GREEN_LIGHT,
+  WARNING_MAIN,
 } from './color-variables'
 
 // Recieves alpha as %, and transforms it to hex
@@ -59,6 +61,8 @@ export const defaultTheme: DefaultTheme = {
       robinsEggBlue: ROBINS_EGG_BLUE,
       wisteria: WISTERIA,
       summerSky: SUMMER_SKY,
+      greenLight: GREEN_LIGHT,
+      warningMain: WARNING_MAIN,
     },
 
     // Theme colors (always prioritize using these over the common colors)
