@@ -150,7 +150,7 @@ export function Orders() {
       headerClassName: 'super-app-theme--header',
       field: 'status',
       headerName: 'Status',
-      width: 158,
+      width: 168,
       align: 'center',
       renderCell: (params: GridRenderCellParams<any, TableRowType>) => <StatusChips status={params.row.status} />,
     },

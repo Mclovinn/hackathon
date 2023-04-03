@@ -1,6 +1,6 @@
 {
-  "name": "cp-template-next--styled-components",
-  "version": "0.1.0",
+  "name": "blockwise",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "compile": "lingui compile",
