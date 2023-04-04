@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { DataGrid, GridColDef, GridToolbar, GridSelectionModel, GridRenderCellParams } from '@mui/x-data-grid'
-import { Box, BoxProps, Button, ButtonProps, IconButton } from '@mui/material'
+import { Box, BoxProps, IconButton } from '@mui/material'
 import styled from 'styled-components'
 import { Dropdown } from '../common/dropdown.component'
 import { useQuery } from 'react-query'
@@ -16,6 +16,7 @@ import { getOrderAddress } from '../../services/frontend-services/google-maps'
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined'
 import jsPDF from 'jspdf'
 import { QRCodeCanvas } from 'qrcode.react'
+import { StatusChips } from '../common/chip'
 
 const $GridContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.colors.nero};
@@ -89,29 +90,6 @@ const $StyledBox = styled((props: BoxProps) => <Box {...props} />)(({ theme }) =
   },
 }))
 
-const $StyledButton = styled((props: ButtonProps) => <Button {...props} />)(({ theme }) => ({
-  width: '128px',
-  fontFamily: 'Lato',
-  padding: '2px 16px',
-  fontWeight: 400,
-  fontSize: '0.813rem',
-
-  '&.READY_TO_FULFILL': {
-    background: theme.palette.colors.warningMain,
-    color: theme.palette.colors.white,
-  },
-
-  '&.DELIVERED': {
-    background: theme.palette.colors.greenLight,
-    color: theme.palette.colors.white,
-  },
-
-  '&.IN_TRANSIT': {
-    borderColor: theme.palette.colors.greenLight,
-    color: theme.palette.colors.white,
-  },
-}))
-
 export type TableRowType = {
   id: string
   sku: string
@@ -165,18 +143,6 @@ export function Orders() {
     },
   })
 
-  const ButtonType = (status: OrderStatus) => {
-    return (
-      <$StyledButton
-        variant={status === OrderStatus.IN_TRANSIT ? 'outlined' : 'contained'}
-        className={status}
-        disableElevation
-      >
-        {status.replace(/_/g, ' ')}
-      </$StyledButton>
-    )
-  }
-
   const columns: GridColDef[] = [
     { headerClassName: 'super-app-theme--header', field: 'id', headerName: 'Order ID', width: 300 },
     { headerClassName: 'super-app-theme--header', field: 'sku', headerName: 'SKU', width: 100 },
@@ -184,13 +150,12 @@ export function Orders() {
       headerClassName: 'super-app-theme--header',
       field: 'status',
       headerName: 'Status',
-      width: 148,
+      width: 168,
       align: 'center',
-      renderCell: (params: GridRenderCellParams<any, TableRowType>) => ButtonType(params.row.status),
+      renderCell: (params: GridRenderCellParams<any, TableRowType>) => <StatusChips status={params.row.status} />,
     },
     { headerClassName: 'super-app-theme--header', field: 'address', headerName: 'Destination Address', width: 185 },
     { headerClassName: 'super-app-theme--header', field: 'tracking', headerName: 'Tracking ID', width: 300 },
-    { headerClassName: 'super-app-theme--header', field: 'manifest', headerName: 'Manifest', width: 150 },
     {
       headerClassName: 'super-app-theme--header',
       field: 'document',
