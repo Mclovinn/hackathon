@@ -40,7 +40,7 @@ const BackgroundCard = ({ title, icon, children }: Props): ReactElement => {
       sx={{
         width: {
           xs: 0.9,
-          md: 600,
+          md: 1,
         },
       }}
     >

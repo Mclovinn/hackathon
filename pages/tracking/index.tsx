@@ -3,7 +3,6 @@ import { ReactElement } from 'react'
 import MenuAppBar from '../../components/navbar'
 import { PrivatePage } from '../../components/routing/private-page'
 import { TrackingSearcher } from '../../components/sections/tracking/tracking-searcher'
-import { SectionsType } from '../../types/section.types'
 import styled from 'styled-components'
 import { Typography } from '@mui/material'
 
@@ -15,7 +14,7 @@ const darkTheme = createTheme({
 
 const $Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 64px);
   background-image: url('images/background.jpg');
   background-position: center;
   background-repeat: no-repeat;
@@ -33,9 +32,6 @@ const $Container = styled.div`
 
 const $SectionContent = styled.div`
   width: 100%;
-  max-width: 1200px;
-  height: 100%;
-  margin-left: 37px;
 `
 
 const Dashboard = (): ReactElement => {
@@ -46,7 +42,7 @@ const Dashboard = (): ReactElement => {
           <MenuAppBar />
           <main>
             <$Container>
-              <Typography variant="h1">{SectionsType.TRACKING}</Typography>
+              <Typography variant="h1">TRACKING</Typography>
               <$SectionContent>
                 <TrackingSearcher />
               </$SectionContent>
