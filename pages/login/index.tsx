@@ -110,7 +110,7 @@ const Login = (): ReactElement => {
     }
 
     const userData = await authService.signIn({ email: loginData.username, password: loginData.password })
-    setSession(userData)
+    await setSession(userData)
 
     if (userData && !userData.message) {
       router.push(`${ORDERS_URL}`)

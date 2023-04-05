@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { SearchInput } from './search-input'
-import { TrackingInfo } from './tracking-info'
+import { TrackingInfoDesktop } from './tracking-info-desktop'
 import { TrackingEventsTimeline } from './tracking-timeline'
 import { Map } from './map/map'
 import { getTrackingInfo } from '../../../services/frontend-services/tracking'
 import { TrackingType } from '../../../types/tracking.type'
 import { getDeliveredAndOrderedEvents } from '../../../utils/events'
-import BackgroundCard from '../../common/background-card'
 
 const $Container = styled.div`
-  margin-top: 40px;
-  padding-left: 30px;
+  background: ${({ theme }) => theme.palette.colors.nero};
+  border-radius: 19px;
+  margin: 40px 37px;
+  padding: 39px 36px;
+  min-height: calc(100vh - 265px);
 `
 export const TrackingSearcher = () => {
   const [showTrackingInfo, setShowTrackingInfo] = useState<boolean>(false)
@@ -22,10 +24,20 @@ export const TrackingSearcher = () => {
     setTrackingId(value)
   }
 
+  const $ContainerInfo = styled.div`
+    @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
+      margin: 47px 38px 20px 0;
+    }
+  `
+
   const $Wrapper = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: 25px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.desktopS}) {
+      align-items: flex-start;
+    }
   `
 
   const onSearchTrackingId = async () => {
@@ -39,15 +51,14 @@ export const TrackingSearcher = () => {
     <$Container>
       <SearchInput onInputChange={onInputChange} trackingId={trackingId} onSubmit={onSearchTrackingId} />
       {showTrackingInfo && trackingInfo && (
-        <>
-          <BackgroundCard title={`Tracking Info`}>
-            <TrackingInfo trackingId={trackingId} orderStatus={trackingInfo.currentStatus} />
-          </BackgroundCard>
+        <$ContainerInfo>
+          <TrackingInfoDesktop trackingId={trackingId} orderStatus={trackingInfo && trackingInfo.currentStatus} />
+
           <$Wrapper>
-            <Map markers={trackingInfo.events} />
             <TrackingEventsTimeline events={trackingInfo.events} />
+            <Map markers={trackingInfo.events} />
           </$Wrapper>
-        </>
+        </$ContainerInfo>
       )}
     </$Container>
   )

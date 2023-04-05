@@ -1,7 +1,7 @@
+import { alpha, Button, InputBase } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
-import { PrimaryButton } from '../../common/buttons/primary-button'
-import { Input } from '../../common/input'
+import SearchIcon from '@mui/icons-material/Search'
 
 const $Container = styled.div`
   display: flex;
@@ -9,13 +9,48 @@ const $Container = styled.div`
   align-items: center;
 `
 
-const $PrimaryButton = styled(PrimaryButton)`
-  max-width: 100px;
-`
+const $Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: '4px',
+  backgroundColor: alpha(theme.palette.colors.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.colors.white, 0.25),
+  },
+  marginLeft: 0,
+  minWidth: '185px',
+  width: 'auto',
+  '& .MuiInputBase-root': {
+    width: '100%',
+  },
+  marginRight: '21px',
+}))
 
-const $Input = styled(Input)`
-  margin-right: 15px;
-`
+const $SearchIconWrapper = styled('div')(({}) => ({
+  padding: '9px',
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}))
+
+const $StyledInputBase = styled(InputBase)(() => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: '12px',
+    paddingLeft: `40px`,
+    width: '100%',
+    '@media (min-width: 769px)': {
+      width: '320px',
+    },
+  },
+}))
+
+const $StyledButton = styled(Button)(() => ({
+  height: '47px',
+}))
+
 interface SearchInputProps {
   // eslint-disable-next-line no-unused-vars
   onInputChange: (value: string) => void
@@ -26,8 +61,21 @@ interface SearchInputProps {
 export const SearchInput = ({ onInputChange, trackingId, onSubmit }: SearchInputProps) => {
   return (
     <$Container>
-      <$Input placeholder={'Search by ID...'} onChange={e => onInputChange(e.target.value)} value={trackingId} />
-      <$PrimaryButton onClick={() => trackingId !== '' && onSubmit()}>Submit</$PrimaryButton>
+      <$Search>
+        <$SearchIconWrapper>
+          <SearchIcon />
+        </$SearchIconWrapper>
+        <$StyledInputBase
+          placeholder="Search…"
+          inputProps={{ 'aria-label': 'search' }}
+          onChange={e => onInputChange(e.target.value)}
+          value={trackingId}
+        />
+      </$Search>
+
+      <$StyledButton variant="contained" onClick={() => trackingId !== '' && onSubmit()}>
+        SUBMIT
+      </$StyledButton>
     </$Container>
   )
 }

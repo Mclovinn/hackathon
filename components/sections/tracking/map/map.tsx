@@ -8,7 +8,7 @@ import { EventType } from '../../../../types/tracking.type'
 const $Container = styled.div`
   height: calc(100vh - 60px);
   width: 100%;
-  max-width: 800px;
+  max-width: 100%;
   max-height: 800px;
 `
 
