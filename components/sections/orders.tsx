@@ -12,7 +12,8 @@ import { initializeOrders, setOrderAsDelivered } from '../../services/frontend-s
 import BounceLoader from 'react-spinners/BounceLoader'
 import { ErrorAlert } from '../common/alert/error-alert'
 import { OrderType } from '../../types/order.type'
-import { getOrderAddress } from '../../services/frontend-services/google-maps'
+// TODO: comment until we return to use google api
+// import { getOrderAddress } from '../../services/frontend-services/google-maps'
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined'
 import jsPDF from 'jspdf'
 import { QRCodeCanvas } from 'qrcode.react'
@@ -196,7 +197,9 @@ export function Orders() {
   const setOrders = async (orders: OrderType[]) => {
     let newParsedOrders: TableRowType[] = []
     for (const order of orders) {
-      const address = await getOrderAddress(order.destinationAddress.latitude, order.destinationAddress.longitude)
+      // TODO: comment until we return to use google api
+      // const address = await getOrderAddress(order.destinationAddress.latitude, order.destinationAddress.longitude)
+      const address = 'Independencia 864'
       newParsedOrders.push({
         id: order.id,
         sku: order.sku,
