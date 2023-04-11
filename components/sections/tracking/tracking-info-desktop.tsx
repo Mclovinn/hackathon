@@ -59,7 +59,10 @@ export const TrackingInfoDesktop = ({ trackingId, orderStatus }: InfoProps) => {
     if (location) setAddress(await getOrderAddress(location.latitude, location.longitude))
   }
 
-  onSearchOrderTrackingId(trackingId)
+  useEffect(() => {
+    onSearchOrderTrackingId(trackingId)
+  }, [trackingId])
+
   useEffect(() => {
     if (!orderInfo?.destinationAddress) return
     getAddress(orderInfo?.destinationAddress)
