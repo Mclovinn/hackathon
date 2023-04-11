@@ -16,7 +16,7 @@ const $Container = styled.div`
   min-height: calc(100vh - 265px);
 `
 export const TrackingSearcher = () => {
-  const [showTrackingInfo, setShowTrackingInfo] = useState<boolean>(false)
+  const [showTrackingInfo, setShowTrackingInfo] = useState<boolean>()
   const [trackingId, setTrackingId] = useState<string>('')
   const [trackingInfo, setTrackingInfo] = useState<TrackingType>()
 
@@ -40,17 +40,42 @@ export const TrackingSearcher = () => {
     }
   `
 
+  const $EmptyScreen = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 465px);
+    & > .title {
+      font-size: 2rem;
+      font-weight: 500;
+    }
+
+    & > .text {
+      font-size: 1rem;
+      font-weight: 300;
+      padding-top: 10px;
+    }
+  `
   const onSearchTrackingId = async () => {
-    const response = await getTrackingInfo(trackingId)
-    const deliveredEvents = getDeliveredAndOrderedEvents(response.events)
-    setTrackingInfo({ currentStatus: response.currentStatus, events: deliveredEvents })
-    setShowTrackingInfo(true)
+    try {
+      const response = await getTrackingInfo(trackingId)
+      const deliveredEvents = getDeliveredAndOrderedEvents(response.events)
+      setTrackingInfo({ currentStatus: response.currentStatus, events: deliveredEvents })
+      setShowTrackingInfo(true)
+    } catch (error: unknown) {
+      setShowTrackingInfo(false)
+      console.error(error)
+    }
   }
 
   return (
     <$Container>
+      {console.log('tos', showTrackingInfo)}
       <SearchInput onInputChange={onInputChange} trackingId={trackingId} onSubmit={onSearchTrackingId} />
-      {showTrackingInfo && trackingInfo && (
+      {showTrackingInfo === undefined ? (
+        <$ContainerInfo />
+      ) : showTrackingInfo && trackingInfo ? (
         <$ContainerInfo>
           <TrackingInfoDesktop trackingId={trackingId} orderStatus={trackingInfo && trackingInfo.currentStatus} />
 
@@ -59,6 +84,11 @@ export const TrackingSearcher = () => {
             <Map markers={trackingInfo.events} />
           </$Wrapper>
         </$ContainerInfo>
+      ) : (
+        <$EmptyScreen>
+          <div className="title">No Results</div>
+          <div className="text">Try searching for a tracking number</div>
+        </$EmptyScreen>
       )}
     </$Container>
   )
