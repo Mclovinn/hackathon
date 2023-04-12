@@ -126,7 +126,7 @@ const Login = (): ReactElement => {
       <div>
         <Head>
           <title>Blockwise | Login</title>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/blockwise-icon.svg" />
         </Head>
         <main>
           <$Container>

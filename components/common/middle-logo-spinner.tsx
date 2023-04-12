@@ -2,7 +2,7 @@ import { CircularProgress } from '@mui/material'
 import React, { ReactElement, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import BlockwiseVerticalLogo from '../../lib/icons/blockwise-vertical-logo'
-import BlockwiseIcon from '../../lib/icons/blockwise_icon'
+import BlockwiseIcon from '../../lib/icons/blockwise-icon'
 
 const $Container = styled.div`
   height: 100vh;
