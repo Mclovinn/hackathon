@@ -69,7 +69,7 @@ const CourierDashboard = (): ReactElement => {
       <div>
         <Head>
           <title>Blockwise | Courier</title>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/blockwise-icon.svg" />
         </Head>
         <MenuAppBar />
         <$Container>

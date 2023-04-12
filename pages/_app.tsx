@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps): ReactElement {
       <ThemeProvider theme={theme}>
         <Head>
           <title>Blockwise</title>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/blockwise-icon.svg" />
         </Head>
         <QueryClientProvider client={queryClient}>
           <GlobalStyle />
